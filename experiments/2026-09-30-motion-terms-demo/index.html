@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>모션 용어 도감 — Motion Terms Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, system-ui, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.6; }
+  header { text-align: center; padding: 56px 20px 32px; background: radial-gradient(ellipse at 50% 0%, #1c2b4a 0%, #0d1117 70%); }
+  header h1 { font-size: clamp(1.7rem, 6vw, 2.2rem); margin-bottom: 8px; }
+  header p { color: #8b949e; font-size: 0.95rem; }
+  header .src { margin-top: 12px; font-size: 0.85rem; color: #8b949e; }
+  .toggle-all { margin-top: 18px; background: #21262d; color: #e6edf3; border: 1px solid #30363d; border-radius: 8px; padding: 7px 16px; font-size: 0.85rem; cursor: pointer; }
+  .toggle-all:hover { background: #30363d; }
+  .toggle-all[aria-pressed="true"] { background: #1f6feb; border-color: #388bfd; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 20px; max-width: 1180px; margin: 0 auto; padding: 24px 20px 60px; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+  .card-head { padding: 18px 20px 6px; }
+  .card-head .num { display: inline-block; font-size: 0.75rem; font-weight: 700; color: #0d1117; background: #58a6ff; border-radius: 20px; padding: 2px 10px; margin-bottom: 8px; }
+  .card-head h2 { font-size: 1.25rem; }
+  .card-head h2 .en { font-size: 0.85rem; color: #8b949e; font-weight: 400; margin-left: 6px; }
+  .card-head p { font-size: 0.88rem; color: #8b949e; margin-top: 4px; }
+  .stage { position: relative; height: 190px; margin: 12px; background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
+  .card-foot { padding: 0 20px 18px; margin-top: auto; }
+  .replay { background: #21262d; color: #e6edf3; border: 1px solid #30363d; border-radius: 8px; padding: 7px 16px; font-size: 0.85rem; cursor: pointer; }
+  .replay:hover { background: #30363d; }
+  .replay:focus-visible, .toggle-all:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
+  .label { position: absolute; z-index: 2; font-size: 0.7rem; color: #8b949e; }
+  .ground { position: absolute; left: 0; right: 0; bottom: 30px; height: 2px; background: #30363d; }
+
+  /* 1. Easing — 왕복(alternate)시켜 끝점에서 선형은 급반전, 이징은 부드럽게 멈췄다 출발 */
+  .track { position: absolute; left: 24px; right: 24px; top: 50%; height: 2px; background: #30363d; }
+  .ball { position: absolute; top: 50%; width: 22px; height: 22px; border-radius: 50%; margin-top: -11px; left: 24px; }
+  .ball.linear { background: #6e7681; animation: race 2.6s linear infinite alternate; }
+  .ball.ease { background: #58a6ff; animation: race 2.6s cubic-bezier(.65,0,.35,1) infinite alternate; margin-top: -41px; }
+  @keyframes race { from { left: 24px; } to { left: calc(100% - 46px); } }
+
+  /* 2. Anticipation — 웅크림(반대 방향) → 도약(스트레치) → 착지(스쿼시) */
+  .jumper { position: absolute; left: 50%; bottom: 32px; width: 54px; height: 54px; margin-left: -27px; background: #a371f7; border-radius: 14px; animation: anticipate 2.8s infinite; transform-origin: 50% 100%; }
+  .jumper::before, .jumper::after { content: ""; position: absolute; top: 18px; width: 8px; height: 10px; background: #0d1117; border-radius: 4px; }
+  .jumper::before { left: 14px; } .jumper::after { right: 14px; }
+  @keyframes anticipate {
+    0%   { transform: none; animation-timing-function: ease-in-out; }
+    16%  { transform: scale(1.2,.76); animation-timing-function: ease-in-out; }
+    24%  { transform: scale(1.3,.62); animation-timing-function: cubic-bezier(.333,.667,.667,1); }
+    38%  { transform: translateY(-92px) scale(.92,1.1); animation-timing-function: cubic-bezier(.333,0,.667,.333); }
+    48%  { transform: scale(1.14,.86); animation-timing-function: ease-out; }
+    56%, 100% { transform: none; }
+  }
+
+  /* 3. Squash & Stretch — 낙하 중 길어지고, 착지 순간 납작해지고, 튀어 오를 때 다시 길어짐 */
+  .bouncer { --drop: 104px; position: absolute; left: 50%; bottom: 32px; width: 44px; height: 44px; margin-left: -22px; background: #f778ba; border-radius: 50%; animation: bounce 1.6s infinite; transform-origin: 50% 100%; }
+  @keyframes bounce {
+    0%   { transform: translateY(calc(-1 * var(--drop))); animation-timing-function: cubic-bezier(.333,0,.667,.333); }
+    42%  { transform: scale(.9,1.16); animation-timing-function: linear; }
+    48%  { transform: scale(1.45,.55); animation-timing-function: ease-out; }
+    56%  { transform: translateY(-26px) scale(.88,1.18); animation-timing-function: cubic-bezier(.333,.667,.667,1); }
+    100% { transform: translateY(calc(-1 * var(--drop))); }
+  }
+
+  /* 4. Arc — x는 등속, y만 포물선 이징(위로 ease-out, 아래로 ease-in) → 진짜 곡선 궤적 */
+  .arc-guide { position: absolute; left: 40px; bottom: 50px; width: calc(100% - 80px); height: 110px; overflow: visible; }
+  .arc-guide path { fill: none; stroke: #3fb950; stroke-opacity: .4; stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+  .arc-ball, .arc-ghost { position: absolute; bottom: 40px; left: 30px; width: 20px; height: 20px; border-radius: 50%; }
+  .arc-ball { background: #3fb950; animation: arcX 2.4s linear infinite alternate, arcY 2.4s infinite alternate; }
+  .arc-ghost { border: 2px dashed #8b949e; opacity: .6; animation: arcX 2.4s linear infinite alternate; }
+  @keyframes arcX { from { left: 30px; } to { left: calc(100% - 50px); } }
+  @keyframes arcY {
+    0%   { transform: translateY(0); animation-timing-function: cubic-bezier(.333,.667,.667,1); }
+    50%  { transform: translateY(-110px); animation-timing-function: cubic-bezier(.333,0,.667,.333); }
+    100% { transform: translateY(0); }
+  }
+  .arc-label { position: absolute; bottom: 8px; font-size: 0.7rem; color: #8b949e; }
+
+  /* 5. Follow-through — 몸통이 급정지한 뒤에도 막대 끝이 관성으로 더 휘두르다 감쇠하며 정착 */
+  .ft-body { position: absolute; left: 24px; bottom: 32px; width: 52px; height: 36px; background: #d29922; border-radius: 10px 10px 4px 4px; animation: ftMove 4.8s cubic-bezier(.5,0,.9,.55) infinite; }
+  .ft-tail { position: absolute; left: 50%; bottom: 100%; width: 4px; height: 58px; margin-left: -2px; background: #d29922; border-radius: 2px; transform-origin: 50% 100%; animation: ftSwing 4.8s ease-in-out infinite; }
+  .ft-tail::after { content: ""; position: absolute; top: -8px; left: -6px; width: 16px; height: 16px; border-radius: 50%; background: #f2cc60; }
+  @keyframes ftMove { 0%, 4% { left: 24px; } 30%, 54% { left: calc(100% - 76px); } 80%, 100% { left: 24px; } }
+  @keyframes ftSwing {
+    0%, 4% { transform: rotate(0); animation-timing-function: ease-in; }
+    30% { transform: rotate(-24deg); animation-timing-function: ease-in-out; }
+    36% { transform: rotate(16deg); }
+    42% { transform: rotate(-9deg); }
+    47% { transform: rotate(4deg); }
+    51% { transform: rotate(-1.5deg); }
+    54% { transform: rotate(0); animation-timing-function: ease-in; }
+    80% { transform: rotate(24deg); animation-timing-function: ease-in-out; }
+    86% { transform: rotate(-16deg); }
+    91% { transform: rotate(9deg); }
+    95% { transform: rotate(-4deg); }
+    98% { transform: rotate(1.5deg); }
+    100% { transform: rotate(0); }
+  }
+
+  /* 6. Overlap — 관절로 연결된 마디들이 같은 스윙을 조금씩 늦게 이어받음 */
+  .arm { position: absolute; left: 28px; top: 50%; }
+  .seg { position: absolute; left: 0; top: -5px; width: 54px; height: 10px; border-radius: 5px; background: #79c0ff; transform-origin: 5px 50%; animation: segSwing 2.4s ease-in-out infinite; }
+  .seg::after { content: ""; position: absolute; left: 2px; top: 2px; width: 6px; height: 6px; border-radius: 50%; background: #0d1117; }
+  .seg > .seg { left: 44px; }
+  .seg.s1 { animation-delay: -1.2s; background: #79c0ff; }
+  .seg.s2 { animation-delay: -1.05s; background: #58a6ff; }
+  .seg.s3 { animation-delay: -.9s; background: #388bfd; }
+  .seg.s4 { animation-delay: -.75s; background: #1f6feb; }
+  @keyframes segSwing { 0%, 100% { transform: rotate(-11deg); } 50% { transform: rotate(11deg); } }
+
+  /* 7. Stagger */
+  .stagger-wrap { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; gap: 10px; padding-bottom: 30px; }
+  .stagger-wrap span { width: 34px; border-radius: 6px 6px 0 0; background: linear-gradient(180deg,#a371f7,#6e40c9); animation: staggerUp 2.4s infinite backwards; }
+  .stagger-wrap span:nth-child(1) { height: 50px; animation-delay: 0s; } .stagger-wrap span:nth-child(2) { height: 80px; animation-delay: .15s; }
+  .stagger-wrap span:nth-child(3) { height: 110px; animation-delay: .3s; } .stagger-wrap span:nth-child(4) { height: 70px; animation-delay: .45s; }
+  .stagger-wrap span:nth-child(5) { height: 95px; animation-delay: .6s; } .stagger-wrap span:nth-child(6) { height: 60px; animation-delay: .75s; }
+  @keyframes staggerUp {
+    0%   { opacity: 0; transform: translateY(24px); animation-timing-function: cubic-bezier(.22,1,.36,1); }
+    14%  { opacity: 1; transform: none; }
+    70%  { opacity: 1; transform: none; animation-timing-function: ease-in; }
+    88%, 100% { opacity: 0; transform: translateY(-14px); }
+  }
+
+  /* 8. Match Cut — 배경·피사체는 하드컷으로 바뀌지만, 원의 위치·크기·회전은 끊김 없이 이어짐 */
+  .mc-bg { position: absolute; inset: 0; background: #0b1a3a; animation: mcBg 3.6s steps(1, end) infinite; }
+  @keyframes mcBg { 0% { background: #0b1a3a; } 50% { background: #3b1f0a; } }
+  .mc-circle { position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px 0 0 -42px; animation: mcSpin 3.6s linear infinite, mcBreath 3.6s ease-in-out infinite; }
+  @keyframes mcSpin { to { rotate: 360deg; } }
+  @keyframes mcBreath { 0%, 100% { scale: .8; } 50% { scale: 1.25; } }
+  .mc-face { position: absolute; inset: 0; display: grid; place-items: center; font-size: 64px; line-height: 1; }
+  .mc-a { animation: mcA 3.6s steps(1, end) infinite; }
+  .mc-b { opacity: 0; animation: mcB 3.6s steps(1, end) infinite; }
+  @keyframes mcA { 0% { opacity: 1; } 50% { opacity: 0; } }
+  @keyframes mcB { 0% { opacity: 0; } 50% { opacity: 1; } }
+  .mc-cut { position: absolute; z-index: 2; top: 10px; right: 12px; font-size: 0.7rem; font-weight: 700; color: #0d1117; background: #e6edf3; border-radius: 4px; padding: 1px 6px; opacity: 0; animation: mcFlash 3.6s infinite; }
+  @keyframes mcFlash { 0% { opacity: 1; } 8%, 49.9% { opacity: 0; } 50% { opacity: 1; } 58%, 99.9% { opacity: 0; } 100% { opacity: 1; } }
+  .mc-label { color: #c9d1d9; }
+
+  /* 9. Parallax — 타일 한 주기만큼만 이동시켜 이음매 없이 반복. 속도: 16 / 40 / 75 px/s */
+  .px-sun { position: absolute; top: 16px; right: 22px; width: 22px; height: 22px; border-radius: 50%; background: #e6edf3; opacity: .85; box-shadow: 0 0 18px rgba(230,237,243,.35); }
+  .layer { position: absolute; left: 0; width: calc(100% + var(--tile)); background-repeat: repeat-x; background-position: 0 100%; animation: pxScroll var(--dur) linear infinite; }
+  @keyframes pxScroll { to { transform: translateX(calc(-1 * var(--tile))); } }
+  .layer.far { --tile: 160px; --dur: 10s; bottom: 16px; height: 80px; background-size: 160px 80px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cpath d='M0 80L50 20L100 80ZM80 80L120 40L160 80Z' fill='%231d2b45'/%3E%3C/svg%3E"); }
+  .layer.mid { --tile: 120px; --dur: 3s; bottom: 16px; height: 56px; background-size: 120px 56px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='56'%3E%3Cpath d='M0 56Q30 6 60 56Q90 14 120 56Z' fill='%23204a52'/%3E%3C/svg%3E"); }
+  .px-ground { position: absolute; left: 0; right: 0; bottom: 0; height: 16px; background: #10261a; }
+  .layer.near { --tile: 90px; --dur: 1.2s; bottom: 12px; height: 70px; background-size: 90px 70px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='70'%3E%3Cpath d='M6 70L26 14L46 70ZM48 70L66 34L84 70Z' fill='%231f6f3a'/%3E%3C/svg%3E"); }
+
+  /* 10. Mask Reveal — 마스크(가림막)가 글자 폭에 맞춰 지나가며 드러내고, 다시 같은 방향으로 지우며 퇴장 */
+  .reveal-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); white-space: nowrap; font-size: clamp(2rem, 11vw, 2.8rem); font-weight: 800; letter-spacing: 2px; line-height: 1.3; padding: 0 4px; }
+  .reveal-ghost { color: transparent; -webkit-text-stroke: 1px #30363d; }
+  .reveal-text { position: absolute; inset: 0; padding: inherit; display: flex; align-items: center; justify-content: center; background: linear-gradient(90deg, #58a6ff, #f778ba); -webkit-background-clip: text; background-clip: text; color: transparent; animation: maskReveal 3.6s ease-in-out infinite; }
+  @keyframes maskReveal {
+    0% { clip-path: inset(0 100% 0 0); } 30%, 65% { clip-path: inset(0 0 0 0); } 95%, 100% { clip-path: inset(0 0 0 100%); }
+  }
+  .reveal-bar { position: absolute; top: -8px; bottom: -8px; left: 0; width: 4px; border-radius: 2px; background: #f778ba; box-shadow: 0 0 10px #f778ba; opacity: 0; animation: barSweep 3.6s ease-in-out infinite; }
+  @keyframes barSweep {
+    0%   { left: 0; opacity: 1; } 30% { left: calc(100% - 4px); opacity: 1; } 32% { left: calc(100% - 4px); opacity: 0; }
+    64%  { left: 0; opacity: 0; } 65% { left: 0; opacity: 1; }
+    95%  { left: calc(100% - 4px); opacity: 1; } 97%, 100% { left: calc(100% - 4px); opacity: 0; }
+  }
+
+  /* 사용자 제어: 전체 일시정지 */
+  body.paused .stage *, body.paused .stage *::before, body.paused .stage *::after { animation-play-state: paused !important; }
+
+  /* 접근성: 모션 감소 설정 → 기본은 정지된 대표 장면, 버튼을 누르면 1회만 재생 */
+  @media (prefers-reduced-motion: reduce) {
+    .stage:not(.play) *, .stage:not(.play) *::before, .stage:not(.play) *::after { animation: none !important; }
+    .stage.play * { animation-iteration-count: 1 !important; }
+    .toggle-all { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1><span aria-hidden="true">🎬 </span>모션 용어 도감</h1>
+  <p>각 용어가 실제로 어떻게 움직이는지, 눈으로 확인해 보세요.</p>
+  <div class="src">출처: Threads @glitter_ai_factory — "오퍼스 5.5로 모션 만들 때 용어 정리"</div>
+  <button class="toggle-all" id="toggleAll" type="button" aria-pressed="false">⏸ 모든 애니메이션 일시정지</button>
+</header>
+<main class="grid" id="grid">
+  <noscript><p>이 데모는 JavaScript가 필요합니다.</p></noscript>
+</main>
+<script>
+const terms = [
+  { n: 1, ko: "이징", en: "Easing", desc: "부드러운 가감속. 파란 공은 출발과 도착이 부드럽고, 회색 공은 일정한 속도라 끝에서 갑자기 방향을 바꿉니다.",
+    stage: `<div class="track"></div><div class="ball linear"></div><div class="ball ease"></div>
+            <span class="label" style="top:34px;left:24px;color:#58a6ff">ease-in-out</span>
+            <span class="label" style="top:120px;left:24px;">linear</span>` },
+  { n: 2, ko: "예비동작", en: "Anticipation", desc: "큰 동작 전 준비. 점프하기 전에 몸을 웅크리는 것처럼, 반대 방향의 작은 움직임이 큰 동작을 예고합니다.",
+    stage: `<div class="ground"></div><div class="jumper"></div>` },
+  { n: 3, ko: "스쿼시 앤 스트레치", en: "Squash & Stretch", desc: "눌리고 늘어나는 탄력. 떨어질 때 길어지고, 착지 순간 납작해지고, 튀어 오를 때 다시 길어지며 탄성을 표현합니다.",
+    stage: `<div class="ground"></div><div class="bouncer"></div>` },
+  { n: 4, ko: "아크", en: "Arc", desc: "포물선 이동. 자연스러운 움직임은 직선이 아니라 곡선을 그립니다. 점선 원은 직선 이동과의 비교용입니다.",
+    stage: `<svg class="arc-guide" viewBox="0 0 100 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 110 Q50 -110 100 110"/></svg>
+            <div class="arc-ghost"></div><div class="arc-ball"></div>
+            <span class="arc-label" style="left:30px;">출발</span><span class="arc-label" style="right:36px;">도착</span>` },
+  { n: 5, ko: "팔로스루", en: "Follow-through", desc: "끝부분이 늦게 따라옴. 본체가 멈춘 뒤에도 안테나·꼬리 같은 부속은 관성으로 더 휘둘리다 서서히 자리를 잡습니다.",
+    stage: `<div class="ground"></div><div class="ft-body"><div class="ft-tail"></div></div>
+            <span class="label" style="bottom:8px;left:24px;">몸통이 멈춘 뒤에도 막대 끝이 더 흔들림</span>` },
+  { n: 6, ko: "오버랩", en: "Overlap", desc: "부위별 시간차. 연결된 마디들이 같은 스윙을 조금씩 늦게 이어받아, 동작이 겹치며 물결처럼 전달됩니다.",
+    stage: `<div class="arm"><div class="seg s1"><div class="seg s2"><div class="seg s3"><div class="seg s4"></div></div></div></div></div>
+            <span class="label" style="bottom:8px;left:24px;">각 마디가 0.15초씩 늦게 따라 움직임</span>` },
+  { n: 7, ko: "스태거", en: "Stagger", desc: "순차 등장. 여러 요소가 동시에가 아니라 차례대로 나타나 리듬감을 만듭니다.",
+    stage: `<div class="stagger-wrap"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <span class="label" style="bottom:8px;left:24px;">0.15초 간격으로 차례대로 등장</span>` },
+  { n: 8, ko: "매치컷", en: "Match Cut", desc: "형태를 이어서 전환. 달(🌕)이 농구공(🏀)으로 컷되어도 원의 위치·크기·회전이 그대로 이어져 장면이 자연스럽게 넘어갑니다.",
+    stage: `<div class="mc-bg"></div><div class="mc-circle"><span class="mc-face mc-a">🌕</span><span class="mc-face mc-b">🏀</span></div>
+            <span class="mc-cut">✂ CUT</span>
+            <span class="label mc-label" style="bottom:8px;left:24px;">장면은 바뀌어도 원의 크기·회전은 연속</span>` },
+  { n: 9, ko: "패럴랙스", en: "Parallax", desc: "거리별 속도차. 멀리 있는 산은 느리게, 가까운 나무는 빠르게 움직여 깊이감을 표현합니다.",
+    stage: `<div class="px-sun"></div><div class="layer far"></div><div class="layer mid"></div><div class="px-ground"></div><div class="layer near"></div>
+            <span class="label" style="top:8px;left:12px;">멀리: 느리게 / 가까이: 빠르게</span>` },
+  { n: 10, ko: "마스크 리빌", en: "Mask Reveal", desc: "가려졌다 등장. 마스크(가림막)가 글자 위를 지나가며 텍스트를 드러내고, 같은 방향으로 다시 지웁니다.",
+    stage: `<div class="reveal-wrap"><span class="reveal-ghost">모션</span><div class="reveal-text">모션</div><div class="reveal-bar"></div></div>` },
+];
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const grid = document.getElementById('grid');
+terms.forEach(t => {
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.innerHTML =
+    '<div class="card-head"><span class="num">' + t.n + ' / 10</span>' +
+    '<h2>' + t.ko + '<span class="en">' + t.en + '</span></h2><p>' + t.desc + '</p></div>' +
+    '<div class="stage" role="img" aria-label="' + t.ko + ' (' + t.en + ') 애니메이션 데모">' + t.stage + '</div>' +
+    '<div class="card-foot"><button type="button" class="replay" aria-label="' + t.ko + ' 애니메이션 다시 보기"></button></div>';
+  grid.appendChild(card);
+});
+
+const toggleAll = document.getElementById('toggleAll');
+function setPaused(paused) {
+  document.body.classList.toggle('paused', paused);
+  toggleAll.setAttribute('aria-pressed', String(paused));
+}
+toggleAll.addEventListener('click', () => setPaused(!document.body.classList.contains('paused')));
+
+function updateReplayLabels() {
+  const text = reduceMotion.matches ? '▶ 재생' : '↻ 다시 보기';
+  document.querySelectorAll('.replay').forEach(btn => { btn.textContent = text; });
+}
+updateReplayLabels();
+if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', updateReplayLabels);
+else if (reduceMotion.addListener) reduceMotion.addListener(updateReplayLabels);
+
+document.querySelectorAll('.replay').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const stage = btn.closest('.card').querySelector('.stage');
+    setPaused(false);
+    stage.classList.add('play');
+    const els = stage.querySelectorAll('*');
+    els.forEach(el => { el.style.animation = 'none'; });
+    void stage.offsetWidth;
+    els.forEach(el => { el.style.animation = ''; });
+  });
+});
+</script>
+</body>
+</html>
