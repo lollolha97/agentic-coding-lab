@@ -49,11 +49,25 @@
 
   <section class="catalog container" id="experiments" aria-labelledby="catalog-title">
     <div class="section-heading">
-      <h2 id="catalog-title">실험 목록<span class="section-heading__count" id="exp-count" aria-label="실험 수">1</span></h2>
+      <h2 id="catalog-title">실험 목록<span class="section-heading__count" id="exp-count" aria-label="실험 수">2</span></h2>
       <p class="meta">Index / 최신순</p>
     </div>
     <ol class="exp-list" id="list" role="list"></ol>
     <noscript>
+      <article class="experiment">
+        <a class="experiment__image" href="experiments/2026-10-01-camera-terms-demo/" aria-label="카메라 무브 도감 데모 열기"><img src="experiments/2026-10-01-camera-terms-demo/thumb.png" width="1000" height="800" alt="카메라 무브 8개를 카메라 아이콘과 이동 화살표로 그린 기술 도해"></a>
+        <div class="experiment__body">
+          <p class="experiment__id meta">EXP-002</p>
+          <h3 class="experiment__name">카메라 무브 도감</h3>
+          <p class="experiment__desc">카메라 무브 용어 8개를 순수 CSS 애니메이션으로 재현했습니다.</p>
+          <dl class="specs">
+            <div><dt>Date / 날짜</dt><dd><time datetime="2026-10-01">2026.10.01</time></dd></div>
+            <div><dt>Source / 출처</dt><dd><a href="https://www.threads.com/@juuouse/post/Dd5os3Pkjl-">Threads / @juuouse ↗</a></dd></div>
+            <div><dt>Status / 상태</dt><dd>재현 완료</dd></div>
+          </dl>
+          <a class="experiment__open" href="experiments/2026-10-01-camera-terms-demo/">데모 열기 <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
       <article class="experiment">
         <a class="experiment__image" href="experiments/2026-09-30-motion-terms-demo/" aria-label="모션 용어 도감 데모 열기"><img src="experiments/2026-09-30-motion-terms-demo/thumb.png" width="1000" height="800" alt="모션 용어 10개의 궤적과 형태를 배치한 기술 도해"></a>
         <div class="experiment__body">
@@ -113,6 +127,21 @@ const experiments = [
     status: '재현 완료',
     tags: ['CSS 애니메이션', '모션 디자인'],
     specimens: 10
+  },
+  {
+    id: 'EXP-002',
+    date: '2026-10-01',
+    title: '카메라 무브 도감',
+    subtitle: 'Camera moves / 8 specimens',
+    desc: '팬, 틸트, 롤, 트럭, 페데스탈, 달리, 줌, 오빗. 카메라 무브 용어 8개를 뷰파인더 안의 CSS 애니메이션으로 재현했습니다.',
+    path: 'experiments/2026-10-01-camera-terms-demo/',
+    thumbnail: 'experiments/2026-10-01-camera-terms-demo/thumb.png',
+    thumbnailAlt: '카메라 무브 8개를 카메라 아이콘과 이동 화살표로 그린 기술 도해',
+    source: 'Threads / @juuouse',
+    sourceUrl: 'https://www.threads.com/@juuouse/post/Dd5os3Pkjl-',
+    status: '재현 완료',
+    tags: ['CSS 애니메이션', '카메라 무브'],
+    specimens: 8
   }
 ];
 (function () {
