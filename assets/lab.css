@@ -3,12 +3,12 @@
 /* 01 / Tokens — neutral surfaces, one signal color, 4px spacing. */
 :root {
   color-scheme: light;
-  --paper: #f2f2f0;
+  --paper: #FFFFFF;
   --ink: #161616;
-  --muted: #62625e;
-  --accent: #ff4d00;
-  --line: #c9c9c4;
-  --stage-paper: #e6e6e2;
+  --muted: #161616;
+  --accent: #F06030;
+  --line: #161616;
+  --stage-paper: #E6E6E6;
   --font-sans: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK KR", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
   --s-1: 4px;
@@ -227,8 +227,8 @@ img { width: 100%; height: auto; }
   }
 
   /* 5. Follow-through — 몸통이 급정지한 뒤에도 막대 끝이 관성으로 더 휘두르다 감쇠하며 정착. 최대 높이: 32 + 36 + 58 + 8 = 134px */
-  .ft-body { position: absolute; left: 24px; bottom: 32px; width: 52px; height: 36px; border-radius: 10px 10px 4px 4px; background: var(--accent); animation: ftMove 4.8s cubic-bezier(.5, 0, .9, .55) infinite; }
-  .ft-tail { position: absolute; left: 50%; bottom: 100%; width: 4px; height: 58px; margin-left: -2px; border-radius: 2px; background: var(--accent); transform-origin: 50% 100%; animation: ftSwing 4.8s ease-in-out infinite; }
+  .ft-body { position: absolute; left: 24px; bottom: 32px; width: 52px; height: 36px; border-radius: 10px 10px 4px 4px; background: var(--ink); animation: ftMove 4.8s cubic-bezier(.5, 0, .9, .55) infinite; }
+  .ft-tail { position: absolute; left: 50%; bottom: 100%; width: 4px; height: 58px; margin-left: -2px; border-radius: 2px; background: var(--ink); transform-origin: 50% 100%; animation: ftSwing 4.8s ease-in-out infinite; }
   .ft-tail::after { content: ""; position: absolute; top: -8px; left: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); }
   @keyframes ftMove { 0%, 4% { left: 24px; } 30%, 54% { left: calc(100% - 76px); } 80%, 100% { left: 24px; } }
   @keyframes ftSwing {
@@ -249,12 +249,12 @@ img { width: 100%; height: auto; }
 
   /* 6. Overlap — 관절로 연결된 마디들이 같은 스윙을 조금씩 늦게 이어받음. 팔 길이 5 + 44×3 + 49 = 186px, 좌측 여백 28px */
   .arm { position: absolute; left: 28px; top: 50%; }
-  .seg { position: absolute; left: 0; top: -5px; width: 54px; height: 10px; border-radius: 5px; background: var(--accent); transform-origin: 5px 50%; animation: segSwing 2.4s ease-in-out infinite; }
+  .seg { position: absolute; left: 0; top: -5px; width: 54px; height: 10px; border-radius: 5px; background: #A6A6A6; transform-origin: 5px 50%; animation: segSwing 2.4s ease-in-out infinite; }
   .seg::after { content: ""; position: absolute; left: 2px; top: 2px; width: 6px; height: 6px; border-radius: 50%; background: var(--ink); }
   .seg > .seg { left: 44px; top: 0; }   /* 자식 마디는 부모 중심선 위에 정렬 (top: 0) */
-  .seg.s1 { animation-delay: -1.2s; background: var(--accent); }
-  .seg.s2 { animation-delay: -1.05s; background: var(--accent); }
-  .seg.s3 { animation-delay: -.9s; background: var(--accent); }
+  .seg.s1 { animation-delay: -1.2s; background: #A6A6A6; }
+  .seg.s2 { animation-delay: -1.05s; background: #8C8C8C; }
+  .seg.s3 { animation-delay: -.9s; background: #626262; }
   .seg.s4 { animation-delay: -.75s; background: var(--accent); }
   @keyframes segSwing { 0%, 100% { transform: rotate(-11deg); } 50% { transform: rotate(11deg); } }
 
@@ -294,12 +294,12 @@ img { width: 100%; height: auto; }
   .layer { position: absolute; left: 0; width: calc(100% + var(--tile)); background-repeat: repeat-x; background-position: 0 100%; animation: pxScroll var(--dur) linear infinite; }
   @keyframes pxScroll { to { transform: translateX(calc(-1 * var(--tile))); } }
   .layer.far { --tile: 160px; --dur: 10s; bottom: 16px; height: 80px; background-size: 160px 80px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cpath d='M0 80L50 20L100 80ZM80 80L120 40L160 80Z' fill='%23C5BDB0'/%3E%3C/svg%3E"); }
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cpath d='M0 80L50 20L100 80ZM80 80L120 40L160 80Z' fill='%23D4D4D4'/%3E%3C/svg%3E"); }
   .layer.mid { --tile: 120px; --dur: 3s; bottom: 16px; height: 56px; background-size: 120px 56px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='56'%3E%3Cpath d='M0 56Q30 6 60 56Q90 14 120 56Z' fill='%23988F82'/%3E%3C/svg%3E"); }
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='56'%3E%3Cpath d='M0 56Q30 6 60 56Q90 14 120 56Z' fill='%23A6A6A6'/%3E%3C/svg%3E"); }
   .px-ground { position: absolute; left: 0; right: 0; bottom: 0; height: 16px; background: var(--ink); }
   .layer.near { --tile: 90px; --dur: 1.2s; bottom: 12px; height: 70px; background-size: 90px 70px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='70'%3E%3Cpath d='M6 70L26 14L46 70ZM48 70L66 34L84 70Z' fill='%235C554B'/%3E%3C/svg%3E"); }
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='70'%3E%3Cpath d='M6 70L26 14L46 70ZM48 70L66 34L84 70Z' fill='%23626262'/%3E%3C/svg%3E"); }
 
   /* 10. Mask Reveal — 마스크(가림막)가 글자 폭에 맞춰 지나가며 드러내고, 다시 같은 방향으로 지우며 퇴장 */
   .reveal-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 0 4px; white-space: nowrap; font-size: clamp(2rem, 11vw, 2.8rem); font-weight: 800; letter-spacing: 2px; line-height: 1.3; }
