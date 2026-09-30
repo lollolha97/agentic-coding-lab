@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>agentic-coding-lab 🧪</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "Pretendard", "Noto Sans KR", sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.6; }
+  header { text-align: center; padding: 64px 20px 36px; background: radial-gradient(ellipse at 50% 0%, #1c2b4a 0%, #0d1117 70%); }
+  header h1 { font-size: 2.4rem; margin-bottom: 10px; }
+  header p { color: #8b949e; max-width: 640px; margin: 0 auto; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 20px 80px; }
+  h2 { font-size: 1.1rem; color: #8b949e; margin-bottom: 16px; font-weight: 600; }
+  .exp { display: block; background: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; text-decoration: none; color: inherit; transition: border-color .2s, transform .2s; }
+  .exp:hover { border-color: #58a6ff; transform: translateY(-2px); }
+  .exp .meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .exp .date { font-size: 0.78rem; color: #0d1117; background: #58a6ff; border-radius: 20px; padding: 2px 12px; font-weight: 700; }
+  .exp .status { font-size: 0.78rem; color: #3fb950; }
+  .exp h3 { font-size: 1.3rem; margin-bottom: 6px; }
+  .exp p { font-size: 0.9rem; color: #8b949e; }
+  .exp .go { margin-top: 10px; font-size: 0.88rem; color: #58a6ff; }
+  footer { text-align: center; padding: 0 20px 40px; color: #6e7681; font-size: 0.82rem; }
+  footer a { color: #58a6ff; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🧪 agentic-coding-lab</h1>
+  <p>인스타그램·Threads에서 찾은 재밌어 보이는 Agentic Coding 데모와 도구들을 직접 실행하고, 결과를 기록하는 실험실입니다.</p>
+</header>
+<main>
+  <h2>실험 목록</h2>
+  <div id="list"></div>
+</main>
+<footer>
+  <a href="https://github.com/lollolha97/agentic-coding-lab">GitHub 저장소</a> · 각 실험 폴더의 README에 출처·재현 방법·결과 기록
+</footer>
+<script>
+// 새 실험을 추가할 때는 여기에 한 줄만 추가하면 됩니다.
+const experiments = [
+  {
+    date: "2026-09-30",
+    title: "모션 용어 데모 사이트",
+    desc: "Threads @glitter_ai_factory의 모션 용어 10개(이징·예비동작·스쿼시 앤 스트레치 등)를 CSS 애니메이션 카드로 시각화",
+    path: "experiments/2026-09-30-motion-terms-demo/",
+    status: "✅ 완성"
+  },
+];
+const list = document.getElementById('list');
+experiments.forEach(e => {
+  const a = document.createElement('a');
+  a.className = 'exp';
+  a.href = e.path;
+  a.innerHTML =
+    '<div class="meta"><span class="date">' + e.date + '</span><span class="status">' + e.status + '</span></div>' +
+    '<h3>' + e.title + '</h3><p>' + e.desc + '</p>' +
+    '<div class="go">데모 보러 가기 →</div>';
+  list.appendChild(a);
+});
+</script>
+</body>
+</html>
