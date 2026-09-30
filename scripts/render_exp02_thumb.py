@@ -5,11 +5,11 @@ from PIL import Image
 from render_catalog import PlateDraw, font, label, signal
 
 ROOT = Path(__file__).resolve().parents[1]
-PAPER = '#FFFFFF'
+PAPER = '#f2f2f0'
 INK = '#161616'
-ACCENT = '#F06030'
-GREY = '#A6A6A6'
-HAIR = '#D4D4D4'
+ACCENT = '#ff4d00'
+GREY = '#62625e'
+HAIR = '#c9c9c4'
 
 
 def rot(points, cx, cy, deg):
