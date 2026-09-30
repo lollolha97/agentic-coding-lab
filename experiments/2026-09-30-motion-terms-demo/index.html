@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#07090f">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf7f0">
 <title>모션 용어 도감 — Motion Terms Demo | agentic-coding-lab</title>
 <meta name="description" content="이징·예비동작·스쿼시 앤 스트레치·아크·팔로스루·오버랩·스태거·매치컷·패럴랙스·마스크 리빌. 모션 용어 10개를 순수 CSS 애니메이션으로 직접 보여주는 데모.">
 <link rel="canonical" href="https://lollolha97.github.io/agentic-coding-lab/experiments/2026-09-30-motion-terms-demo/">
@@ -17,336 +17,69 @@
 <meta property="og:image" content="https://lollolha97.github.io/agentic-coding-lab/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="agentic-coding-lab 로고 마크">
+<meta property="og:image:alt" content="종이색 바탕에 발견은 피드에서. 검증은 여기서.라고 적힌 agentic-coding-lab 표지">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236ea8ff'/%3E%3Cstop offset='.55' stop-color='%23a78bfa'/%3E%3Cstop offset='1' stop-color='%23f472b6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Cpath d='M13 6h6v6.2l5.2 9.3A2.4 2.4 0 0 1 22.1 25H9.9a2.4 2.4 0 0 1-2.1-3.5L13 12.2z' fill='%2307090f'/%3E%3Ccircle cx='14' cy='21' r='1.6' fill='%23fff'/%3E%3Ccircle cx='18.5' cy='18.5' r='1.1' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23bd3217'/%3E%3Cpath d='M9 7v18h14v-4H13V7z' fill='%23faf7f0'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../../assets/lab.css">
-<style>
-  /* ==========================================================================
-     페이지 레이아웃 (공통 토큰은 ../../assets/lab.css)
-     ========================================================================== */
-  .page-hero { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(2.5rem, 7vw, 5rem) var(--s-8); }
-  .page-hero::before {
-    content: ""; position: absolute; inset: 0 0 auto 0; height: 30rem; z-index: -2;
-    background:
-      radial-gradient(42rem 20rem at 12% 0%, rgba(110, 168, 255, 0.22), transparent 70%),
-      radial-gradient(36rem 18rem at 90% 6%, rgba(244, 114, 182, 0.15), transparent 70%),
-      radial-gradient(30rem 16rem at 55% 55%, rgba(167, 139, 250, 0.12), transparent 70%);
-  }
-  .page-hero::after {
-    content: ""; position: absolute; inset: 0 0 auto 0; height: 30rem; z-index: -1; opacity: 0.5;
-    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 48px 48px;
-    -webkit-mask-image: radial-gradient(ellipse 70% 75% at 50% 0%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(ellipse 70% 75% at 50% 0%, #000 0%, transparent 75%);
-  }
-  .page-title { margin-top: var(--s-5); font-size: var(--fs-display); font-weight: 800; letter-spacing: -0.035em; }
-  .page-title__en { display: block; margin-top: var(--s-3); color: var(--text-subtle); font-family: var(--font-mono); font-size: var(--fs-sm); font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
-  .page-hero .lead { margin-top: var(--s-5); }
-  .source { margin-top: var(--s-4); color: var(--text-muted); font-size: var(--fs-sm); }
-  .source a { color: var(--text); text-decoration-color: rgba(148, 163, 200, 0.5); }
-  .source a:hover { text-decoration-color: currentColor; }
-  .page-hero .notice { margin-top: var(--s-6); max-width: 40rem; }
-  .rm-note { display: none; }
-
-  .back { gap: 0.5em; }
-  .sm-hide { display: none; }
-  @media (min-width: 520px) { .sm-hide { display: inline; } }
-  #toggleAll .ico-play { display: none; }
-  #toggleAll[aria-pressed="true"] .ico-pause { display: none; }
-  #toggleAll[aria-pressed="true"] .ico-play { display: block; }
-
-  .term-nav { margin-top: var(--s-8); }
-  .term-nav__title { margin-bottom: var(--s-3); color: var(--text-subtle); font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
-  .term-nav ol { display: flex; flex-wrap: wrap; gap: var(--s-2); }
-  .term-nav a {
-    display: inline-flex; align-items: center; gap: 0.5em; min-height: 2.25rem; padding: 0.3rem 0.85rem;
-    border: 1px solid var(--line); border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.025);
-    color: var(--text-muted); font-size: var(--fs-sm); font-weight: 600; text-decoration: none;
-    transition: color var(--dur-fast), border-color var(--dur-fast), background-color var(--dur-fast);
-  }
-  .term-nav a .n { color: rgb(var(--accent-rgb)); font-family: var(--font-mono); font-size: var(--fs-xs); }
-  @media (hover: hover) {
-    .term-nav a:hover { color: var(--text); border-color: rgb(var(--accent-rgb) / 0.55); background: rgb(var(--accent-rgb) / 0.1); }
-  }
-
-  .terms { padding-top: var(--s-8); }
-  .grid { display: grid; gap: var(--s-5); grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); }
-  .grid > li { display: flex; }
-
-  .end-cta { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-4); margin-top: var(--s-16); padding: var(--s-8) var(--gutter); border: 1px solid var(--line); border-radius: var(--r-lg); background: linear-gradient(135deg, rgba(110, 168, 255, 0.1), rgba(167, 139, 250, 0.08) 50%, rgba(244, 114, 182, 0.08)); }
-  .end-cta h2 { font-size: var(--fs-2xl); font-weight: 800; }
-  .end-cta p { color: var(--text-muted); }
-  @media (min-width: 720px) { .end-cta { flex-direction: row; align-items: center; justify-content: space-between; padding-inline: var(--s-10); } }
-
-  /* ==========================================================================
-     카드
-     ========================================================================== */
-  .term { display: flex; flex-direction: column; width: 100%; padding-bottom: var(--s-5); }
-  .term:target { border-color: rgb(var(--accent-rgb) / 0.65); }
-  .term__head { flex: 1 0 auto; padding: var(--s-5) var(--s-5) 0; }
-  .term__num { color: rgb(var(--accent-rgb)); font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.1em; }
-  .term__num span { color: var(--text-subtle); font-weight: 500; }
-  .term__title { margin-top: var(--s-2); font-size: var(--fs-xl); font-weight: 750; }
-  .term__en { display: block; margin-top: 0.15rem; color: var(--text-subtle); font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
-  .term__desc { margin-top: var(--s-3); color: var(--text-muted); font-size: var(--fs-sm); }
-  .term__figure { margin-top: var(--s-4); }
-  .term__hint { min-height: 3em; margin: var(--s-3) var(--s-5) 0; color: var(--text-subtle); font-size: var(--fs-xs); line-height: 1.5; }
-  .term__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-2) var(--s-5) 0; }
-  .term__spec { color: var(--text-subtle); font-family: var(--font-mono); font-size: var(--fs-xs); }
-  .replay .icon { transition: transform 0.5s var(--ease-out); }
-  @media (hover: hover) { .replay:hover .icon:not(.icon--fill) { transform: rotate(-360deg); } }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .js-reveal .term:not(.is-in) { opacity: 0; }
-    .js-reveal .term.is-in { animation: reveal 0.7s var(--ease-out) backwards; animation-delay: calc(var(--d, 0) * 80ms); }
-    @keyframes reveal { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-  }
-
-  /* ==========================================================================
-     스테이지 (높이 190px, 폭 = 카드 폭 − 24px, 최소 약 264px)
-     ========================================================================== */
-  .stage {
-    position: relative; isolation: isolate; overflow: hidden;
-    height: 190px; margin: 0 var(--s-3);
-    border-radius: var(--r-md);
-    background: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1.3px) 0 0 / 16px 16px, var(--stage);
-  }
-  .stage::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--line); pointer-events: none; }
-  .label { position: absolute; z-index: 2; color: var(--text-subtle); font-family: var(--font-mono); font-size: 11px; line-height: 1.2; letter-spacing: 0.02em; white-space: nowrap; }
-  .label--bl { bottom: 8px; left: 30px; }
-  .label--br { bottom: 8px; right: 36px; }
-  .ground { position: absolute; left: 0; right: 0; bottom: 30px; height: 2px; background: var(--line-strong); }
-
-  /* 1. Easing — 왕복(alternate)시켜 끝점에서 선형은 급반전, 이징은 부드럽게 멈췄다 출발 */
-  .track { position: absolute; left: 24px; right: 24px; height: 2px; border-radius: 1px; background: var(--line-strong); }
-  .track.t-ease { top: 64px; }          /* 공 중심 y = 54 + 11 = 65 */
-  .track.t-linear { top: 94px; }        /* 공 중심 y = 84 + 11 = 95 */
-  .ball { position: absolute; left: 24px; width: 22px; height: 22px; border-radius: 50%; }
-  .ball.linear { top: 84px; background: #8a97b1; animation: race 2.6s linear infinite alternate; }
-  .ball.ease { top: 54px; background: var(--blue); box-shadow: 0 0 18px rgba(110, 168, 255, 0.55); animation: race 2.6s cubic-bezier(.65, 0, .35, 1) infinite alternate; }
-  .label.l-ease { top: 36px; left: 24px; color: var(--blue); }
-  .label.l-linear { top: 114px; left: 24px; }
-  @keyframes race { from { left: 24px; } to { left: calc(100% - 46px); } }
-
-  /* 2. Anticipation — 웅크림(반대 방향) → 도약(스트레치) → 착지(스쿼시). 정점: 32 + 92 + 54×1.1 ≈ 183px < 190px */
-  .jumper { position: absolute; left: 50%; bottom: 32px; width: 54px; height: 54px; margin-left: -27px; border-radius: 14px; background: linear-gradient(160deg, #bfaaff, #8b6df0); box-shadow: 0 0 26px rgba(167, 139, 250, 0.35); transform-origin: 50% 100%; animation: anticipate 2.8s infinite; }
-  .jumper::before, .jumper::after { content: ""; position: absolute; top: 18px; width: 8px; height: 10px; background: #07090f; border-radius: 4px; }
-  .jumper::before { left: 14px; }
-  .jumper::after { right: 14px; }
-  @keyframes anticipate {
-    0%   { transform: translateY(0) scale(1, 1);        animation-timing-function: ease-in-out; }
-    16%  { transform: translateY(0) scale(1.2, .76);    animation-timing-function: ease-in-out; }
-    24%  { transform: translateY(0) scale(1.3, .62);    animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
-    38%  { transform: translateY(-92px) scale(.92, 1.1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
-    48%  { transform: translateY(0) scale(1.14, .86);   animation-timing-function: ease-out; }
-    56%, 100% { transform: translateY(0) scale(1, 1); }
-  }
-
-  /* 3. Squash & Stretch — 낙하 중 길어지고, 착지 순간 납작해지고, 튀어 오를 때 다시 길어짐. 시작 높이: 32 + 104 + 44 = 180px */
-  .bouncer { --drop: 104px; position: absolute; left: 50%; bottom: 32px; width: 44px; height: 44px; margin-left: -22px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffb3d9, #f472b6 55%, #d6479a); box-shadow: 0 0 24px rgba(244, 114, 182, 0.35); transform-origin: 50% 100%; animation: bounce 1.6s infinite; }
-  @keyframes bounce {
-    0%   { transform: translateY(calc(-1 * var(--drop))) scale(1, 1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
-    42%  { transform: translateY(0) scale(.9, 1.16);                  animation-timing-function: linear; }
-    48%  { transform: translateY(0) scale(1.45, .55);                 animation-timing-function: ease-out; }
-    56%  { transform: translateY(-26px) scale(.88, 1.18);              animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
-    100% { transform: translateY(calc(-1 * var(--drop))) scale(1, 1); }
-  }
-
-  /* 4. Arc — x는 등속, y만 포물선 이징(위로 ease-out, 아래로 ease-in) → 진짜 곡선 궤적. 정점: 40 + 110 + 20 = 170px */
-  .arc-guide { position: absolute; left: 40px; bottom: 50px; width: calc(100% - 80px); height: 110px; overflow: visible; }
-  .arc-guide path { fill: none; stroke: var(--green); stroke-opacity: .45; stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
-  .arc-ball, .arc-ghost { position: absolute; bottom: 40px; left: 30px; width: 20px; height: 20px; border-radius: 50%; }
-  .arc-ball { background: var(--green); box-shadow: 0 0 18px rgba(74, 222, 128, 0.5); animation: arcX 2.4s linear infinite alternate, arcY 2.4s infinite alternate; }
-  .arc-ghost { border: 2px dashed #8a97b1; opacity: .7; animation: arcX 2.4s linear infinite alternate; }
-  @keyframes arcX { from { left: 30px; } to { left: calc(100% - 50px); } }
-  @keyframes arcY {
-    0%   { transform: translateY(0);      animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
-    50%  { transform: translateY(-110px); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
-    100% { transform: translateY(0); }
-  }
-
-  /* 5. Follow-through — 몸통이 급정지한 뒤에도 막대 끝이 관성으로 더 휘두르다 감쇠하며 정착. 최대 높이: 32 + 36 + 58 + 8 = 134px */
-  .ft-body { position: absolute; left: 24px; bottom: 32px; width: 52px; height: 36px; border-radius: 10px 10px 4px 4px; background: linear-gradient(180deg, #fcd34d, #d99a12); animation: ftMove 4.8s cubic-bezier(.5, 0, .9, .55) infinite; }
-  .ft-tail { position: absolute; left: 50%; bottom: 100%; width: 4px; height: 58px; margin-left: -2px; border-radius: 2px; background: #fbbf24; transform-origin: 50% 100%; animation: ftSwing 4.8s ease-in-out infinite; }
-  .ft-tail::after { content: ""; position: absolute; top: -8px; left: -6px; width: 16px; height: 16px; border-radius: 50%; background: #fde68a; box-shadow: 0 0 14px rgba(253, 230, 138, 0.55); }
-  @keyframes ftMove { 0%, 4% { left: 24px; } 30%, 54% { left: calc(100% - 76px); } 80%, 100% { left: 24px; } }
-  @keyframes ftSwing {
-    0%, 4% { transform: rotate(0); animation-timing-function: ease-in; }
-    30% { transform: rotate(-24deg); animation-timing-function: ease-in-out; }
-    36% { transform: rotate(16deg); }
-    42% { transform: rotate(-9deg); }
-    47% { transform: rotate(4deg); }
-    51% { transform: rotate(-1.5deg); }
-    54% { transform: rotate(0); animation-timing-function: ease-in; }
-    80% { transform: rotate(24deg); animation-timing-function: ease-in-out; }
-    86% { transform: rotate(-16deg); }
-    91% { transform: rotate(9deg); }
-    95% { transform: rotate(-4deg); }
-    98% { transform: rotate(1.5deg); }
-    100% { transform: rotate(0); }
-  }
-
-  /* 6. Overlap — 관절로 연결된 마디들이 같은 스윙을 조금씩 늦게 이어받음. 팔 길이 5 + 44×3 + 49 = 186px, 좌측 여백 28px */
-  .arm { position: absolute; left: 28px; top: 50%; }
-  .seg { position: absolute; left: 0; top: -5px; width: 54px; height: 10px; border-radius: 5px; background: var(--sky); transform-origin: 5px 50%; animation: segSwing 2.4s ease-in-out infinite; }
-  .seg::after { content: ""; position: absolute; left: 2px; top: 2px; width: 6px; height: 6px; border-radius: 50%; background: #07090f; }
-  .seg > .seg { left: 44px; top: 0; }   /* 자식 마디는 부모 중심선 위에 정렬 (top: 0) */
-  .seg.s1 { animation-delay: -1.2s; background: #7dd3fc; }
-  .seg.s2 { animation-delay: -1.05s; background: #6ea8ff; }
-  .seg.s3 { animation-delay: -.9s; background: #6b8cf5; }
-  .seg.s4 { animation-delay: -.75s; background: #7c7cf0; }
-  @keyframes segSwing { 0%, 100% { transform: rotate(-11deg); } 50% { transform: rotate(11deg); } }
-
-  /* 7. Stagger — 막대는 폭이 좁아지면 함께 줄어듦(flex-shrink) */
-  .stagger-wrap { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; gap: 10px; padding: 0 12px 30px; }
-  .stagger-wrap span { flex: 0 1 34px; min-width: 0; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #b79bff, #6e40c9); animation: staggerUp 2.4s infinite backwards; }
-  .stagger-wrap span:nth-child(1) { height: 50px;  animation-delay: 0s; }
-  .stagger-wrap span:nth-child(2) { height: 80px;  animation-delay: .15s; }
-  .stagger-wrap span:nth-child(3) { height: 110px; animation-delay: .3s; }
-  .stagger-wrap span:nth-child(4) { height: 70px;  animation-delay: .45s; }
-  .stagger-wrap span:nth-child(5) { height: 95px;  animation-delay: .6s; }
-  .stagger-wrap span:nth-child(6) { height: 60px;  animation-delay: .75s; }
-  @keyframes staggerUp {
-    0%   { opacity: 0; transform: translateY(24px); animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
-    14%  { opacity: 1; transform: none; }
-    70%  { opacity: 1; transform: none; animation-timing-function: ease-in; }
-    88%, 100% { opacity: 0; transform: translateY(-14px); }
-  }
-
-  /* 8. Match Cut — 배경·피사체는 하드컷으로 바뀌지만, 원의 위치·크기·회전은 끊김 없이 이어짐. 최대 지름: 84 × 1.25 = 105px */
-  .mc-bg { position: absolute; inset: 0; background: #0b1a3a; animation: mcBg 3.6s steps(1, end) infinite; }
-  @keyframes mcBg { 0% { background: #0b1a3a; } 50% { background: #3b1f0a; } }
-  .mc-circle { position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px 0 0 -42px; animation: mcSpin 3.6s linear infinite, mcBreath 3.6s ease-in-out infinite; }
-  @keyframes mcSpin { to { rotate: 360deg; } }
-  @keyframes mcBreath { 0%, 100% { scale: .8; } 50% { scale: 1.25; } }
-  .mc-face { position: absolute; inset: 0; display: grid; place-items: center; font-size: 64px; line-height: 1; }
-  .mc-a { animation: mcA 3.6s steps(1, end) infinite; }
-  .mc-b { opacity: 0; animation: mcB 3.6s steps(1, end) infinite; }
-  @keyframes mcA { 0% { opacity: 1; } 50% { opacity: 0; } }
-  @keyframes mcB { 0% { opacity: 0; } 50% { opacity: 1; } }
-  .mc-cut { position: absolute; z-index: 2; top: 10px; right: 12px; padding: 1px 6px; border-radius: 4px; background: #eaeef7; color: #07090f; font-family: var(--font-mono); font-size: 11px; font-weight: 700; opacity: 0; animation: mcFlash 3.6s infinite; }
-  @keyframes mcFlash { 0% { opacity: 1; } 8%, 49.9% { opacity: 0; } 50% { opacity: 1; } 58%, 99.9% { opacity: 0; } 100% { opacity: 1; } }
-
-  /* 9. Parallax — 타일 한 주기만큼만 이동시켜 이음매 없이 반복. 속도: 16 / 40 / 75 px/s */
-  .stage--sky { background: linear-gradient(180deg, #0a1230 0%, #12224a 70%, #183258 100%); }
-  .px-sun { position: absolute; top: 16px; right: 22px; width: 22px; height: 22px; border-radius: 50%; background: #eaeef7; opacity: .9; box-shadow: 0 0 22px rgba(234, 238, 247, 0.4); }
-  .layer { position: absolute; left: 0; width: calc(100% + var(--tile)); background-repeat: repeat-x; background-position: 0 100%; animation: pxScroll var(--dur) linear infinite; }
-  @keyframes pxScroll { to { transform: translateX(calc(-1 * var(--tile))); } }
-  .layer.far { --tile: 160px; --dur: 10s; bottom: 16px; height: 80px; background-size: 160px 80px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cpath d='M0 80L50 20L100 80ZM80 80L120 40L160 80Z' fill='%23304c86'/%3E%3C/svg%3E"); }
-  .layer.mid { --tile: 120px; --dur: 3s; bottom: 16px; height: 56px; background-size: 120px 56px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='56'%3E%3Cpath d='M0 56Q30 6 60 56Q90 14 120 56Z' fill='%23226170'/%3E%3C/svg%3E"); }
-  .px-ground { position: absolute; left: 0; right: 0; bottom: 0; height: 16px; background: #10301f; }
-  .layer.near { --tile: 90px; --dur: 1.2s; bottom: 12px; height: 70px; background-size: 90px 70px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='70'%3E%3Cpath d='M6 70L26 14L46 70ZM48 70L66 34L84 70Z' fill='%23238c4a'/%3E%3C/svg%3E"); }
-
-  /* 10. Mask Reveal — 마스크(가림막)가 글자 폭에 맞춰 지나가며 드러내고, 다시 같은 방향으로 지우며 퇴장 */
-  .reveal-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 0 4px; white-space: nowrap; font-size: clamp(2rem, 11vw, 2.8rem); font-weight: 800; letter-spacing: 2px; line-height: 1.3; }
-  .reveal-ghost { color: transparent; -webkit-text-stroke: 1px var(--line-strong); }
-  .reveal-text { position: absolute; inset: 0; padding: inherit; display: flex; align-items: center; justify-content: center; background: linear-gradient(90deg, #6ea8ff, #f472b6); -webkit-background-clip: text; background-clip: text; color: transparent; animation: maskReveal 3.6s ease-in-out infinite; }
-  @keyframes maskReveal {
-    0% { clip-path: inset(0 100% 0 0); } 30%, 65% { clip-path: inset(0 0 0 0); } 95%, 100% { clip-path: inset(0 0 0 100%); }
-  }
-  .reveal-bar { position: absolute; top: -8px; bottom: -8px; left: 0; width: 4px; border-radius: 2px; background: var(--pink); box-shadow: 0 0 12px var(--pink); opacity: 0; animation: barSweep 3.6s ease-in-out infinite; }
-  @keyframes barSweep {
-    0%   { left: 0; opacity: 1; } 30% { left: calc(100% - 4px); opacity: 1; } 32% { left: calc(100% - 4px); opacity: 0; }
-    64%  { left: 0; opacity: 0; } 65% { left: 0; opacity: 1; }
-    95%  { left: calc(100% - 4px); opacity: 1; } 97%, 100% { left: calc(100% - 4px); opacity: 0; }
-  }
-
-  /* ==========================================================================
-     사용자 제어 · 성능 · 접근성
-     ========================================================================== */
-  /* 전체 일시정지, 그리고 화면 밖 카드는 자동 정지(CPU 절약) */
-  body.paused .stage *, body.paused .stage *::before, body.paused .stage *::after,
-  .term.is-off .stage *, .term.is-off .stage *::before, .term.is-off .stage *::after { animation-play-state: paused !important; }
-
-  /* 모션 감소 설정 → 기본은 정지된 대표 장면, 버튼을 누르면 1회만 재생 */
-  @media (prefers-reduced-motion: reduce) {
-    .stage:not(.play) *, .stage:not(.play) *::before, .stage:not(.play) *::after { animation: none !important; }
-    .stage.play * { animation-iteration-count: 1 !important; }
-    #toggleAll { display: none; }
-    .rm-note { display: block; }
-  }
-  @media print {
-    .js-reveal .term { opacity: 1 !important; animation: none !important; }
-    .site-header { position: static; }
-  }
-</style>
 </head>
 <body>
 <a class="skip-link" href="#terms">모션 용어 카드로 건너뛰기</a>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="lab-g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6ea8ff"/><stop offset=".55" stop-color="#a78bfa"/><stop offset="1" stop-color="#f472b6"/>
-    </linearGradient>
-  </defs>
-  <symbol id="lab-mark" viewBox="0 0 32 32">
-    <rect width="32" height="32" rx="9" fill="url(#lab-g)"/>
-    <path d="M13 6h6v6.2l5.2 9.3A2.4 2.4 0 0 1 22.1 25H9.9a2.4 2.4 0 0 1-2.1-3.5L13 12.2z" fill="#07090f"/>
-    <circle cx="14" cy="21" r="1.6" fill="#fff"/><circle cx="18.5" cy="18.5" r="1.1" fill="#fff"/>
-  </symbol>
-  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
-  <symbol id="i-external" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
-  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10-6.5a1 1 0 0 0 0-1.72l-10-6.5A1 1 0 0 0 8 5.5z"/></symbol>
-  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+<svg width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8M3 3v5h5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
 </svg>
-
-<header class="site-header">
+<header class="site-header demo-header">
   <div class="container site-header__inner">
-    <a class="btn btn--sm btn--ghost back" href="../../"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg>실험실로 돌아가기</a>
-    <button type="button" class="btn btn--sm btn--ghost" id="toggleAll" aria-pressed="false" aria-label="모든 애니메이션 일시정지" hidden>
-      <svg class="icon icon--fill ico-pause" aria-hidden="true"><use href="#i-pause"/></svg>
-      <svg class="icon icon--fill ico-play" aria-hidden="true"><use href="#i-play"/></svg>
-      <span aria-hidden="true"><span class="sm-hide">모든 애니메이션 </span>일시정지</span>
-    </button>
+    <a class="back" href="../../" aria-label="back to lab — 실험실로 돌아가기">← back to lab</a>
+    <a class="brand" href="../../" aria-label="agentic-coding-lab 홈"><span class="brand__mark" aria-hidden="true">L</span>agentic-coding-lab</a>
   </div>
 </header>
-
 <main id="main">
-  <section class="page-hero" aria-labelledby="page-title">
-    <div class="container">
-      <p class="eyebrow"><span class="badge badge--accent">실험 01</span><time datetime="2026-09-30">2026.09.30</time><span class="badge badge--ok">✅ 완성</span></p>
-      <h1 class="page-title" id="page-title">모션 용어 도감<span class="page-title__en" lang="en">Motion Terms Demo</span></h1>
-      <p class="lead">각 용어가 실제로 어떻게 움직이는지, 눈으로 확인해 보세요.</p>
-      <p class="source">출처: <a href="https://www.threads.com/@glitter_ai_factory/post/Dd5WG3AE0Bi" target="_blank" rel="noopener noreferrer">Threads @glitter_ai_factory<span class="visually-hidden"> (새 탭)</span></a> — “오퍼스 5.5로 모션 만들 때 용어 정리”</p>
-      <p class="notice rm-note" role="note">모션 감소 설정이 켜져 있어 애니메이션을 멈춘 대표 장면으로 보여줍니다. 각 카드의 ‘재생’ 버튼을 누르면 한 번만 재생돼요.</p>
-
-      <nav class="term-nav" aria-label="모션 용어 바로가기">
-        <p class="term-nav__title" aria-hidden="true">Jump to</p>
-        <ol role="list">
-          <li><a href="#term-1" style="--accent-rgb: 110 168 255"><span class="n">01</span>이징</a></li>
-          <li><a href="#term-2" style="--accent-rgb: 167 139 250"><span class="n">02</span>예비동작</a></li>
-          <li><a href="#term-3" style="--accent-rgb: 244 114 182"><span class="n">03</span>스쿼시 앤 스트레치</a></li>
-          <li><a href="#term-4" style="--accent-rgb: 74 222 128"><span class="n">04</span>아크</a></li>
-          <li><a href="#term-5" style="--accent-rgb: 251 191 36"><span class="n">05</span>팔로스루</a></li>
-          <li><a href="#term-6" style="--accent-rgb: 125 211 252"><span class="n">06</span>오버랩</a></li>
-          <li><a href="#term-7" style="--accent-rgb: 167 139 250"><span class="n">07</span>스태거</a></li>
-          <li><a href="#term-8" style="--accent-rgb: 251 146 60"><span class="n">08</span>매치컷</a></li>
-          <li><a href="#term-9" style="--accent-rgb: 45 212 191"><span class="n">09</span>패럴랙스</a></li>
-          <li><a href="#term-10" style="--accent-rgb: 244 114 182"><span class="n">10</span>마스크 리빌</a></li>
-        </ol>
-      </nav>
+  <section class="page-hero container" aria-labelledby="page-title">
+    <div class="page-hero__meta meta"><span>실험 001 / 모션 용어 도감</span><p><time datetime="2026-09-30">2026.09.30</time> · 재현 완료</p></div>
+    <div class="page-hero__spread">
+      <div>
+        <h1 class="page-title" id="page-title"><span class="page-title__en" lang="en">MOTION TERMS / 10 STUDIES</span>움직임의 이름들.</h1>
+        <p class="lead">같은 공도, 움직이는 방식에 따라 다르게 느껴집니다.<br>모션 디자인의 열 가지 용어를 움직임으로 읽어보세요.</p>
+      </div>
+      <aside class="source" aria-label="원본 출처와 실험 기록">
+        <span class="meta">SOURCE / 원본 출처</span>
+        <a href="https://www.threads.com/@glitter_ai_factory/post/Dd5WG3AE0Bi">Threads @glitter_ai_factory ↗</a>
+        <p>“오퍼스 5.5로 모션 만들 때 용어 정리”에서 소개한 열 가지 개념을 CSS 애니메이션으로 재현했습니다.</p>
+        <a class="source__record" href="https://github.com/lollolha97/agentic-coding-lab/blob/main/experiments/2026-09-30-motion-terms-demo/README.md">재현 방법과 실험 기록 ↗</a>
+      </aside>
     </div>
+    <p class="notice rm-note" role="note">기기의 모션 감소 설정에 따라 자동 재생을 멈췄습니다. 각 카드의 ‘재생’을 누르면 한 번만 움직입니다.</p>
+    <nav class="term-nav" aria-label="모션 용어 바로가기">
+      <p class="term-nav__title meta" aria-hidden="true">INDEX / 용어 색인</p>
+      <ol role="list">
+        <li><a href="#term-1"><span class="n" aria-hidden="true">01</span>이징</a></li>
+        <li><a href="#term-2"><span class="n" aria-hidden="true">02</span>예비동작</a></li>
+        <li><a href="#term-3"><span class="n" aria-hidden="true">03</span>스쿼시 앤 스트레치</a></li>
+        <li><a href="#term-4"><span class="n" aria-hidden="true">04</span>아크</a></li>
+        <li><a href="#term-5"><span class="n" aria-hidden="true">05</span>팔로스루</a></li>
+        <li><a href="#term-6"><span class="n" aria-hidden="true">06</span>오버랩</a></li>
+        <li><a href="#term-7"><span class="n" aria-hidden="true">07</span>스태거</a></li>
+        <li><a href="#term-8"><span class="n" aria-hidden="true">08</span>매치컷</a></li>
+        <li><a href="#term-9"><span class="n" aria-hidden="true">09</span>패럴랙스</a></li>
+        <li><a href="#term-10"><span class="n" aria-hidden="true">10</span>마스크 리빌</a></li>
+      </ol>
+    </nav>
   </section>
-
-  <section class="terms" id="terms" aria-labelledby="terms-title" tabindex="-1">
-    <div class="container">
-      <h2 class="visually-hidden" id="terms-title">모션 용어 10개</h2>
-      <ol class="grid" id="grid" role="list">
-
-        <li><article class="card term" id="term-1" aria-labelledby="term-1-title" style="--accent-rgb: 110 168 255">
+  <section class="terms container" id="terms" aria-labelledby="terms-title" tabindex="-1">
+    <div class="terms__heading">
+      <h2 id="terms-title">열 가지 움직임</h2>
+      <button type="button" class="btn" id="toggleAll" aria-pressed="false" aria-label="모든 애니메이션 일시정지" hidden><span id="toggle-label">전체 일시정지</span></button>
+    </div>
+    <ol class="grid" id="grid" role="list">
+        <li><article class="term" id="term-1" aria-labelledby="term-1-title">
           <header class="term__head">
             <p class="term__num">01<span> / 10</span></p>
             <h3 class="term__title" id="term-1-title">이징<span class="term__en" lang="en">Easing</span></h3>
-            <p class="term__desc">부드러운 가감속. 파란 공은 출발과 도착이 부드럽고, 회색 공은 일정한 속도라 끝에서 갑자기 방향을 바꿉니다.</p>
+            <p class="term__desc">부드러운 가감속. 붉은 공은 출발과 도착이 부드럽고, 회색 공은 일정한 속도라 끝에서 갑자기 방향을 바꿉니다.</p>
           </header>
           <figure class="term__figure">
-            <div class="stage" role="img" aria-label="이징(Easing) 애니메이션 데모: 파란 공은 부드럽게 출발하고 멈추며, 회색 공은 일정한 속도로 왕복합니다">
+            <div class="stage" role="img" aria-label="이징(Easing) 애니메이션 데모: 붉은 공은 부드럽게 출발하고 멈추며, 회색 공은 일정한 속도로 왕복합니다">
               <div class="track t-ease"></div><div class="track t-linear"></div>
               <div class="ball ease"></div><div class="ball linear"></div>
               <span class="label l-ease">ease-in-out</span><span class="label l-linear">linear</span>
@@ -359,14 +92,14 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-2" aria-labelledby="term-2-title" style="--accent-rgb: 167 139 250">
+        <li><article class="term" id="term-2" aria-labelledby="term-2-title">
           <header class="term__head">
             <p class="term__num">02<span> / 10</span></p>
             <h3 class="term__title" id="term-2-title">예비동작<span class="term__en" lang="en">Anticipation</span></h3>
             <p class="term__desc">큰 동작 전 준비. 점프하기 전에 몸을 웅크리는 것처럼, 반대 방향의 작은 움직임이 큰 동작을 예고합니다.</p>
           </header>
           <figure class="term__figure">
-            <div class="stage" role="img" aria-label="예비동작(Anticipation) 애니메이션 데모: 보라색 캐릭터가 웅크렸다가 위로 도약한 뒤 착지합니다">
+            <div class="stage" role="img" aria-label="예비동작(Anticipation) 애니메이션 데모: 붉은 캐릭터가 웅크렸다가 위로 도약한 뒤 착지합니다">
               <div class="ground"></div><div class="jumper"></div>
             </div>
             <figcaption class="term__hint">웅크림(반대 방향) → 도약 → 착지</figcaption>
@@ -377,14 +110,14 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-3" aria-labelledby="term-3-title" style="--accent-rgb: 244 114 182">
+        <li><article class="term" id="term-3" aria-labelledby="term-3-title">
           <header class="term__head">
             <p class="term__num">03<span> / 10</span></p>
             <h3 class="term__title" id="term-3-title">스쿼시 앤 스트레치<span class="term__en" lang="en">Squash &amp; Stretch</span></h3>
             <p class="term__desc">눌리고 늘어나는 탄력. 떨어질 때 길어지고, 착지 순간 납작해지고, 튀어 오를 때 다시 길어지며 탄성을 표현합니다.</p>
           </header>
           <figure class="term__figure">
-            <div class="stage" role="img" aria-label="스쿼시 앤 스트레치(Squash &amp; Stretch) 애니메이션 데모: 분홍 공이 떨어질 때 길어지고, 착지하며 납작해지고, 튀어 오를 때 다시 길어집니다">
+            <div class="stage" role="img" aria-label="스쿼시 앤 스트레치(Squash &amp; Stretch) 애니메이션 데모: 붉은 공이 떨어질 때 길어지고, 착지하며 납작해지고, 튀어 오를 때 다시 길어집니다">
               <div class="ground"></div><div class="bouncer"></div>
             </div>
             <figcaption class="term__hint">낙하 시 길어지고, 착지 시 납작, 반등 시 다시 길어짐</figcaption>
@@ -395,14 +128,14 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-4" aria-labelledby="term-4-title" style="--accent-rgb: 74 222 128">
+        <li><article class="term" id="term-4" aria-labelledby="term-4-title">
           <header class="term__head">
             <p class="term__num">04<span> / 10</span></p>
             <h3 class="term__title" id="term-4-title">아크<span class="term__en" lang="en">Arc</span></h3>
             <p class="term__desc">포물선 이동. 자연스러운 움직임은 직선이 아니라 곡선을 그립니다. 점선 원은 직선 이동과의 비교용입니다.</p>
           </header>
           <figure class="term__figure">
-            <div class="stage" role="img" aria-label="아크(Arc) 애니메이션 데모: 초록 공은 포물선을 그리며 이동하고, 점선 원은 같은 속도로 직선 이동해 비교됩니다">
+            <div class="stage" role="img" aria-label="아크(Arc) 애니메이션 데모: 붉은 공은 포물선을 그리며 이동하고, 점선 원은 같은 속도로 직선 이동해 비교됩니다">
               <svg class="arc-guide" viewBox="0 0 100 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 110 Q50 -110 100 110"/></svg>
               <div class="arc-ghost"></div><div class="arc-ball"></div>
               <span class="label label--bl">출발</span><span class="label label--br">도착</span>
@@ -415,7 +148,7 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-5" aria-labelledby="term-5-title" style="--accent-rgb: 251 191 36">
+        <li><article class="term" id="term-5" aria-labelledby="term-5-title">
           <header class="term__head">
             <p class="term__num">05<span> / 10</span></p>
             <h3 class="term__title" id="term-5-title">팔로스루<span class="term__en" lang="en">Follow-through</span></h3>
@@ -433,7 +166,7 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-6" aria-labelledby="term-6-title" style="--accent-rgb: 125 211 252">
+        <li><article class="term" id="term-6" aria-labelledby="term-6-title">
           <header class="term__head">
             <p class="term__num">06<span> / 10</span></p>
             <h3 class="term__title" id="term-6-title">오버랩<span class="term__en" lang="en">Overlap</span></h3>
@@ -451,7 +184,7 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-7" aria-labelledby="term-7-title" style="--accent-rgb: 167 139 250">
+        <li><article class="term" id="term-7" aria-labelledby="term-7-title">
           <header class="term__head">
             <p class="term__num">07<span> / 10</span></p>
             <h3 class="term__title" id="term-7-title">스태거<span class="term__en" lang="en">Stagger</span></h3>
@@ -469,16 +202,16 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-8" aria-labelledby="term-8-title" style="--accent-rgb: 251 146 60">
+        <li><article class="term" id="term-8" aria-labelledby="term-8-title">
           <header class="term__head">
             <p class="term__num">08<span> / 10</span></p>
             <h3 class="term__title" id="term-8-title">매치컷<span class="term__en" lang="en">Match Cut</span></h3>
-            <p class="term__desc">형태를 이어서 전환. 달(🌕)이 농구공(🏀)으로 컷되어도 원의 위치·크기·회전이 그대로 이어져 장면이 자연스럽게 넘어갑니다.</p>
+            <p class="term__desc">형태를 이어서 전환. 달이 농구공으로 컷되어도 원의 위치·크기·회전이 그대로 이어져 장면이 자연스럽게 넘어갑니다.</p>
           </header>
           <figure class="term__figure">
             <div class="stage" role="img" aria-label="매치컷(Match Cut) 애니메이션 데모: 배경이 바뀌며 달이 농구공으로 컷되지만 원의 위치·크기·회전은 끊기지 않고 이어집니다">
-              <div class="mc-bg"></div><div class="mc-circle"><span class="mc-face mc-a">🌕</span><span class="mc-face mc-b">🏀</span></div>
-              <span class="mc-cut">✂ CUT</span>
+              <div class="mc-bg"></div><div class="mc-circle"><span class="mc-face mc-a"><svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="39" fill="currentColor"/><circle cx="29" cy="26" r="7" fill="#faf7f0"/><circle cx="53" cy="51" r="11" fill="#faf7f0"/><circle cx="24" cy="56" r="4" fill="#faf7f0"/></svg></span><span class="mc-face mc-b"><svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="39" fill="currentColor"/><g fill="none" stroke="#faf7f0" stroke-width="2"><path d="M3 42h78M42 3v78M15 14c30 14 30 42 0 56M69 14c-30 14-30 42 0 56"/></g></svg></span></div>
+              <span class="mc-cut" aria-hidden="true">CUT</span>
             </div>
             <figcaption class="term__hint">장면은 바뀌어도 원의 크기·회전은 연속</figcaption>
           </figure>
@@ -488,7 +221,7 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-9" aria-labelledby="term-9-title" style="--accent-rgb: 45 212 191">
+        <li><article class="term" id="term-9" aria-labelledby="term-9-title">
           <header class="term__head">
             <p class="term__num">09<span> / 10</span></p>
             <h3 class="term__title" id="term-9-title">패럴랙스<span class="term__en" lang="en">Parallax</span></h3>
@@ -506,7 +239,7 @@
           </footer>
         </article></li>
 
-        <li><article class="card term" id="term-10" aria-labelledby="term-10-title" style="--accent-rgb: 244 114 182">
+        <li><article class="term" id="term-10" aria-labelledby="term-10-title">
           <header class="term__head">
             <p class="term__num">10<span> / 10</span></p>
             <h3 class="term__title" id="term-10-title">마스크 리빌<span class="term__en" lang="en">Mask Reveal</span></h3>
@@ -524,125 +257,83 @@
           </footer>
         </article></li>
 
-      </ol>
 
-      <aside class="end-cta" aria-labelledby="end-title">
-        <div>
-          <h2 id="end-title">다른 실험도 둘러보세요</h2>
-          <p>실험실에서 모든 실험의 출처와 기록을 확인할 수 있어요.</p>
-        </div>
-        <a class="btn btn--primary" href="../../"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg>실험실로 돌아가기</a>
-      </aside>
-    </div>
+    </ol>
+    <aside class="end-note" aria-labelledby="end-title">
+      <div><h2 id="end-title">용어를 알면, 요청도 구체적으로.</h2><p>‘부드럽게’ 대신 이징을, ‘차례대로’ 대신 스태거를. 다음 모션을 만들 때 꺼내보세요.</p></div>
+      <a class="text-link" href="../../">← 실험 목록으로</a>
+    </aside>
   </section>
 </main>
-
-<footer class="site-footer">
-  <div class="container site-footer__inner">
-    <div>
-      <div class="site-footer__brand">
-        <svg class="brand__mark" aria-hidden="true"><use href="#lab-mark"/></svg>
-        <div>
-          <strong>agentic-coding-lab</strong>
-          <p>재밌어 보이는 Agentic Coding 데모와 도구를 직접 실행하고 기록합니다.</p>
-        </div>
-      </div>
-    </div>
-    <div>
-      <nav aria-label="푸터 링크">
-        <div class="site-footer__links">
-          <a href="../../">실험 목록</a>
-          <a href="https://github.com/lollolha97/agentic-coding-lab" target="_blank" rel="noopener noreferrer">GitHub 저장소<span class="visually-hidden"> (새 탭)</span></a>
-        </div>
-      </nav>
-      <p class="site-footer__note">각 실험 폴더의 README에 출처·재현 방법·결과 기록</p>
-    </div>
+<footer class="site-footer container">
+  <div class="site-footer__inner">
+    <div><p class="site-footer__title">agentic-coding-lab</p><p class="site-footer__note">001 — 모션 용어 도감 / 2026.09.30</p></div>
+    <nav class="site-footer__links" aria-label="푸터 메뉴"><a href="../../">실험 목록</a><a href="https://github.com/lollolha97/agentic-coding-lab">GitHub 저장소 ↗</a></nav>
   </div>
-  <div class="container site-footer__base">
-    <small>© 2026 lollolha97</small>
-    <small>순수 HTML · CSS · JS / 시스템 폰트</small>
-  </div>
+  <div class="site-footer__base meta"><p>© 2026 lollolha97</p><p>원본: Threads @glitter_ai_factory / 출처와 과정은 README에</p></div>
 </footer>
-
 <script>
 (function () {
   'use strict';
-  const root = document.documentElement;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const toggleAll = document.getElementById('toggleAll');
   const replayButtons = document.querySelectorAll('.replay');
   const cards = document.querySelectorAll('.term');
 
-  // 전체 일시정지 토글 (aria-pressed)
   function setPaused(paused) {
     document.body.classList.toggle('paused', paused);
     toggleAll.setAttribute('aria-pressed', String(paused));
+    toggleAll.setAttribute('aria-label', paused ? '모든 애니메이션 재개' : '모든 애니메이션 일시정지');
+    document.getElementById('toggle-label').textContent = paused ? '전체 재개' : '전체 일시정지';
   }
   toggleAll.addEventListener('click', () => setPaused(!document.body.classList.contains('paused')));
 
-  // 스테이지 안의 모든 CSS 애니메이션을 처음(0%)부터 다시 시작
   function restart(stage) {
-    const els = stage.querySelectorAll('*');
-    els.forEach(el => { el.style.animation = 'none'; });
+    const elements = stage.querySelectorAll('*');
+    elements.forEach(element => { element.style.animation = 'none'; });
     void stage.offsetWidth;
-    els.forEach(el => { el.style.animation = ''; });
+    elements.forEach(element => { element.style.animation = ''; });
   }
-
-  replayButtons.forEach(btn => {
-    btn.hidden = false;
-    btn.addEventListener('click', () => {
-      const stage = btn.closest('.term').querySelector('.stage');
+  replayButtons.forEach(button => {
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      const stage = button.closest('.term').querySelector('.stage');
       setPaused(false);
-      stage.classList.add('play');   // 모션 감소 설정에서는 이 클래스가 있어야 1회 재생됨
+      stage.classList.add('play');
       restart(stage);
     });
   });
 
-  // 모션 감소 설정: 버튼 라벨을 '재생'으로, 일시정지 토글은 숨김
   function updateForMotionPreference() {
-    const rm = reduceMotion.matches;
-    replayButtons.forEach(btn => {
-      btn.setAttribute('aria-label', btn.dataset.term + (rm ? ' 애니메이션 재생' : ' 애니메이션 다시 보기'));
-      btn.querySelector('.replay__text').textContent = rm ? '재생' : '다시 보기';
-      btn.querySelector('use').setAttribute('href', rm ? '#i-play' : '#i-replay');
-      btn.querySelector('.icon').classList.toggle('icon--fill', rm);
+    const reduced = reduceMotion.matches;
+    document.querySelectorAll('.stage.play').forEach(stage => stage.classList.remove('play'));
+    replayButtons.forEach(button => {
+      button.setAttribute('aria-label', button.dataset.term + (reduced ? ' 애니메이션 재생' : ' 애니메이션 다시 보기'));
+      button.querySelector('.replay__text').textContent = reduced ? '재생' : '다시 보기';
+      button.querySelector('use').setAttribute('href', reduced ? '#i-play' : '#i-replay');
     });
-    toggleAll.hidden = rm;
-    if (rm) setPaused(false);
+    toggleAll.hidden = reduced;
+    if (reduced) setPaused(false);
   }
   updateForMotionPreference();
   if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', updateForMotionPreference);
   else if (reduceMotion.addListener) reduceMotion.addListener(updateForMotionPreference);
 
-  // 스크롤 리빌 + 화면 밖 카드 애니메이션 정지. 카드가 처음 보일 때 애니메이션을 0%부터 시작.
+  // Pause only the animation stage off screen. The notebook itself remains visible.
   if ('IntersectionObserver' in window) {
-    root.classList.add('js-reveal');
-    cards.forEach((card, i) => {
-      card.style.setProperty('--d', String(i % 3));
-      card.classList.add('is-off');
-    });
-    const io = new IntersectionObserver(entries => {
+    const seen = new WeakSet();
+    const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const card = entry.target;
-        if (!entry.isIntersecting) { card.classList.add('is-off'); return; }
-        const first = !card.classList.contains('is-in');
-        card.classList.add('is-in');
-        card.classList.remove('is-off');
-        if (first && !reduceMotion.matches) restart(card.querySelector('.stage'));
+        card.classList.toggle('is-off', !entry.isIntersecting);
+        if (entry.isIntersecting && !seen.has(card)) {
+          seen.add(card);
+          if (!reduceMotion.matches) restart(card.querySelector('.stage'));
+        }
       });
     }, { rootMargin: '60px 0px', threshold: 0.1 });
-    cards.forEach(card => io.observe(card));
+    cards.forEach(card => observer.observe(card));
   }
-
-  // 카드 위 포인터 위치를 따라가는 스포트라이트 (마우스에서만)
-  document.getElementById('grid').addEventListener('pointermove', ev => {
-    if (ev.pointerType !== 'mouse') return;
-    const card = ev.target.closest('.card');
-    if (!card) return;
-    const r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', (ev.clientX - r.left) + 'px');
-    card.style.setProperty('--my', (ev.clientY - r.top) + 'px');
-  });
 })();
 </script>
 </body>

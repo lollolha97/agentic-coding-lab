@@ -3,326 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#07090f">
-<title>agentic-coding-lab — Agentic Coding 실험실</title>
-<meta name="description" content="인스타그램·Threads에서 찾은 재밌어 보이는 Agentic Coding 데모와 도구들을 직접 실행하고, 결과를 기록하는 실험실입니다.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#faf7f0">
+<title>agentic-coding-lab — 발견은 피드에서. 검증은 여기서.</title>
+<meta name="description" content="인스타그램·Threads에서 발견한 Agentic Coding 데모를 직접 재현합니다. 실행한 결과와 출처, 재현 방법을 함께 남기는 실험 노트.">
 <link rel="canonical" href="https://lollolha97.github.io/agentic-coding-lab/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="agentic-coding-lab">
-<meta property="og:title" content="agentic-coding-lab — Agentic Coding 실험실">
-<meta property="og:description" content="재밌어 보이는 Agentic Coding 데모와 도구들을 직접 실행하고, 결과를 기록하는 실험실.">
+<meta property="og:title" content="발견은 피드에서. 검증은 여기서.">
+<meta property="og:description" content="피드에서 발견한 Agentic Coding 데모를 직접 재현하고 기록합니다.">
 <meta property="og:url" content="https://lollolha97.github.io/agentic-coding-lab/">
 <meta property="og:image" content="https://lollolha97.github.io/agentic-coding-lab/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="agentic-coding-lab 로고 마크">
+<meta property="og:image:alt" content="종이색 바탕에 발견은 피드에서. 검증은 여기서.라고 적힌 agentic-coding-lab 표지">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236ea8ff'/%3E%3Cstop offset='.55' stop-color='%23a78bfa'/%3E%3Cstop offset='1' stop-color='%23f472b6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Cpath d='M13 6h6v6.2l5.2 9.3A2.4 2.4 0 0 1 22.1 25H9.9a2.4 2.4 0 0 1-2.1-3.5L13 12.2z' fill='%2307090f'/%3E%3Ccircle cx='14' cy='21' r='1.6' fill='%23fff'/%3E%3Ccircle cx='18.5' cy='18.5' r='1.1' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23bd3217'/%3E%3Cpath d='M9 7v18h14v-4H13V7z' fill='%23faf7f0'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/lab.css">
-<style>
-  /* ---------- Hero ---------- */
-  .hero { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2.5rem, 6vw, 4.5rem); }
-  .hero::before {
-    content: ""; position: absolute; inset: 0 0 auto 0; height: 34rem; z-index: -2;
-    background:
-      radial-gradient(45rem 22rem at 15% 0%, rgba(110, 168, 255, 0.24), transparent 70%),
-      radial-gradient(38rem 20rem at 88% 8%, rgba(167, 139, 250, 0.2), transparent 70%),
-      radial-gradient(30rem 16rem at 58% 62%, rgba(244, 114, 182, 0.1), transparent 70%);
-  }
-  .hero::after {
-    content: ""; position: absolute; inset: 0 0 auto 0; height: 34rem; z-index: -1; opacity: 0.55;
-    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 48px 48px;
-    -webkit-mask-image: radial-gradient(ellipse 70% 75% at 50% 0%, #000 0%, transparent 75%);
-    mask-image: radial-gradient(ellipse 70% 75% at 50% 0%, #000 0%, transparent 75%);
-  }
-  .hero__title { margin-top: var(--s-6); max-width: 13em; font-size: var(--fs-display); font-weight: 800; letter-spacing: -0.035em; }
-  .hero__title .grad-text { display: inline-block; }
-  .hero .lead { margin-top: var(--s-6); }
-  .hero__cta { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-8); }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-3); max-width: 34rem; margin-top: var(--s-12); }
-  .stat { padding: var(--s-4); border: 1px solid var(--line); border-radius: var(--r-md); background: rgba(255, 255, 255, 0.025); }
-  .stat dt { color: var(--text-muted); font-size: var(--fs-xs); }
-  .stat dd { margin-top: var(--s-1); font-size: var(--fs-2xl); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
-  .stat dd small { margin-left: 0.15em; color: var(--text-muted); font-size: var(--fs-sm); font-weight: 600; letter-spacing: 0; }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .hero .rise { animation: rise 0.7s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 90ms); }
-    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  }
-
-  /* ---------- Sections ---------- */
-  .section { padding-top: clamp(3rem, 7vw, 5rem); }
-  .section-head { display: grid; gap: var(--s-2); margin-bottom: var(--s-8); }
-  .section-head h2 { font-size: var(--fs-3xl); font-weight: 800; }
-  .section-head p { max-width: 36rem; color: var(--text-muted); }
-  .section-head .kicker { color: var(--blue); font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
-
-  /* ---------- Steps ---------- */
-  .steps { display: grid; gap: var(--s-4); counter-reset: step; }
-  @media (min-width: 720px) { .steps { grid-template-columns: repeat(3, 1fr); } }
-  .step { position: relative; padding: var(--s-6); counter-increment: step; border: 1px solid var(--line); border-radius: var(--r-lg); background: linear-gradient(180deg, var(--surface) 0%, var(--bg-elev) 100%); box-shadow: var(--shadow-1); }
-  .step::after {
-    content: "0" counter(step); position: absolute; top: var(--s-4); right: var(--s-5);
-    color: rgba(148, 163, 200, 0.22); font-family: var(--font-mono); font-size: var(--fs-2xl); font-weight: 700;
-  }
-  .step__icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--r-md); background: rgba(110, 168, 255, 0.12); color: var(--blue); }
-  .step:nth-child(2) .step__icon { background: rgba(167, 139, 250, 0.13); color: var(--violet); }
-  .step:nth-child(3) .step__icon { background: rgba(244, 114, 182, 0.12); color: var(--pink); }
-  .step h3 { margin-top: var(--s-5); font-size: var(--fs-lg); }
-  .step p { margin-top: var(--s-2); color: var(--text-muted); font-size: var(--fs-sm); }
-
-  /* ---------- Experiment cards ---------- */
-  .exp-list { display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
-  .exp { display: flex; flex-direction: column; height: 100%; padding: var(--s-6); }
-  .exp__top { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
-  .exp__icon {
-    display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: var(--r-md);
-    background: rgb(var(--accent-rgb) / 0.14); border: 1px solid rgb(var(--accent-rgb) / 0.3);
-    font-size: 1.4rem; transition: transform var(--dur) var(--ease-out);
-  }
-  .exp__meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--s-2); }
-  .exp__status { color: #86efac; font-size: var(--fs-xs); font-weight: 600; }
-  .exp__title { margin-top: var(--s-5); font-size: var(--fs-xl); font-weight: 750; }
-  .exp__link { color: var(--text); text-decoration: none; }
-  .exp__link::after { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: var(--r-lg); }
-  .exp__link:focus-visible { outline: none; }
-  .exp__link:focus-visible::after { outline: 2px solid var(--focus); outline-offset: 3px; }
-  .exp__desc { margin-top: var(--s-2); color: var(--text-muted); font-size: var(--fs-sm); }
-  .exp__tags { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-4); }
-  .exp__tags li { padding: 0.1em 0.65em; border: 1px solid var(--line); border-radius: var(--r-pill); color: var(--text-subtle); font-family: var(--font-mono); font-size: var(--fs-xs); }
-  .exp__go { display: inline-flex; align-items: center; gap: 0.4em; margin-top: auto; padding-top: var(--s-5); color: rgb(var(--accent-rgb)); font-size: var(--fs-sm); font-weight: 700; }
-  .exp__go .icon { transition: transform var(--dur) var(--ease-out); }
-  @media (hover: hover) {
-    .exp:hover .exp__icon { transform: scale(1.08) rotate(-4deg); }
-    .exp:hover .exp__go .icon { transform: translateX(4px); }
-  }
-  .exp--soon { align-items: flex-start; justify-content: center; gap: var(--s-2); border: 1px dashed var(--line-strong); border-radius: var(--r-lg); color: var(--text-muted); }
-  .exp--soon strong { color: var(--text); font-size: var(--fs-lg); }
-  .exp--soon p { font-size: var(--fs-sm); }
-
-  @media (max-width: 420px) {
-    .stats { gap: var(--s-2); }
-    .stat { padding: var(--s-3); }
-  }
-</style>
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 건너뛰기</a>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="lab-g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6ea8ff"/><stop offset=".55" stop-color="#a78bfa"/><stop offset="1" stop-color="#f472b6"/>
-    </linearGradient>
-  </defs>
-  <symbol id="lab-mark" viewBox="0 0 32 32">
-    <rect width="32" height="32" rx="9" fill="url(#lab-g)"/>
-    <path d="M13 6h6v6.2l5.2 9.3A2.4 2.4 0 0 1 22.1 25H9.9a2.4 2.4 0 0 1-2.1-3.5L13 12.2z" fill="#07090f"/>
-    <circle cx="14" cy="21" r="1.6" fill="#fff"/><circle cx="18.5" cy="18.5" r="1.1" fill="#fff"/>
-  </symbol>
-  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
-  <symbol id="i-external" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10-6.5a1 1 0 0 0 0-1.72l-10-6.5A1 1 0 0 0 8 5.5z"/></symbol>
-  <symbol id="i-note" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></symbol>
-</svg>
-
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="brand" href="./" aria-label="agentic-coding-lab 홈">
-      <svg class="brand__mark" aria-hidden="true"><use href="#lab-mark"/></svg>
-      <span>agentic-coding-lab</span>
-    </a>
+    <a class="brand" href="./" aria-label="agentic-coding-lab 홈"><span class="brand__mark" aria-hidden="true">L</span>agentic-coding-lab</a>
     <nav class="site-nav" aria-label="주요 메뉴">
       <a href="#experiments">실험 목록</a>
-      <a href="https://github.com/lollolha97/agentic-coding-lab" target="_blank" rel="noopener noreferrer">GitHub<svg class="icon" aria-hidden="true"><use href="#i-external"/></svg><span class="visually-hidden"> (새 탭)</span></a>
+      <a href="#about">기록 방식</a>
+      <a href="https://github.com/lollolha97/agentic-coding-lab">GitHub ↗</a>
     </nav>
   </div>
 </header>
-
-<main id="main">
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="container">
-      <p class="eyebrow rise" style="--i:0"><span class="badge badge--accent"><span class="badge__dot" aria-hidden="true"></span>Agentic Coding 실험 노트</span></p>
-      <h1 class="hero__title rise" id="hero-title" style="--i:1">재밌어 보이는 것을 <span class="grad-text">직접 돌려봅니다</span></h1>
-      <p class="lead rise" style="--i:2">인스타그램·Threads에서 찾은 재밌어 보이는 Agentic Coding 데모와 도구들을 직접 실행하고, 결과를 기록하는 실험실입니다.</p>
-      <div class="hero__cta rise" style="--i:3">
-        <a class="btn btn--primary" href="#experiments">실험 둘러보기<svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg></a>
-        <a class="btn btn--ghost" href="https://github.com/lollolha97/agentic-coding-lab" target="_blank" rel="noopener noreferrer">GitHub 저장소<svg class="icon" aria-hidden="true"><use href="#i-external"/></svg><span class="visually-hidden"> (새 탭)</span></a>
+<main id="main" tabindex="-1">
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero__edition meta"><p>AGENTIC CODING / 실험 노트</p><p>첫 기록 · 2026.09.30</p></div>
+    <div class="hero__spread">
+      <div class="hero__copy">
+        <h1 class="hero__title" id="hero-title"><span>발견은 피드에서.</span><span class="accent">검증은 여기서.</span></h1>
+        <p class="hero__intro">인스타그램·Threads에서 발견한 Agentic Coding 데모를 직접 재현합니다. 화면에서 본 아이디어가 실제로 어떻게 작동하는지, 실행한 결과와 과정을 남깁니다.</p>
+        <a class="text-link" href="#experiments">실험 기록 읽기 <span aria-hidden="true">↓</span></a>
       </div>
-      <dl class="stats rise" style="--i:4">
-        <div class="stat"><dt>진행한 실험</dt><dd><span id="exp-count">1</span><small>개</small></dd></div>
-        <div class="stat"><dt>외부 CDN</dt><dd>0<small>개</small></dd></div>
-        <div class="stat"><dt>빌드 단계</dt><dd>0<small>단계</small></dd></div>
-      </dl>
+      <aside class="latest" aria-labelledby="latest-title">
+        <p class="latest__label meta"><span>최근 실험</span><span id="latest-id">NO. 001</span></p>
+        <h2 class="latest__title" id="latest-title"><a id="latest-link" href="experiments/2026-09-30-motion-terms-demo/">모션 용어 도감</a></h2>
+        <p class="latest__desc" id="latest-desc">이징부터 마스크 리빌까지.<br>용어를 읽고, 움직임으로 확인합니다.</p>
+        <div class="latest__specimen" id="latest-specimen"><span class="latest__number">10</span><p>가지 용어,<br>직접 보는 움직임</p></div>
+        <a class="latest__open" id="latest-open" href="experiments/2026-09-30-motion-terms-demo/">데모 열기<span aria-hidden="true">↗</span></a>
+      </aside>
     </div>
+    <div class="hero__base meta"><p>관찰 → 재현 → 기록</p><p>실행한 데모와 재현 방법을 함께 공개합니다.</p></div>
   </section>
 
-  <section class="section" aria-labelledby="how-title">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">Workflow</span>
-        <h2 id="how-title">실험은 이렇게 진행돼요</h2>
-      </div>
-      <ol class="steps" role="list">
-        <li class="step">
-          <span class="step__icon" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></span>
-          <h3>발견</h3>
-          <p>인스타그램·Threads에서 재밌어 보이는 Agentic Coding 데모와 도구를 찾습니다.</p>
-        </li>
-        <li class="step">
-          <span class="step__icon" aria-hidden="true"><svg class="icon icon--fill"><use href="#i-play"/></svg></span>
-          <h3>실행</h3>
-          <p>눈으로만 보지 않고 직접 실행해서 똑같이 재현해 봅니다.</p>
-        </li>
-        <li class="step">
-          <span class="step__icon" aria-hidden="true"><svg class="icon"><use href="#i-note"/></svg></span>
-          <h3>기록</h3>
-          <p>각 실험 폴더의 README에 출처·재현 방법·결과를 남깁니다.</p>
-        </li>
+  <section class="catalog container" id="experiments" aria-labelledby="catalog-title">
+    <div class="section-heading">
+      <h2 id="catalog-title"><span class="section-heading__num" aria-hidden="true">01</span>실험 목록</h2>
+      <p class="meta"><span id="exp-count">1</span>개의 기록 / 최신순</p>
+    </div>
+    <div class="catalog__columns meta" aria-hidden="true"><span>번호 / 날짜</span><span>실험 / 관찰한 것</span><span>분류</span><span>결과</span></div>
+    <ol class="exp-list" id="list" role="list"></ol>
+    <noscript><p class="catalog__note"><a href="experiments/2026-09-30-motion-terms-demo/">001 — 모션 용어 도감 · 2026.09.30 · 데모 열기</a></p></noscript>
+    <p class="catalog__note">각 실험의 출처와 재현 방법은 저장소의 README에 남깁니다.</p>
+  </section>
+
+  <section class="about container" id="about" aria-labelledby="about-title">
+    <p class="about__label meta"><span aria-hidden="true">02</span>이 노트를 쓰는 방식</p>
+    <div>
+      <h2 id="about-title">스크롤하다 멈춘 데모,<br>끝까지 실행한 기록.</h2>
+      <p class="about__intro">피드에서는 몇 초면 지나가는 데모도, 직접 만들면 궁금한 점이 생깁니다. 어떤 코드가 움직임을 만드는지, 어디까지 재현되는지. 이곳은 그 질문을 실행으로 확인하는 개인 실험실입니다.</p>
+      <ol class="method" role="list">
+        <li><span class="method__num meta" aria-hidden="true">01</span><h3>발견</h3><p>인스타그램·Threads에서 다시 만들어 보고 싶은 데모를 고르고, 원본 출처를 적습니다.</p></li>
+        <li><span class="method__num meta" aria-hidden="true">02</span><h3>재현</h3><p>Agentic Coding으로 직접 구현합니다. 원본에서 눈에 띄었던 동작을 실제 화면에서 확인합니다.</p></li>
+        <li><span class="method__num meta" aria-hidden="true">03</span><h3>기록</h3><p>결과물과 함께 재현 방법, 관찰한 차이, 다음에 참고할 점을 README에 남깁니다.</p></li>
       </ol>
-    </div>
-  </section>
-
-  <section class="section" id="experiments" aria-labelledby="exp-title">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">Experiments</span>
-        <h2 id="exp-title">실험 목록</h2>
-        <p>가장 최근 실험이 맨 앞에 나옵니다.</p>
-      </div>
-      <ul class="exp-list" id="list" role="list"></ul>
-      <noscript><p class="notice">실험 목록을 보려면 JavaScript가 필요합니다. <a href="https://github.com/lollolha97/agentic-coding-lab/tree/main/experiments">GitHub의 experiments 폴더</a>에서 직접 확인할 수 있어요.</p></noscript>
+      <a class="text-link" href="https://github.com/lollolha97/agentic-coding-lab/tree/main/experiments">코드와 실험 노트 보기 <span aria-hidden="true">↗</span></a>
     </div>
   </section>
 </main>
-
-<footer class="site-footer">
-  <div class="container site-footer__inner">
-    <div>
-      <div class="site-footer__brand">
-        <svg class="brand__mark" aria-hidden="true"><use href="#lab-mark"/></svg>
-        <div>
-          <strong>agentic-coding-lab</strong>
-          <p>재밌어 보이는 Agentic Coding 데모와 도구를 직접 실행하고 기록합니다.</p>
-        </div>
-      </div>
-    </div>
-    <div>
-      <nav aria-label="푸터 링크">
-        <div class="site-footer__links">
-          <a href="#experiments">실험 목록</a>
-          <a href="https://github.com/lollolha97/agentic-coding-lab" target="_blank" rel="noopener noreferrer">GitHub 저장소<span class="visually-hidden"> (새 탭)</span></a>
-        </div>
-      </nav>
-      <p class="site-footer__note">각 실험 폴더의 README에 출처·재현 방법·결과 기록</p>
-    </div>
+<footer class="site-footer container">
+  <div class="site-footer__inner">
+    <div><p class="site-footer__title">agentic-coding-lab</p><p class="site-footer__note">발견한 데모를 실행 가능한 기록으로.</p></div>
+    <nav class="site-footer__links" aria-label="푸터 메뉴"><a href="#experiments">실험 목록</a><a href="https://github.com/lollolha97/agentic-coding-lab">GitHub 저장소 ↗</a></nav>
   </div>
-  <div class="container site-footer__base">
-    <small>© 2026 lollolha97</small>
-    <small>순수 HTML · CSS · JS / 시스템 폰트</small>
-  </div>
+  <div class="site-footer__base meta"><p>© 2026 lollolha97</p><p>출처 · 재현 방법 · 결과 / 각 실험의 README</p></div>
 </footer>
-
 <script>
-// 새 실험을 추가할 때는 여기에 한 항목만 추가하면 됩니다. (최신 날짜가 위로 자동 정렬됩니다)
-// 필수: date, title, desc, path, status  /  선택: icon(이모지), tags(배열), accent("R G B" 숫자 3개)
+'use strict';
+// 새 실험은 이 배열에 한 항목만 추가합니다. 날짜 기준으로 최신순 정렬됩니다.
+// 필수: date, title, desc, path, status, tags / 선택: summary, specimens
 const experiments = [
   {
-    date: "2026-09-30",
-    title: "모션 용어 데모 사이트",
-    desc: "Threads @glitter_ai_factory의 모션 용어 10개(이징·예비동작·스쿼시 앤 스트레치 등)를 CSS 애니메이션 카드로 시각화",
-    path: "experiments/2026-09-30-motion-terms-demo/",
-    status: "✅ 완성",
-    icon: "🎬",
-    tags: ["CSS 애니메이션", "모션 디자인"],
-    accent: "110 168 255"
-  },
+    date: '2026-09-30',
+    title: '모션 용어 도감',
+    desc: 'Threads @glitter_ai_factory의 모션 용어 10개를 CSS로 재현했습니다. 가감속, 탄성, 시간차가 만드는 움직임을 비교합니다.',
+    path: 'experiments/2026-09-30-motion-terms-demo/',
+    status: '완성',
+    tags: ['CSS 애니메이션', '모션 디자인'],
+    summary: '이징부터 마스크 리빌까지. 용어를 읽고, 움직임으로 확인합니다.',
+    specimens: 10
+  }
 ];
-
 (function () {
-  const list = document.getElementById('list');
-
   function el(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
     if (text !== undefined) node.textContent = text;
     return node;
   }
-  function arrow() {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('class', 'icon');
-    svg.setAttribute('aria-hidden', 'true');
-    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    use.setAttribute('href', '#i-arrow-right');
-    svg.appendChild(use);
-    return svg;
-  }
-
-  function renderExperiment(e) {
-    const li = el('li');
-    const card = el('article', 'card exp');
-    card.style.setProperty('--accent-rgb', e.accent || '110 168 255');
-
-    const top = el('div', 'exp__top');
-    const icon = el('span', 'exp__icon', e.icon || '🧪');
-    icon.setAttribute('aria-hidden', 'true');
-    const meta = el('div', 'exp__meta');
-    const time = el('time', 'badge', e.date.replace(/-/g, '.'));
-    time.dateTime = e.date;
-    meta.appendChild(time);
-    if (e.status) meta.appendChild(el('span', 'exp__status', e.status));
-    top.append(icon, meta);
-
-    const h3 = el('h3', 'exp__title');
-    const a = el('a', 'exp__link', e.title);
-    a.href = e.path;
-    h3.appendChild(a);
-
-    card.append(top, h3, el('p', 'exp__desc', e.desc));
-
-    if (e.tags && e.tags.length) {
-      const tags = el('ul', 'exp__tags');
-      tags.setAttribute('role', 'list');
-      e.tags.forEach(t => tags.appendChild(el('li', '', t)));
-      card.appendChild(tags);
-    }
-
-    const go = el('span', 'exp__go', '데모 보러 가기');
-    go.setAttribute('aria-hidden', 'true');
-    go.appendChild(arrow());
-    card.appendChild(go);
-
-    li.appendChild(card);
-    return li;
-  }
-
-  function renderSoon() {
-    const li = el('li');
-    const card = el('div', 'exp exp--soon');
-    card.append(el('strong', '', '다음 실험 준비 중'), el('p', '', '새로운 데모를 찾는 대로 이곳에 추가됩니다.'));
-    li.appendChild(card);
-    return li;
-  }
-
   const sorted = experiments.slice().sort((a, b) => b.date.localeCompare(a.date));
-  sorted.forEach(e => list.appendChild(renderExperiment(e)));
-  list.appendChild(renderSoon());
-  document.getElementById('exp-count').textContent = String(sorted.length);
-
-  // 카드 위 포인터 위치를 따라가는 스포트라이트 (마우스에서만)
-  list.addEventListener('pointermove', ev => {
-    if (ev.pointerType !== 'mouse') return;
-    const card = ev.target.closest('.card');
-    if (!card) return;
-    const r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', (ev.clientX - r.left) + 'px');
-    card.style.setProperty('--my', (ev.clientY - r.top) + 'px');
+  const list = document.getElementById('list');
+  sorted.forEach((experiment, index) => {
+    const item = el('li');
+    const article = el('article', 'experiment');
+    const date = el('p', 'experiment__date meta');
+    date.append(el('span', '', String(sorted.length - index).padStart(3, '0')));
+    const time = el('time', '', experiment.date.replaceAll('-', '.'));
+    time.dateTime = experiment.date;
+    date.append(time);
+    const body = el('div', 'experiment__body');
+    const title = el('h3', 'experiment__title');
+    const link = el('a', '', experiment.title);
+    link.href = experiment.path;
+    title.append(link);
+    body.append(title, el('p', 'experiment__desc', experiment.desc));
+    const tags = el('ul', 'experiment__tags meta');
+    tags.setAttribute('aria-label', '분류');
+    tags.setAttribute('role', 'list');
+    experiment.tags.forEach(tag => tags.append(el('li', '', tag)));
+    const result = el('p', 'experiment__go', experiment.status);
+    const arrow = el('span', '', '↗');
+    arrow.setAttribute('aria-hidden', 'true');
+    result.append(arrow);
+    article.append(date, body, tags, result);
+    item.append(article);
+    list.append(item);
   });
+  document.getElementById('exp-count').textContent = String(sorted.length);
+  const latest = sorted[0];
+  if (latest) {
+    document.getElementById('latest-id').textContent = 'NO. ' + String(sorted.length).padStart(3, '0');
+    const latestLink = document.getElementById('latest-link');
+    latestLink.textContent = latest.title;
+    latestLink.href = latest.path;
+    document.getElementById('latest-open').href = latest.path;
+    document.getElementById('latest-desc').textContent = latest.summary || latest.desc;
+    const specimen = document.getElementById('latest-specimen');
+    specimen.hidden = !latest.specimens;
+    if (latest.specimens) specimen.querySelector('.latest__number').textContent = String(latest.specimens);
+  }
 })();
 </script>
 </body>
