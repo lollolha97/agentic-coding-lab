@@ -68,11 +68,11 @@
   const moon = '<svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="39" class="mc-fill"/><circle cx="29" cy="26" r="7" class="mc-cut-out"/><circle cx="53" cy="51" r="11" class="mc-cut-out"/><circle cx="24" cy="56" r="4" class="mc-cut-out"/></svg>';
   const basketball = '<svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="39" class="mc-fill"/><g fill="none" class="mc-seam" stroke-width="2"><path d="M3 42h78M42 3v78M15 14c30 14 30 42 0 56M69 14c-30 14-30 42 0 56"/></g></svg>';
   const scenes = {
-    easing: { time: '2.6 s', label: '이징(Easing) 애니메이션 데모: 주황색 공은 부드럽게 출발하고 멈추며, 회색 공은 일정한 속도로 왕복합니다',
+    easing: { time: '2.6 s', label: '이징(Easing) 애니메이션 데모: 파란색 공은 부드럽게 출발하고 멈추며, 회색 공은 일정한 속도로 왕복합니다',
       html: '<div class="track t-ease"></div><div class="track t-linear"></div><div class="ball ease"></div><div class="ball linear"></div><span class="label l-ease">ease-in-out</span><span class="label l-linear">linear</span>' },
-    anticipation: { time: '2.8 s', label: '예비동작(Anticipation) 애니메이션 데모: 주황색 캐릭터가 웅크렸다가 위로 도약한 뒤 착지합니다',
+    anticipation: { time: '2.8 s', label: '예비동작(Anticipation) 애니메이션 데모: 파란색 캐릭터가 웅크렸다가 위로 도약한 뒤 착지합니다',
       html: '<div class="ground"></div><div class="jumper"></div>' },
-    squash: { time: '1.6 s', label: '스쿼시 앤 스트레치(Squash & Stretch) 애니메이션 데모: 주황색 공이 떨어질 때 길어지고, 착지하며 납작해지고, 튀어 오를 때 다시 길어집니다',
+    squash: { time: '1.6 s', label: '스쿼시 앤 스트레치(Squash & Stretch) 애니메이션 데모: 공이 떨어질 때 길어지고, 착지하며 납작해지고, 튀어 오를 때 다시 길어집니다',
       html: '<div class="ground"></div><div class="bouncer"></div>' },
     arc: { time: '2.4 s', label: '아크(Arc) 애니메이션 데모: 주황색 공은 포물선을 그리며 이동하고, 점선 원은 같은 속도로 직선 이동해 비교됩니다',
       html: '<svg class="arc-guide" viewBox="0 0 100 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 110 Q50 -110 100 110"/></svg><div class="arc-ghost"></div><div class="arc-ball"></div><span class="label label-bl">출발</span><span class="label label-br">도착</span>' },
