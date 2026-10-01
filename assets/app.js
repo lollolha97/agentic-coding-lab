@@ -12,7 +12,7 @@
   function preview(experiment) {
     if (experiment.slug === 'exp-001') {
       return svg(`<path class="line" d="M25 124H275"/><path class="preview-path" d="M50 106C80 15 183 15 225 106"/>
-        ${dot(50, 106, 18, 'pale')}${dot(100, 50, 18, 'pale')}${dot(170, 50, 18, 'violet')}${dot(225, 106, 18, 'pale')}
+        ${dot(50, 106, 18, 'preview-ghost')}${dot(100, 50, 18, 'preview-ghost')}${dot(170, 50, 18, 'preview-key')}${dot(225, 106, 18, 'preview-ghost')}
         ${dot(50, 106, 18, 'ink animated preview-ball')}<path class="ink-line" d="M245 124h25m-5-4 5 4-5 4"/>
         <text x="25" y="148" class="svg-label">01 — ANTICIPATION</text><text x="192" y="148" class="svg-label">02 — ACTION</text>`);
     }

@@ -158,12 +158,14 @@ h1, h2, h3 { font-weight: 400; }
 .is-paused .animated { animation-play-state: paused !important; }
 .rewinding .animated { animation-name: none !important; }
 .preview-ball { animation-name: preview-ball; animation-duration: 4s; }
-.preview-path { stroke: var(--blue-2); stroke-width: 1; fill: none; stroke-dasharray: 3 5; }
+.preview-path { stroke: var(--gray-4); stroke-width: 1; fill: none; stroke-dasharray: 3 5; }
+.preview-ghost { fill: var(--gray-3); }
+.preview-key { fill: var(--gray-5); }
 @keyframes preview-ball { 0%, 10% { transform: translateX(0); } 24% { transform: translateX(-12px); } 72% { transform: translateX(162px); } 88%, 100% { transform: translateX(150px); } }
 /* Motion scenes (EXP-001): the original 190px HTML/CSS stages, restored wholesale inside the card chrome.
-   Geometry, keyframes and timing are the pre-wipe build; colors come from the theme tokens (orange subject, blue ink, gray guides). */
+   Geometry, keyframes and timing are the pre-wipe build; colors come from the theme tokens: ink (--fg) or deep blue (--blue-3) subjects, gray guides, and --alert for at most one small element per scene. */
 .stage-scene { height: 258px; }
-.scene { --subject: var(--alert); --ink: var(--blue-3); --guide: var(--gray-4); --muted: var(--gray-5); position: relative; isolation: isolate; width: 100%; height: 190px; overflow: hidden; }
+.scene { --subject: var(--fg); --on-subject: var(--bg); --accent: var(--alert); --ink: var(--blue-3); --guide: var(--gray-4); --muted: var(--gray-5); position: relative; isolation: isolate; width: 100%; height: 190px; overflow: hidden; }
 .scene .label { position: absolute; z-index: 2; color: var(--gray-6); font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 11px; line-height: 1.2; letter-spacing: .02em; white-space: nowrap; }
 .scene .label-bl { bottom: 8px; left: 30px; }
 .scene .label-br { bottom: 8px; right: 36px; }
@@ -180,13 +182,13 @@ h1, h2, h3 { font-weight: 400; }
 .scene .track.t-linear { top: 94px; }
 .scene .ball { position: absolute; left: 24px; width: 22px; height: 22px; border-radius: 50%; }
 .scene .ball.linear { top: 84px; background: var(--muted); animation: race 2.6s linear infinite alternate; }
-.scene .ball.ease { top: 54px; background: var(--subject); animation: race 2.6s cubic-bezier(.65, 0, .35, 1) infinite alternate; }
+.scene .ball.ease { top: 54px; background: var(--ink); animation: race 2.6s cubic-bezier(.65, 0, .35, 1) infinite alternate; }
 .scene .l-ease { top: 36px; left: 24px; color: var(--fg); }
 .scene .l-linear { top: 114px; left: 24px; }
 @keyframes race { from { left: 24px; } to { left: calc(100% - 46px); } }
 
 /* 2. Anticipation: crouch (opposite direction) -> stretch into the jump -> squash on landing. */
-.scene .jumper { position: absolute; left: 50%; bottom: 32px; width: 54px; height: 54px; margin-left: -27px; border-radius: 14px; background: var(--subject); transform-origin: 50% 100%; animation: anticipate 2.8s infinite; }
+.scene .jumper { position: absolute; left: 50%; bottom: 32px; width: 54px; height: 54px; margin-left: -27px; border-radius: 14px; background: var(--ink); transform-origin: 50% 100%; animation: anticipate 2.8s infinite; }
 .scene .jumper::before, .scene .jumper::after { content: ""; position: absolute; top: 18px; width: 8px; height: 10px; background: var(--on-subject); border-radius: 4px; }
 .scene .jumper::before { left: 14px; }
 .scene .jumper::after { right: 14px; }
@@ -211,9 +213,9 @@ h1, h2, h3 { font-weight: 400; }
 
 /* 4. Arc: x is constant speed, y alone is a parabola (ease-out up, ease-in down), so the path is a true curve. */
 .scene .arc-guide { position: absolute; left: 40px; bottom: 50px; width: calc(100% - 80px); height: 110px; overflow: visible; }
-.scene .arc-guide path { fill: none; stroke: var(--subject); stroke-opacity: .55; stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+.scene .arc-guide path { fill: none; stroke: var(--guide); stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
 .scene .arc-ball, .scene .arc-ghost { position: absolute; bottom: 40px; left: 30px; width: 20px; height: 20px; border-radius: 50%; }
-.scene .arc-ball { background: var(--subject); animation: arcX 2.4s linear infinite alternate, arcY 2.4s infinite alternate; }
+.scene .arc-ball { background: var(--accent); animation: arcX 2.4s linear infinite alternate, arcY 2.4s infinite alternate; }
 .scene .arc-ghost { border: 2px dashed var(--muted); opacity: .8; animation: arcX 2.4s linear infinite alternate; }
 @keyframes arcX { from { left: 30px; } to { left: calc(100% - 50px); } }
 @keyframes arcY {
@@ -223,9 +225,9 @@ h1, h2, h3 { font-weight: 400; }
 }
 
 /* 5. Follow-through: the body stops dead, the rod keeps swinging and decays. */
-.scene .ft-body { position: absolute; left: 24px; bottom: 32px; width: 52px; height: 36px; border-radius: 10px 10px 4px 4px; background: var(--subject); animation: ftMove 4.8s cubic-bezier(.5, 0, .9, .55) infinite; }
-.scene .ft-tail { position: absolute; left: 50%; bottom: 100%; width: 4px; height: 58px; margin-left: -2px; border-radius: 2px; background: var(--subject); transform-origin: 50% 100%; animation: ftSwing 4.8s ease-in-out infinite; }
-.scene .ft-tail::after { content: ""; position: absolute; top: -8px; left: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--subject); }
+.scene .ft-body { position: absolute; left: 24px; bottom: 32px; width: 52px; height: 36px; border-radius: 10px 10px 4px 4px; background: var(--ink); animation: ftMove 4.8s cubic-bezier(.5, 0, .9, .55) infinite; }
+.scene .ft-tail { position: absolute; left: 50%; bottom: 100%; width: 4px; height: 58px; margin-left: -2px; border-radius: 2px; background: var(--ink); transform-origin: 50% 100%; animation: ftSwing 4.8s ease-in-out infinite; }
+.scene .ft-tail::after { content: ""; position: absolute; top: -8px; left: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); }
 @keyframes ftMove { 0%, 4% { left: 24px; } 30%, 54% { left: calc(100% - 76px); } 80%, 100% { left: 24px; } }
 @keyframes ftSwing {
   0%, 4% { transform: rotate(0); animation-timing-function: ease-in; }
@@ -245,9 +247,10 @@ h1, h2, h3 { font-weight: 400; }
 
 /* 6. Overlap: jointed segments run the same swing, each 0.15s later than its parent. */
 .scene .arm { position: absolute; left: 28px; top: 50%; }
-.scene .seg { position: absolute; left: 0; top: -5px; width: 54px; height: 10px; border-radius: 5px; background: var(--subject); transform-origin: 5px 50%; animation: segSwing 2.4s ease-in-out infinite; }
+.scene .seg { position: absolute; left: 0; top: -5px; width: 54px; height: 10px; border-radius: 5px; background: var(--ink); transform-origin: 5px 50%; animation: segSwing 2.4s ease-in-out infinite; }
 .scene .seg::after { content: ""; position: absolute; left: 2px; top: 2px; width: 6px; height: 6px; border-radius: 50%; background: var(--on-subject); }
 .scene .seg > .seg { left: 44px; top: 0; }
+.scene .seg.s4 { background: var(--accent); }
 .scene .seg.s1 { animation-delay: -1.2s; }
 .scene .seg.s2 { animation-delay: -1.05s; }
 .scene .seg.s3 { animation-delay: -.9s; }
@@ -273,7 +276,7 @@ h1, h2, h3 { font-weight: 400; }
 /* 8. Match cut: background and subject hard-cut at the midpoint; the circle's position, size and spin never break. */
 .scene-match { overflow: visible; }
 .scene .mc-bg { position: absolute; inset: -34px 0; background: var(--blue-1); animation: mcBg 3.6s steps(1, end) infinite; }
-@keyframes mcBg { 0% { background: var(--blue-1); } 50% { background: color-mix(in srgb, var(--alert) 18%, var(--gray-1)); } }
+@keyframes mcBg { 0% { background: var(--blue-1); } 50% { background: var(--gray-2); } }
 .scene .mc-circle { position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px 0 0 -42px; animation: mcSpin 3.6s linear infinite, mcBreath 3.6s ease-in-out infinite; }
 @keyframes mcSpin { to { rotate: 360deg; } }
 @keyframes mcBreath { 0%, 100% { scale: .8; } 50% { scale: 1.25; } }
@@ -291,7 +294,7 @@ h1, h2, h3 { font-weight: 400; }
 @keyframes mcFlash { 0% { opacity: 1; } 8%, 49.9% { opacity: 0; } 50% { opacity: 1; } 58%, 99.9% { opacity: 0; } 100% { opacity: 1; } }
 
 /* 9. Parallax: each layer travels exactly one tile per loop, so the seam never shows (16 / 40 / 75 px/s). */
-.scene .px-sun { position: absolute; top: 16px; right: 22px; width: 22px; height: 22px; border-radius: 50%; background: var(--subject); opacity: .9; }
+.scene .px-sun { position: absolute; top: 16px; right: 22px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); opacity: .9; }
 .scene .layer { position: absolute; left: 0; width: calc(100% + var(--tile)); animation: pxScroll var(--dur) linear infinite; }
 @keyframes pxScroll { to { transform: translateX(calc(-1 * var(--tile))); } }
 .scene .layer.far { --tile: 160px; --dur: 10s; bottom: 16px; height: 80px; color: var(--gray-4); }
@@ -304,7 +307,7 @@ h1, h2, h3 { font-weight: 400; }
 .scene .reveal-ghost { color: transparent; -webkit-text-stroke: 1px var(--gray-4); }
 .scene .reveal-text { position: absolute; inset: 0; padding: inherit; display: flex; align-items: center; justify-content: center; color: var(--ink); animation: maskReveal 3.6s ease-in-out infinite; }
 @keyframes maskReveal { 0% { clip-path: inset(0 100% 0 0); } 30%, 65% { clip-path: inset(0 0 0 0); } 95%, 100% { clip-path: inset(0 0 0 100%); } }
-.scene .reveal-bar { position: absolute; top: -8px; bottom: -8px; left: 0; width: 4px; border-radius: 2px; background: var(--subject); opacity: 0; animation: barSweep 3.6s ease-in-out infinite; }
+.scene .reveal-bar { position: absolute; top: -8px; bottom: -8px; left: 0; width: 4px; border-radius: 2px; background: var(--accent); opacity: 0; animation: barSweep 3.6s ease-in-out infinite; }
 @keyframes barSweep {
   0%   { left: 0; opacity: 1; } 30% { left: calc(100% - 4px); opacity: 1; } 32% { left: calc(100% - 4px); opacity: 0; }
   64%  { left: 0; opacity: 0; } 65% { left: 0; opacity: 1; }
@@ -399,5 +402,5 @@ h1, h2, h3 { font-weight: 400; }
   .scene .seg { transform: rotate(8deg); }
   .scene .mc-a { opacity: 0; }
   .scene .mc-b { opacity: 1; }
-  .scene .mc-bg { background: color-mix(in srgb, var(--alert) 18%, var(--gray-1)); }
+  .scene .mc-bg { background: var(--gray-2); }
 }
