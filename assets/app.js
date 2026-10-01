@@ -62,46 +62,34 @@
     render();
   }
 
-  // Repeating silhouettes for the parallax layers: generated so every layer is wider than any stage width plus its travel.
-  const ridge = (x, base, tiles, shape, count) => {
-    let d = `M${x} ${base}`;
-    for (let i = 0; i < count; i += 1) {
-      const [width, height] = tiles[i % tiles.length];
-      d += shape(width, height);
-    }
-    return `${d}V172H${x}Z`;
+  // Motion scenes: the original HTML/CSS stage internals (EXP-001 pre-wipe build), restored inside the card chrome.
+  // Styles live in style.css under "Motion scenes"; every element is plain DOM so the original keyframes apply unchanged.
+  const tile = (id, width, height, d) => `<svg class="layer ${id}" aria-hidden="true" focusable="false"><defs><pattern id="px-${id}" width="${width}" height="${height}" patternUnits="userSpaceOnUse"><path d="${d}" fill="currentColor"/></pattern></defs><rect width="100%" height="100%" fill="url(#px-${id})"/></svg>`;
+  const moon = '<svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="39" class="mc-fill"/><circle cx="29" cy="26" r="7" class="mc-cut-out"/><circle cx="53" cy="51" r="11" class="mc-cut-out"/><circle cx="24" cy="56" r="4" class="mc-cut-out"/></svg>';
+  const basketball = '<svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="39" class="mc-fill"/><g fill="none" class="mc-seam" stroke-width="2"><path d="M3 42h78M42 3v78M15 14c30 14 30 42 0 56M69 14c-30 14-30 42 0 56"/></g></svg>';
+  const scenes = {
+    easing: { time: '2.6 s', label: '이징(Easing) 애니메이션 데모: 주황색 공은 부드럽게 출발하고 멈추며, 회색 공은 일정한 속도로 왕복합니다',
+      html: '<div class="track t-ease"></div><div class="track t-linear"></div><div class="ball ease"></div><div class="ball linear"></div><span class="label l-ease">ease-in-out</span><span class="label l-linear">linear</span>' },
+    anticipation: { time: '2.8 s', label: '예비동작(Anticipation) 애니메이션 데모: 주황색 캐릭터가 웅크렸다가 위로 도약한 뒤 착지합니다',
+      html: '<div class="ground"></div><div class="jumper"></div>' },
+    squash: { time: '1.6 s', label: '스쿼시 앤 스트레치(Squash & Stretch) 애니메이션 데모: 주황색 공이 떨어질 때 길어지고, 착지하며 납작해지고, 튀어 오를 때 다시 길어집니다',
+      html: '<div class="ground"></div><div class="bouncer"></div>' },
+    arc: { time: '2.4 s', label: '아크(Arc) 애니메이션 데모: 주황색 공은 포물선을 그리며 이동하고, 점선 원은 같은 속도로 직선 이동해 비교됩니다',
+      html: '<svg class="arc-guide" viewBox="0 0 100 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 110 Q50 -110 100 110"/></svg><div class="arc-ghost"></div><div class="arc-ball"></div><span class="label label-bl">출발</span><span class="label label-br">도착</span>' },
+    follow: { time: '4.8 s', label: '팔로스루(Follow-through) 애니메이션 데모: 몸통이 급정지한 뒤에도 위에 달린 막대가 더 흔들리다가 서서히 멈춥니다',
+      html: '<div class="ground"></div><div class="ft-body"><div class="ft-tail"></div></div>' },
+    overlap: { time: '2.4 s', label: '오버랩(Overlap) 애니메이션 데모: 관절로 연결된 네 마디가 같은 스윙을 조금씩 늦게 이어받아 물결처럼 움직입니다',
+      html: '<div class="arm"><div class="seg s1"><div class="seg s2"><div class="seg s3"><div class="seg s4"></div></div></div></div></div>' },
+    stagger: { time: '2.4 s', label: '스태거(Stagger) 애니메이션 데모: 막대 여섯 개가 0.15초 간격으로 차례대로 나타납니다',
+      html: '<div class="stagger-wrap"><span></span><span></span><span></span><span></span><span></span><span></span></div>' },
+    match: { time: '3.6 s', label: '매치컷(Match Cut) 애니메이션 데모: 배경이 바뀌며 달이 농구공으로 컷되지만 원의 위치·크기·회전은 끊기지 않고 이어집니다',
+      html: `<div class="mc-bg"></div><div class="mc-circle"><span class="mc-face mc-a">${moon}</span><span class="mc-face mc-b">${basketball}</span></div><span class="mc-cut" aria-hidden="true">CUT</span>` },
+    parallax: { time: '10 s · 3 s · 1.2 s', label: '패럴랙스(Parallax) 애니메이션 데모: 먼 산은 느리게, 중간 언덕은 보통, 가까운 나무는 빠르게 흘러가 깊이감을 만듭니다',
+      html: `<div class="px-sun"></div>${tile('far', 160, 80, 'M0 80L50 20L100 80ZM80 80L120 40L160 80Z')}${tile('mid', 120, 56, 'M0 56Q30 6 60 56Q90 14 120 56Z')}<div class="px-ground"></div>${tile('near', 90, 70, 'M6 70L26 14L46 70ZM48 70L66 34L84 70Z')}` },
+    reveal: { time: '3.6 s', label: '마스크 리빌(Mask Reveal) 애니메이션 데모: 가림막이 글자 ‘모션’ 위를 지나가며 드러내고, 같은 방향으로 다시 지웁니다',
+      html: '<div class="reveal-wrap"><span class="reveal-ghost">모션</span><div class="reveal-text">모션</div><div class="reveal-bar"></div></div>' }
   };
-  const peaks = (width, height) => `l${width / 2} ${-height} l${width / 2} ${height}`;
-  const hills = (width, height) => `q${width / 2} ${-height} ${width} 0`;
-  const trees = (x, tiles) => {
-    let cursor = x;
-    return tiles.map(([gap, width, height]) => `M${cursor += gap} 160l${width / 2} ${-height} ${width / 2} ${height}Z`).join('');
-  };
-  // Jointed arm: each nested joint runs the same swing a little later than its parent.
-  const arm = [0, 1, 2, 3].reduceRight((inner, index) => `<g transform="translate(${index ? 44 : 46} ${index ? 0 : 95})"><g class="animated overlap-seg"><rect x="-7" y="-7" width="${index === 3 ? 50 : 51}" height="14" rx="7" class="${index % 2 ? 'violet' : 'ink'}"/>${inner}<circle r="2.5" class="paper"/></g></g>`, '');
-
-  function motionDiagram(key) {
-    switch (key) {
-      case 'easing': return svg(`<path class="line" d="M45 70h210M45 120h210"/><text x="44" y="52" class="svg-label">LINEAR</text><text x="44" y="102" class="svg-label">EASE IN-OUT</text>${dot(55, 70, 10, 'gray-dot animated linear-dot')}${dot(55, 120, 10, 'alert-dot animated easing-dot')}`);
-      case 'anticipation': return svg(`${line}<path class="line dash" d="M60 70v60M210 70v60"/><path class="blue-line" d="M37 99H20m5-5-5 5 5 5M126 99h48m-5-5 5 5-5 5"/><g class="animated anticipation-move">${dot(60, 100, 17, 'ink animated anticipation-dot')}</g><text x="35" y="165" class="svg-label">PREPARE</text><text x="230" y="165" class="svg-label">ACT</text>`);
-      case 'squash': return svg(`${line}<path class="line dash" d="M150 33v110"/><ellipse cx="150" cy="145" rx="19" ry="3" class="gray-fill animated squash-shadow"/>${dot(150, 128, 17, 'ink animated squash-dot')}<text x="176" y="50" class="svg-label">GRAVITY ↓</text>`);
-      case 'arc': return svg(`${line}<path class="blue-line dash" d="M55 131Q150 -9 245 131"/>${dot(55, 145, 3, 'violet')}${dot(245, 145, 3, 'violet')}<circle cx="55" cy="131" r="14" class="ghost animated arc-x"/><g class="animated arc-x">${dot(55, 131, 14, 'ink animated arc-y')}</g>`);
-      case 'follow': return svg(`${line}<path class="line dash" d="M217 40v120"/><text x="203" y="176" class="svg-label">STOP</text><g class="animated follow-body"><g class="animated follow-rod"><path class="rod" d="M67 105V57"/>${dot(67, 52, 7, 'ink')}</g><rect x="48" y="105" width="38" height="40" class="ink"/></g>`);
-      case 'overlap': return svg(`<path class="line dash" d="M40 95H236"/><path class="line" d="M35 145H265"/>${arm}`);
-      case 'stagger': return svg(`${line}<g>${[50, 80, 110, 70, 95].map((height, value) => `<rect x="${43 + value * 45}" y="${145 - height}" width="34" height="${height}" class="${value % 2 ? 'violet' : 'ink'} animated stagger-block"/>`).join('')}</g><text x="41" y="162" class="svg-label">0 ms</text><text x="214" y="162" class="svg-label">+400 ms</text>`);
-      case 'match': return svg(`<path class="line" d="M35 145h230"/><rect x="35" y="40" width="230" height="100" class="paper animated match-a"/><rect x="35" y="40" width="230" height="100" class="pale animated match-b"/><path class="blue-line" d="M45 48h32M45 48v32M255 48h-32M255 48v32M45 132h32M45 132v-32M255 132h-32M255 132v-32"/>
-        <g transform="translate(150 90)"><g class="animated match-spin"><g class="animated match-a">${dot(0, 0, 34, 'ink')}<g class="paper"><circle cx="-12" cy="-15" r="5"/><circle cx="10" cy="9" r="9"/><circle cx="-18" cy="14" r="3.5"/><circle cx="14" cy="-20" r="3"/></g></g>
-        <g class="animated match-b">${dot(0, 0, 34, 'violet')}<path class="seam" d="M-34 0h68M0 -34v68M-22 -23c25 11 25 35 0 46M22 -23c-25 11-25 35 0 46"/></g></g></g><text x="257" y="34" text-anchor="end" class="svg-label animated match-flash">CUT</text>`);
-      case 'parallax': return svg(`<g class="animated parallax-sky">${dot(235, 45, 11, 'pale')}</g>
-        <g class="animated parallax-back"><path class="pale" d="${ridge(-200, 146, [[130, 92], [96, 58], [150, 104], [110, 66]], peaks, 8)}"/></g>
-        <g class="animated parallax-mid"><path class="violet" d="${ridge(-200, 158, [[110, 52], [84, 36], [130, 60]], hills, 10)}"/></g>
-        <g class="animated parallax-front"><path class="ink" d="${trees(-200, [[0, 26, 58], [128, 32, 76], [104, 24, 50], [136, 30, 66], [112, 28, 62], [124, 26, 54], [108, 32, 72], [140, 24, 52], [116, 30, 64], [126, 26, 58], [110, 32, 74], [132, 24, 50]])}M-200 160H700V172H-200Z"/></g>`);
-      case 'reveal': return svg(`<defs><clipPath id="reveal-window"><rect class="animated reveal-window" x="48" y="48" width="204" height="94"/></clipPath></defs><rect x="48" y="48" width="204" height="94" class="pale"/>
-        <text x="150" y="112" text-anchor="middle" class="reveal-glyph reveal-ghost">모션</text><g clip-path="url(#reveal-window)"><text x="150" y="112" text-anchor="middle" class="reveal-glyph ink">모션</text></g>
-        <rect x="46.5" y="48" width="3" height="94" class="ink animated reveal-bar"/><path class="line" d="M48 145h252"/>`);
-      default: return svg(line);
-    }
-  }
+  const motionDiagram = key => `<div class="scene scene-${key}" aria-hidden="true">${scenes[key].html}</div>`;
 
   const cameraLabels = { pan: 'ROTATION / Y', tilt: 'ROTATION / X', roll: 'ROTATION / Z', truck: 'TRANSLATION / X', pedestal: 'TRANSLATION / Y', dolly: 'TRANSLATION / Z', zoom: 'FOCAL LENGTH', orbit: 'ROTATION / SUBJECT' };
   const motionLabels = { easing: 'VELOCITY / TIME', anticipation: 'PREPARE → ACT', squash: 'VOLUME / IMPACT', arc: 'CURVED TRAJECTORY', follow: 'ACTION → SETTLE', overlap: 'PHASE / OFFSET', stagger: 'SEQUENCE / DELAY', match: 'SHAPE / CONTINUITY', parallax: 'DEPTH / SPEED', reveal: 'CLIP / VISIBILITY' };
@@ -123,7 +111,7 @@
     document.querySelector('#experiment-heading').innerHTML = `<section class="experiment-heading" aria-labelledby="experiment-title"><div><span class="experiment-code">${escapeHTML(experiment.id)} / ${isCamera ? 'CAMERA MOVEMENTS' : 'MOTION PRINCIPLES'}</span><h1 id="experiment-title">${escapeHTML(experiment.title)}</h1><p>${escapeHTML(experiment.description)}</p></div><aside class="source-note"><span class="tiny">REFERENCE / SOURCE</span><span>Threads</span><a href="${escapeHTML(experiment.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHTML(experiment.source)} ↗<span class="sr-only"> (새 탭)</span></a><small>원본에서 관찰하고, CSS로 재현한 실험.</small></aside></section>`;
     document.querySelector('#demo-toolbar').innerHTML = `<div class="demo-toolbar"><h2>데모 <span class="count">${number(experiment.demos.length)}</span></h2><div class="toolbar-buttons"><button type="button" id="pause-all" aria-pressed="false">Ⅱ 일시정지</button><button type="button" id="replay-all">↻ 전체 다시 재생</button></div><p class="motion-notice" id="motion-notice" role="status" hidden>기기의 동작 줄이기 설정에 따라 정지 화면으로 표시합니다.</p></div>`;
     document.querySelector('#demo-index').innerHTML = experiment.demos.map((demo, index) => `<a href="#${demo.key}"><span>${number(index + 1)}</span>${escapeHTML(demo.name)}</a>`).join('');
-    document.querySelector('#demo-list').innerHTML = experiment.demos.map((demo, index) => `<article class="demo-card" id="${demo.key}" aria-labelledby="title-${demo.key}"><div class="stage" role="img" aria-label="${escapeHTML(demo.name)} 움직임 시연"><div class="stage-label" aria-hidden="true"><span>${number(index + 1)} / ${escapeHTML(demo.english.toUpperCase())}</span><span>CSS</span></div>${isCamera ? cameraDiagram(demo.key) : motionDiagram(demo.key)}<div class="stage-footer" aria-hidden="true"><span>${(isCamera ? cameraLabels : motionLabels)[demo.key] || 'STUDY'}</span><span>${isCamera ? 'VIEWFINDER' : '3.6 s'}</span></div></div><div class="demo-info"><div class="demo-heading"><h3 id="title-${demo.key}">${escapeHTML(demo.name)}</h3><span>${escapeHTML(demo.english)}</span></div><p class="demo-description">${escapeHTML(demo.description)}</p><div class="demo-controls"><span class="tiny" data-play-status>READY</span><button class="replay" type="button" aria-label="${escapeHTML(demo.name)} 다시 재생"><span aria-hidden="true">↻</span>다시 재생</button></div></div></article>`).join('');
+    document.querySelector('#demo-list').innerHTML = experiment.demos.map((demo, index) => `<article class="demo-card" id="${demo.key}" aria-labelledby="title-${demo.key}"><div class="stage${isCamera ? '' : ' stage-scene'}" role="img" aria-label="${escapeHTML(isCamera ? `${demo.name} 움직임 시연` : scenes[demo.key].label)}"><div class="stage-label" aria-hidden="true"><span>${number(index + 1)} / ${escapeHTML(demo.english.toUpperCase())}</span><span>CSS</span></div>${isCamera ? cameraDiagram(demo.key) : motionDiagram(demo.key)}<div class="stage-footer" aria-hidden="true"><span>${(isCamera ? cameraLabels : motionLabels)[demo.key] || 'STUDY'}</span><span>${isCamera ? 'VIEWFINDER' : scenes[demo.key].time}</span></div></div><div class="demo-info"><div class="demo-heading"><h3 id="title-${demo.key}">${escapeHTML(demo.name)}</h3><span>${escapeHTML(demo.english)}</span></div><p class="demo-description">${escapeHTML(demo.description)}</p><div class="demo-controls"><span class="tiny" data-play-status>READY</span><button class="replay" type="button" aria-label="${escapeHTML(demo.name)} 다시 재생"><span aria-hidden="true">↻</span>다시 재생</button></div></div></article>`).join('');
 
     const cards = [...document.querySelectorAll('.demo-card')];
     let started = new WeakSet();
@@ -175,9 +163,11 @@
     });
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
+        // Scenes loop forever, so cards scrolled out of view stop animating.
+        entry.target.classList.toggle('is-off', !entry.isIntersecting);
         if (entry.isIntersecting && !started.has(entry.target) && !reducedMotion.matches) run(entry.target);
       });
-    }, { threshold: .15 });
+    }, { threshold: .15, rootMargin: '60px 0px' });
     cards.forEach(card => observer.observe(card));
     function syncMotion() {
       if (reducedMotion.matches) started = new WeakSet();

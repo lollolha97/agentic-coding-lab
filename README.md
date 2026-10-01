@@ -14,10 +14,10 @@ Open http://127.0.0.1:8080. No install or build is required. Relative paths supp
 
 1. Add an object to `window.LAB.experiments` in `assets/data.js`. Use a unique `slug`, an ID, Korean title/description, category, source URL, and a `demos` array. Keep source Korean copy verbatim.
 2. Copy an experiment HTML page into `experiments/<slug>/index.html`. Set `body[data-page]` to the new slug and update its title, metadata and navigation.
-3. Add a diagram case in `assets/app.js` and corresponding CSS keyframes in `assets/style.css`. Give moving elements `animated` and keep motion shorter than five seconds. The common renderer supplies replay, viewport playback and reduced-motion controls.
+3. Add a diagram case in `assets/app.js` and corresponding CSS keyframes in `assets/style.css`. Camera and SVG diagrams give moving elements `animated` and play once, keeping motion shorter than five seconds. EXP-001's motion scenes are plain HTML/CSS (`scenes` in `app.js`, "Motion scenes" in `style.css`) and loop; they are paused by the card's play state instead. The common renderer supplies replay, viewport playback and reduced-motion controls.
 4. Add a category filter button to the catalog if the new experiment uses a new category. Counts and search are derived from the array.
 
-Animations play once on entering the viewport. Each demo supports replay; the toolbar supports replay all and pause/resume. Keyboard users can operate native buttons with Enter/Space and press `/` to focus catalog search. OS dark mode and reduced motion are respected, including live preference changes.
+Camera animations play once on entering the viewport; EXP-001 motion scenes loop while on screen and pause when scrolled away. Each demo supports replay; the toolbar supports replay all and pause/resume. Keyboard users can operate native buttons with Enter/Space and press `/` to focus catalog search. OS dark mode and reduced motion are respected, including live preference changes.
 
 ## Browser verification
 

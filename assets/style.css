@@ -146,101 +146,160 @@ h1, h2, h3 { font-weight: 400; }
 .playing .animated { animation-play-state: running; }
 .is-paused .animated { animation-play-state: paused !important; }
 .rewinding .animated { animation-name: none !important; }
-.gray-dot { fill: var(--gray-5); }
-.alert-dot { fill: var(--alert); }
-.ghost { fill: none; stroke: var(--gray-5); stroke-width: 1.2; stroke-dasharray: 3 3; }
-.rod { fill: none; stroke: var(--blue-2); stroke-width: 3; stroke-linecap: round; }
-.seam { fill: none; stroke: var(--bg); stroke-width: 1.6; }
-.reveal-glyph { font-size: 58px; font-weight: 700; letter-spacing: 6px; }
-.reveal-ghost { fill: none; stroke: var(--gray-4); stroke-width: 1; }
-.easing-dot { animation-name: easing; }
-.linear-dot { animation-name: easing; animation-timing-function: linear; }
-.anticipation-move { animation-name: anticipation-move; }
-.anticipation-dot { animation-name: anticipation-squash; transform-box: fill-box; transform-origin: 50% 50%; }
-.squash-dot { animation-name: squash; transform-box: fill-box; transform-origin: 50% 100%; }
-.squash-shadow { animation-name: squash-shadow; transform-box: fill-box; transform-origin: 50% 50%; }
-.arc-x { animation-name: arc-x; animation-timing-function: linear; }
-.arc-y { animation-name: arc-y; transform-box: fill-box; transform-origin: 50% 100%; }
-.follow-body { animation-name: follow-body; }
-.follow-rod { animation-name: follow-rod; transform-origin: 67px 105px; }
-.overlap-seg { animation-name: overlap; }
-.overlap-seg .overlap-seg { animation-delay: .15s; }
-.overlap-seg .overlap-seg .overlap-seg { animation-delay: .3s; }
-.overlap-seg .overlap-seg .overlap-seg .overlap-seg { animation-delay: .45s; }
-.stagger-block { animation-name: stagger; transform-box: fill-box; transform-origin: 50% 100%; }
-.stagger-block:nth-child(2) { animation-delay: .1s; }
-.stagger-block:nth-child(3) { animation-delay: .2s; }
-.stagger-block:nth-child(4) { animation-delay: .3s; }
-.stagger-block:nth-child(5) { animation-delay: .4s; }
-.match-a { animation-name: match-a; }
-.match-b { animation-name: match-b; }
-.match-spin { animation-name: match-rotate, match-breathe; animation-timing-function: linear, cubic-bezier(.45, 0, .55, 1); }
-.match-flash { animation-name: match-flash; opacity: 0; }
-.parallax-sky { animation-name: parallax-sky; }
-.parallax-back { animation-name: parallax-back; }
-.parallax-mid { animation-name: parallax-mid; }
-.parallax-front { animation-name: parallax-front; }
-.reveal-window { animation-name: reveal-window; }
-.reveal-bar { animation-name: reveal-bar; opacity: 0; }
 .preview-ball { animation-name: preview-ball; animation-duration: 4s; }
 .preview-path { stroke: var(--blue-2); stroke-width: 1; fill: none; stroke-dasharray: 3 5; }
-/* Easing: out-and-back so the linear ball reverses abruptly at the end while the eased ball brakes and re-accelerates. */
-@keyframes easing { 0%, 8% { transform: translateX(0); animation-timing-function: cubic-bezier(.65, 0, .35, 1); } 50% { transform: translateX(190px); animation-timing-function: cubic-bezier(.65, 0, .35, 1); } 92%, 100% { transform: translateX(0); } }
-/* Anticipation: slow wind-up opposite the move, a held beat, a fast launch with overshoot, then settle. Position and squash are split across two nodes so each keeps its own curve. */
-@keyframes anticipation-move { 0%, 10% { transform: translateX(0); animation-timing-function: cubic-bezier(.4, 0, .2, 1); } 26%, 33% { transform: translateX(-24px); animation-timing-function: cubic-bezier(.3, .6, .2, 1); } 52% { transform: translateX(172px); animation-timing-function: cubic-bezier(.45, 0, .2, 1); } 68%, 100% { transform: translateX(150px); } }
-@keyframes anticipation-squash { 0%, 10% { transform: scale(1); animation-timing-function: cubic-bezier(.4, 0, .2, 1); } 26% { transform: scale(.8, 1.16); animation-timing-function: ease-in-out; } 33% { transform: scale(.78, 1.18); animation-timing-function: cubic-bezier(.2, .7, .3, 1); } 42% { transform: scale(1.38, .8); animation-timing-function: ease-in-out; } 52% { transform: scale(1); animation-timing-function: ease-in-out; } 60% { transform: scale(.95, 1.06); animation-timing-function: ease-in-out; } 72%, 100% { transform: scale(1); } }
-/* Squash & stretch: gravity curves (ease-in down, ease-out up), stretch at speed, squash on contact, each bounce lower and shorter. */
-@keyframes squash {
-  0%, 5% { transform: translateY(-73px) scale(1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
-  20% { transform: translateY(0) scale(.9, 1.14); animation-timing-function: ease-out; }
-  22.5% { transform: translateY(0) scale(1.5, .55); animation-timing-function: linear; }
-  24% { transform: translateY(-11px) scale(.88, 1.18); animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
-  34.3% { transform: translateY(-46px) scale(1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
-  46.1% { transform: translateY(0) scale(.93, 1.1); animation-timing-function: ease-out; }
-  48.1% { transform: translateY(0) scale(1.28, .74); animation-timing-function: linear; }
-  49.1% { transform: translateY(-5px) scale(.92, 1.1); animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
-  56% { transform: translateY(-21px) scale(1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
-  63.9% { transform: translateY(0) scale(.96, 1.05); animation-timing-function: ease-out; }
-  65.4% { transform: translateY(0) scale(1.12, .88); animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
-  70% { transform: translateY(-7px) scale(1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
-  74.6% { transform: translateY(0) scale(1.04, .97); animation-timing-function: ease-out; }
-  78%, 100% { transform: translateY(0) scale(1); }
-}
-@keyframes squash-shadow { 0%, 5% { transform: scale(.5); opacity: .35; animation-timing-function: cubic-bezier(.333, 0, .667, .333); } 20% { transform: scale(1); opacity: 1; animation-timing-function: ease-out; } 22.5% { transform: scale(1.15); animation-timing-function: cubic-bezier(.333, .667, .667, 1); } 34.3% { transform: scale(.69); opacity: .55; animation-timing-function: cubic-bezier(.333, 0, .667, .333); } 46.1% { transform: scale(1); opacity: 1; animation-timing-function: cubic-bezier(.333, .667, .667, 1); } 56% { transform: scale(.86); opacity: .8; animation-timing-function: cubic-bezier(.333, 0, .667, .333); } 63.9% { transform: scale(1); opacity: 1; } 70% { transform: scale(.95); opacity: .9; animation-timing-function: cubic-bezier(.333, 0, .667, .333); } 74.6%, 100% { transform: scale(1); opacity: 1; } }
-/* Arc: x is constant speed, y is a true parabola (ease-out up, ease-in down), so the path matches the guide curve; the dashed ghost keeps the straight line. */
-@keyframes arc-x { 0%, 8% { transform: translateX(0); } 70%, 100% { transform: translateX(190px); } }
-@keyframes arc-y { 0%, 8% { transform: translateY(0) scale(1); animation-timing-function: cubic-bezier(.333, .667, .667, 1); } 39% { transform: translateY(-70px) scale(1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); } 70% { transform: translateY(0) scale(1.14, .88); animation-timing-function: ease-out; } 80%, 100% { transform: translateY(0) scale(1); } }
-/* Follow-through: the body accelerates then stops dead; the antenna leans back, then keeps swinging and decays. */
-@keyframes follow-body { 0%, 8% { transform: translateX(0); animation-timing-function: cubic-bezier(.5, 0, .9, .55); } 36%, 100% { transform: translateX(150px); } }
-@keyframes follow-rod {
-  0%, 8% { transform: rotate(0); animation-timing-function: cubic-bezier(.45, 0, .8, .6); }
-  36% { transform: rotate(-24deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); }
-  41.5% { transform: rotate(15deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); }
-  47% { transform: rotate(-8.5deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); }
-  52.5% { transform: rotate(4.5deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); }
-  58% { transform: rotate(-2deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); }
-  63.5% { transform: rotate(.8deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); }
-  69%, 100% { transform: rotate(0); }
-}
-/* Overlap: every nested joint repeats the same swing, 150 ms later than its parent. */
-@keyframes overlap { 0%, 6% { transform: rotate(0); animation-timing-function: cubic-bezier(.45, 0, .55, 1); } 22% { transform: rotate(12deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); } 40% { transform: rotate(-12deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); } 56% { transform: rotate(7deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); } 70% { transform: rotate(-3.5deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); } 82% { transform: rotate(1.5deg); animation-timing-function: cubic-bezier(.45, 0, .55, 1); } 92%, 100% { transform: rotate(0); } }
-/* Stagger: expo-out entrance per block, then the same ripple repeated in order (each block's delay is 100 ms). */
-@keyframes stagger { 0%, 2% { opacity: 0; transform: translateY(18px); animation-timing-function: cubic-bezier(.22, 1, .36, 1); } 16%, 50% { opacity: 1; transform: translateY(0); animation-timing-function: cubic-bezier(.333, .667, .667, 1); } 59% { opacity: 1; transform: translateY(-16px); animation-timing-function: cubic-bezier(.333, 0, .667, .333); } 66% { transform: translateY(0); animation-timing-function: cubic-bezier(.333, .667, .667, 1); } 70% { transform: translateY(-4px); animation-timing-function: cubic-bezier(.333, 0, .667, .333); } 73.5%, 100% { opacity: 1; transform: translateY(0); } }
-/* Match cut: the scene hard-cuts at the midpoint while the circle keeps its position, constant spin and breathing scale. */
-@keyframes match-a { 0% { opacity: 1; animation-timing-function: step-end; } 50%, 100% { opacity: 0; } }
-@keyframes match-b { 0% { opacity: 0; animation-timing-function: step-end; } 50%, 100% { opacity: 1; } }
-@keyframes match-rotate { from { rotate: 0deg; } to { rotate: 360deg; } }
-@keyframes match-breathe { 0%, 100% { scale: .8; } 50% { scale: 1.25; } }
-@keyframes match-flash { 0%, 49.9% { opacity: 0; animation-timing-function: step-end; } 50%, 58% { opacity: 1; animation-timing-function: step-end; } 58.1%, 100% { opacity: 0; } }
-/* Parallax: one camera move, travel scaled by distance (far 0.2 : mid 0.5 : near 1). */
-@keyframes parallax-sky { 0%, 4% { transform: translateX(0); } 92%, 100% { transform: translateX(-6px); } }
-@keyframes parallax-back { 0%, 4% { transform: translateX(0); } 92%, 100% { transform: translateX(-32px); } }
-@keyframes parallax-mid { 0%, 4% { transform: translateX(0); } 92%, 100% { transform: translateX(-80px); } }
-@keyframes parallax-front { 0%, 4% { transform: translateX(0); } 92%, 100% { transform: translateX(-160px); } }
-/* Mask reveal: one window slides right through the text; its right edge reveals, then its left edge erases in the same direction. */
-@keyframes reveal-window { 0%, 6% { transform: translateX(-204px); animation-timing-function: cubic-bezier(.76, 0, .24, 1); } 36%, 60% { transform: translateX(0); animation-timing-function: cubic-bezier(.76, 0, .24, 1); } 90%, 100% { transform: translateX(204px); } }
-@keyframes reveal-bar { 0%, 5.9% { opacity: 0; transform: translateX(0); } 6% { opacity: 1; transform: translateX(0); animation-timing-function: cubic-bezier(.76, 0, .24, 1); } 36% { opacity: 1; transform: translateX(204px); } 36.1% { opacity: 0; transform: translateX(204px); } 59.9% { opacity: 0; transform: translateX(0); } 60% { opacity: 1; transform: translateX(0); animation-timing-function: cubic-bezier(.76, 0, .24, 1); } 90% { opacity: 1; transform: translateX(204px); } 90.1%, 100% { opacity: 0; transform: translateX(204px); } }
 @keyframes preview-ball { 0%, 10% { transform: translateX(0); } 24% { transform: translateX(-12px); } 72% { transform: translateX(162px); } 88%, 100% { transform: translateX(150px); } }
+/* Motion scenes (EXP-001): the original 190px HTML/CSS stages, restored wholesale inside the card chrome.
+   Geometry, keyframes and timing are the pre-wipe build; colors come from the theme tokens (orange subject, blue ink, gray guides). */
+.stage-scene { height: 258px; }
+.scene { --subject: var(--alert); --on-subject: var(--fg); --ink: var(--blue-3); --guide: var(--gray-3); --muted: var(--gray-5); position: relative; isolation: isolate; width: 100%; height: 190px; overflow: hidden; }
+@media (prefers-color-scheme: dark) { .scene { --on-subject: #000; } }
+.scene .label { position: absolute; z-index: 2; color: var(--gray-6); font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 11px; line-height: 1.2; letter-spacing: .02em; white-space: nowrap; }
+.scene .label-bl { bottom: 8px; left: 30px; }
+.scene .label-br { bottom: 8px; right: 36px; }
+.scene .ground { position: absolute; left: 0; right: 0; bottom: 30px; height: 2px; background: var(--guide); }
+/* Every scene loops; the card's play state (viewport entry, replay, pause all, off-screen) drives all of them at once. */
+.demo-card:not(.playing) .scene *, .demo-card:not(.playing) .scene *::before, .demo-card:not(.playing) .scene *::after,
+.is-paused .scene *, .is-paused .scene *::before, .is-paused .scene *::after,
+.demo-card.is-off .scene *, .demo-card.is-off .scene *::before, .demo-card.is-off .scene *::after { animation-play-state: paused !important; }
+.rewinding .scene *, .rewinding .scene *::before, .rewinding .scene *::after { animation: none !important; }
+
+/* 1. Easing: alternate so the linear ball reverses abruptly at each end while the eased ball brakes and re-accelerates. */
+.scene .track { position: absolute; left: 24px; right: 24px; height: 2px; border-radius: 1px; background: var(--guide); }
+.scene .track.t-ease { top: 64px; }
+.scene .track.t-linear { top: 94px; }
+.scene .ball { position: absolute; left: 24px; width: 22px; height: 22px; border-radius: 50%; }
+.scene .ball.linear { top: 84px; background: var(--muted); animation: race 2.6s linear infinite alternate; }
+.scene .ball.ease { top: 54px; background: var(--subject); animation: race 2.6s cubic-bezier(.65, 0, .35, 1) infinite alternate; }
+.scene .l-ease { top: 36px; left: 24px; color: var(--fg); }
+.scene .l-linear { top: 114px; left: 24px; }
+@keyframes race { from { left: 24px; } to { left: calc(100% - 46px); } }
+
+/* 2. Anticipation: crouch (opposite direction) -> stretch into the jump -> squash on landing. */
+.scene .jumper { position: absolute; left: 50%; bottom: 32px; width: 54px; height: 54px; margin-left: -27px; border-radius: 14px; background: var(--subject); transform-origin: 50% 100%; animation: anticipate 2.8s infinite; }
+.scene .jumper::before, .scene .jumper::after { content: ""; position: absolute; top: 18px; width: 8px; height: 10px; background: var(--on-subject); border-radius: 4px; }
+.scene .jumper::before { left: 14px; }
+.scene .jumper::after { right: 14px; }
+@keyframes anticipate {
+  0%   { transform: translateY(0) scale(1, 1);        animation-timing-function: ease-in-out; }
+  16%  { transform: translateY(0) scale(1.2, .76);    animation-timing-function: ease-in-out; }
+  24%  { transform: translateY(0) scale(1.3, .62);    animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
+  38%  { transform: translateY(-92px) scale(.92, 1.1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
+  48%  { transform: translateY(0) scale(1.14, .86);   animation-timing-function: ease-out; }
+  56%, 100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* 3. Squash & stretch: long while falling, flat on contact, long again on the rebound. */
+.scene .bouncer { --drop: 104px; position: absolute; left: 50%; bottom: 32px; width: 44px; height: 44px; margin-left: -22px; border-radius: 50%; background: var(--subject); transform-origin: 50% 100%; animation: bounce 1.6s infinite; }
+@keyframes bounce {
+  0%   { transform: translateY(calc(-1 * var(--drop))) scale(1, 1); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
+  42%  { transform: translateY(0) scale(.9, 1.16);                  animation-timing-function: linear; }
+  48%  { transform: translateY(0) scale(1.45, .55);                 animation-timing-function: ease-out; }
+  56%  { transform: translateY(-26px) scale(.88, 1.18);              animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
+  100% { transform: translateY(calc(-1 * var(--drop))) scale(1, 1); }
+}
+
+/* 4. Arc: x is constant speed, y alone is a parabola (ease-out up, ease-in down), so the path is a true curve. */
+.scene .arc-guide { position: absolute; left: 40px; bottom: 50px; width: calc(100% - 80px); height: 110px; overflow: visible; }
+.scene .arc-guide path { fill: none; stroke: var(--subject); stroke-opacity: .55; stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+.scene .arc-ball, .scene .arc-ghost { position: absolute; bottom: 40px; left: 30px; width: 20px; height: 20px; border-radius: 50%; }
+.scene .arc-ball { background: var(--subject); animation: arcX 2.4s linear infinite alternate, arcY 2.4s infinite alternate; }
+.scene .arc-ghost { border: 2px dashed var(--muted); opacity: .8; animation: arcX 2.4s linear infinite alternate; }
+@keyframes arcX { from { left: 30px; } to { left: calc(100% - 50px); } }
+@keyframes arcY {
+  0%   { transform: translateY(0);      animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
+  50%  { transform: translateY(-110px); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
+  100% { transform: translateY(0); }
+}
+
+/* 5. Follow-through: the body stops dead, the rod keeps swinging and decays. */
+.scene .ft-body { position: absolute; left: 24px; bottom: 32px; width: 52px; height: 36px; border-radius: 10px 10px 4px 4px; background: var(--subject); animation: ftMove 4.8s cubic-bezier(.5, 0, .9, .55) infinite; }
+.scene .ft-tail { position: absolute; left: 50%; bottom: 100%; width: 4px; height: 58px; margin-left: -2px; border-radius: 2px; background: var(--subject); transform-origin: 50% 100%; animation: ftSwing 4.8s ease-in-out infinite; }
+.scene .ft-tail::after { content: ""; position: absolute; top: -8px; left: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--subject); }
+@keyframes ftMove { 0%, 4% { left: 24px; } 30%, 54% { left: calc(100% - 76px); } 80%, 100% { left: 24px; } }
+@keyframes ftSwing {
+  0%, 4% { transform: rotate(0); animation-timing-function: ease-in; }
+  30% { transform: rotate(-24deg); animation-timing-function: ease-in-out; }
+  36% { transform: rotate(16deg); }
+  42% { transform: rotate(-9deg); }
+  47% { transform: rotate(4deg); }
+  51% { transform: rotate(-1.5deg); }
+  54% { transform: rotate(0); animation-timing-function: ease-in; }
+  80% { transform: rotate(24deg); animation-timing-function: ease-in-out; }
+  86% { transform: rotate(-16deg); }
+  91% { transform: rotate(9deg); }
+  95% { transform: rotate(-4deg); }
+  98% { transform: rotate(1.5deg); }
+  100% { transform: rotate(0); }
+}
+
+/* 6. Overlap: jointed segments run the same swing, each 0.15s later than its parent. */
+.scene .arm { position: absolute; left: 28px; top: 50%; }
+.scene .seg { position: absolute; left: 0; top: -5px; width: 54px; height: 10px; border-radius: 5px; background: var(--subject); transform-origin: 5px 50%; animation: segSwing 2.4s ease-in-out infinite; }
+.scene .seg::after { content: ""; position: absolute; left: 2px; top: 2px; width: 6px; height: 6px; border-radius: 50%; background: var(--on-subject); }
+.scene .seg > .seg { left: 44px; top: 0; }
+.scene .seg.s1 { animation-delay: -1.2s; }
+.scene .seg.s2 { animation-delay: -1.05s; }
+.scene .seg.s3 { animation-delay: -.9s; }
+.scene .seg.s4 { animation-delay: -.75s; }
+@keyframes segSwing { 0%, 100% { transform: rotate(-11deg); } 50% { transform: rotate(11deg); } }
+
+/* 7. Stagger: six bars, 0.15s apart; they shrink with the card instead of overflowing. */
+.scene .stagger-wrap { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; gap: 10px; padding: 0 12px 30px; }
+.scene .stagger-wrap span { flex: 0 1 34px; min-width: 0; border-radius: 6px 6px 0 0; background: var(--subject); animation: staggerUp 2.4s infinite backwards; }
+.scene .stagger-wrap span:nth-child(1) { height: 50px;  animation-delay: 0s; }
+.scene .stagger-wrap span:nth-child(2) { height: 80px;  animation-delay: .15s; }
+.scene .stagger-wrap span:nth-child(3) { height: 110px; animation-delay: .3s; }
+.scene .stagger-wrap span:nth-child(4) { height: 70px;  animation-delay: .45s; }
+.scene .stagger-wrap span:nth-child(5) { height: 95px;  animation-delay: .6s; }
+.scene .stagger-wrap span:nth-child(6) { height: 60px;  animation-delay: .75s; }
+@keyframes staggerUp {
+  0%   { opacity: 0; transform: translateY(24px); animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+  14%  { opacity: 1; transform: none; }
+  70%  { opacity: 1; transform: none; animation-timing-function: ease-in; }
+  88%, 100% { opacity: 0; transform: translateY(-14px); }
+}
+
+/* 8. Match cut: background and subject hard-cut at the midpoint; the circle's position, size and spin never break. */
+.scene-match { overflow: visible; }
+.scene .mc-bg { position: absolute; inset: -34px 0; background: var(--blue-1); animation: mcBg 3.6s steps(1, end) infinite; }
+@keyframes mcBg { 0% { background: var(--blue-1); } 50% { background: color-mix(in srgb, var(--alert) 18%, var(--gray-1)); } }
+.scene .mc-circle { position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px 0 0 -42px; animation: mcSpin 3.6s linear infinite, mcBreath 3.6s ease-in-out infinite; }
+@keyframes mcSpin { to { rotate: 360deg; } }
+@keyframes mcBreath { 0%, 100% { scale: .8; } 50% { scale: 1.25; } }
+.scene .mc-face { position: absolute; inset: 0; display: grid; place-items: center; }
+.scene .mc-face svg { width: 100%; height: 100%; }
+.scene .mc-a { animation: mcA 3.6s steps(1, end) infinite; }
+.scene .mc-b { opacity: 0; animation: mcB 3.6s steps(1, end) infinite; }
+.scene .mc-a .mc-fill { fill: var(--ink); }
+.scene .mc-b .mc-fill { fill: var(--subject); }
+.scene .mc-cut-out { fill: var(--blue-1); }
+.scene .mc-seam { stroke: var(--bg); }
+@keyframes mcA { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes mcB { 0% { opacity: 0; } 50% { opacity: 1; } }
+.scene .mc-cut { position: absolute; z-index: 2; top: 10px; right: 12px; padding: 1px 6px; border: 1px solid var(--gray-3); background: var(--bg); color: var(--fg); font: 700 11px/1.5 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; opacity: 0; animation: mcFlash 3.6s infinite; }
+@keyframes mcFlash { 0% { opacity: 1; } 8%, 49.9% { opacity: 0; } 50% { opacity: 1; } 58%, 99.9% { opacity: 0; } 100% { opacity: 1; } }
+
+/* 9. Parallax: each layer travels exactly one tile per loop, so the seam never shows (16 / 40 / 75 px/s). */
+.scene .px-sun { position: absolute; top: 16px; right: 22px; width: 22px; height: 22px; border-radius: 50%; background: var(--subject); opacity: .9; }
+.scene .layer { position: absolute; left: 0; width: calc(100% + var(--tile)); animation: pxScroll var(--dur) linear infinite; }
+@keyframes pxScroll { to { transform: translateX(calc(-1 * var(--tile))); } }
+.scene .layer.far { --tile: 160px; --dur: 10s; bottom: 16px; height: 80px; color: var(--gray-3); }
+.scene .layer.mid { --tile: 120px; --dur: 3s; bottom: 16px; height: 56px; color: var(--blue-2); opacity: .75; }
+.scene .px-ground { position: absolute; left: 0; right: 0; bottom: 0; height: 16px; background: var(--ink); }
+.scene .layer.near { --tile: 90px; --dur: 1.2s; bottom: 12px; height: 70px; color: var(--ink); opacity: .85; }
+
+/* 10. Mask reveal: the mask sweeps over the text to reveal it, then wipes it out in the same direction. */
+.scene .reveal-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 0 4px; white-space: nowrap; font-size: clamp(2rem, 11vw, 2.8rem); font-weight: 800; letter-spacing: 2px; line-height: 1.3; }
+.scene .reveal-ghost { color: transparent; -webkit-text-stroke: 1px var(--gray-4); }
+.scene .reveal-text { position: absolute; inset: 0; padding: inherit; display: flex; align-items: center; justify-content: center; color: var(--ink); animation: maskReveal 3.6s ease-in-out infinite; }
+@keyframes maskReveal { 0% { clip-path: inset(0 100% 0 0); } 30%, 65% { clip-path: inset(0 0 0 0); } 95%, 100% { clip-path: inset(0 0 0 100%); } }
+.scene .reveal-bar { position: absolute; top: -8px; bottom: -8px; left: 0; width: 4px; border-radius: 2px; background: var(--subject); opacity: 0; animation: barSweep 3.6s ease-in-out infinite; }
+@keyframes barSweep {
+  0%   { left: 0; opacity: 1; } 30% { left: calc(100% - 4px); opacity: 1; } 32% { left: calc(100% - 4px); opacity: 0; }
+  64%  { left: 0; opacity: 0; } 65% { left: 0; opacity: 1; }
+  95%  { left: calc(100% - 4px); opacity: 1; } 97%, 100% { left: calc(100% - 4px); opacity: 0; }
+}
 /* Camera studies: rotation, translation, depth and lens scale are distinct. */
 .camera-window { width: 78%; max-width: 290px; height: 148px; border: 1px solid var(--blue-2); overflow: hidden; position: relative; perspective: 500px; }
 .camera-window::after { content: ''; position: absolute; width: 14px; height: 14px; top: calc(50% - 7px); left: calc(50% - 7px); border: 1px solid var(--blue-3); pointer-events: none; }
@@ -318,9 +377,16 @@ h1, h2, h3 { font-weight: 400; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .animated { animation: none !important; }
-  .easing-dot, .linear-dot, .arc-x { transform: translateX(190px); }
-  .anticipation-move, .follow-body, .preview-ball { transform: translateX(150px); }
-  .match-a { opacity: 0; }
+  .preview-ball { transform: translateX(150px); }
   .camera-zoom { transform: scale(1.2); }
   .orbit-camera { transform: rotateX(-15deg) rotateY(35deg); }
+  .scene *, .scene *::before, .scene *::after { animation: none !important; }
+  .scene .ball { left: calc(100% - 46px); }
+  .scene .arc-ball, .scene .arc-ghost { left: calc(50% - 10px); }
+  .scene .arc-ball { transform: translateY(-110px); }
+  .scene .ft-body { left: calc(100% - 76px); }
+  .scene .seg { transform: rotate(8deg); }
+  .scene .mc-a { opacity: 0; }
+  .scene .mc-b { opacity: 1; }
+  .scene .mc-bg { background: color-mix(in srgb, var(--alert) 18%, var(--gray-1)); }
 }
