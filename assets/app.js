@@ -62,18 +62,43 @@
     render();
   }
 
+  // Repeating silhouettes for the parallax layers: generated so every layer is wider than any stage width plus its travel.
+  const ridge = (x, base, tiles, shape, count) => {
+    let d = `M${x} ${base}`;
+    for (let i = 0; i < count; i += 1) {
+      const [width, height] = tiles[i % tiles.length];
+      d += shape(width, height);
+    }
+    return `${d}V172H${x}Z`;
+  };
+  const peaks = (width, height) => `l${width / 2} ${-height} l${width / 2} ${height}`;
+  const hills = (width, height) => `q${width / 2} ${-height} ${width} 0`;
+  const trees = (x, tiles) => {
+    let cursor = x;
+    return tiles.map(([gap, width, height]) => `M${cursor += gap} 160l${width / 2} ${-height} ${width / 2} ${height}Z`).join('');
+  };
+  // Jointed arm: each nested joint runs the same swing a little later than its parent.
+  const arm = [0, 1, 2, 3].reduceRight((inner, index) => `<g transform="translate(${index ? 44 : 46} ${index ? 0 : 95})"><g class="animated overlap-seg"><rect x="-7" y="-7" width="${index === 3 ? 50 : 51}" height="14" rx="7" class="${index % 2 ? 'violet' : 'ink'}"/>${inner}<circle r="2.5" class="paper"/></g></g>`, '');
+
   function motionDiagram(key) {
     switch (key) {
-      case 'easing': return svg(`<path class="line" d="M45 70h210M45 120h210"/><text x="44" y="52" class="svg-label">LINEAR</text><text x="44" y="102" class="svg-label">EASE OUT</text>${dot(55, 70, 10, 'violet animated linear-dot')}${dot(55, 120, 10, 'ink animated easing-dot')}`);
-      case 'anticipation': return svg(`${line}<path class="line dash" d="M60 70v60M210 70v60"/><path class="blue-line" d="M37 99H20m5-5-5 5 5 5M126 99h48m-5-5 5 5-5 5"/>${dot(60, 100, 17, 'ink animated anticipation-dot')}<text x="35" y="165" class="svg-label">PREPARE</text><text x="230" y="165" class="svg-label">ACT</text>`);
-      case 'squash': return svg(`${line}<path class="line dash" d="M150 33v110"/>${dot(150, 128, 17, 'ink animated squash-dot')}<text x="160" y="50" class="svg-label">GRAVITY ↓</text>`);
-      case 'arc': return svg(`${line}<path class="blue-line dash" d="M55 120C84 31 216 31 245 120"/>${dot(55, 120, 14, 'ink animated arc-dot')}${dot(55, 120, 3, 'violet')}${dot(245, 120, 3, 'violet')}`);
-      case 'follow': return svg(`${line}<g class="animated follow-body"><g class="animated follow-tail"><path class="violet" d="M53 84H29L17 100l12 16h24Z"/><path class="blue-line" d="M29 100H4"/></g><rect x="48" y="78" width="38" height="44" class="ink"/></g><path class="line dash" d="M220 55v88"/><text x="210" y="50" class="svg-label">STOP</text>`);
-      case 'overlap': return svg(`${line}<g><rect x="50" y="45" width="25" height="22" class="ink animated overlap-bar"/><rect x="50" y="70" width="25" height="22" class="violet animated overlap-bar"/><rect x="50" y="95" width="25" height="22" class="ink animated overlap-bar"/><rect x="50" y="120" width="25" height="22" class="violet animated overlap-bar"/></g><path class="line dash" d="M225 35v108"/>`);
-      case 'stagger': return svg(`${line}<g>${[0, 1, 2, 3, 4].map((value) => `<rect x="${43 + value * 45}" y="78" width="34" height="48" class="${value % 2 ? 'violet' : 'ink'} animated stagger-block"/>`).join('')}</g><text x="41" y="162" class="svg-label">0 ms</text><text x="214" y="162" class="svg-label">+400 ms</text>`);
-      case 'match': return svg(`<path class="line" d="M35 145h230"/><g class="animated match-first"><path class="blue-line" d="M45 48h32M45 48v32M255 48h-32M255 48v32M45 140h32M45 140v-32M255 140h-32M255 140v-32"/>${dot(150, 94, 32, 'ink')}</g><g class="animated match-second"><path class="pale" d="M35 40h230v100H35Z"/><path class="blue-line" d="M35 140 93 78l32 34 27-27 78 55"/>${dot(150, 94, 32, 'ink')}<path class="paper" d="M148 72h4v22l13 8-2 3-15-9Z"/></g>`);
-      case 'parallax': return svg(`<g class="animated parallax-back"><path class="pale" d="M-30 133 40 46l66 87 56-70 87 70 42-61 55 61v38H-30Z"/>${dot(235, 48, 12, 'pale')}</g><g class="animated parallax-mid"><path class="violet" d="M-30 143 55 82l65 61 70-48 87 48 60-45 55 45v35H-30Z"/></g><g class="animated parallax-front"><path class="ink" d="M-30 168 55 116l80 52 89-40 111 40 65-45v67H-30Z"/></g>`);
-      case 'reveal': return svg(`<rect x="48" y="48" width="204" height="94" class="pale"/><path class="ink-line" d="M65 125V66h55v59M83 66v59M65 85h55M145 115l20-40 20 40m-34-12h28"/><circle cx="219" cy="95" r="18" class="ink"/><rect x="48" y="48" width="204" height="94" class="paper animated reveal-cover"/><path class="line" d="M48 145h204"/>`);
+      case 'easing': return svg(`<path class="line" d="M45 70h210M45 120h210"/><text x="44" y="52" class="svg-label">LINEAR</text><text x="44" y="102" class="svg-label">EASE IN-OUT</text>${dot(55, 70, 10, 'gray-dot animated linear-dot')}${dot(55, 120, 10, 'alert-dot animated easing-dot')}`);
+      case 'anticipation': return svg(`${line}<path class="line dash" d="M60 70v60M210 70v60"/><path class="blue-line" d="M37 99H20m5-5-5 5 5 5M126 99h48m-5-5 5 5-5 5"/><g class="animated anticipation-move">${dot(60, 100, 17, 'ink animated anticipation-dot')}</g><text x="35" y="165" class="svg-label">PREPARE</text><text x="230" y="165" class="svg-label">ACT</text>`);
+      case 'squash': return svg(`${line}<path class="line dash" d="M150 33v110"/><ellipse cx="150" cy="145" rx="19" ry="3" class="gray-fill animated squash-shadow"/>${dot(150, 128, 17, 'ink animated squash-dot')}<text x="176" y="50" class="svg-label">GRAVITY ↓</text>`);
+      case 'arc': return svg(`${line}<path class="blue-line dash" d="M55 131Q150 -9 245 131"/>${dot(55, 145, 3, 'violet')}${dot(245, 145, 3, 'violet')}<circle cx="55" cy="131" r="14" class="ghost animated arc-x"/><g class="animated arc-x">${dot(55, 131, 14, 'ink animated arc-y')}</g>`);
+      case 'follow': return svg(`${line}<path class="line dash" d="M217 40v120"/><text x="203" y="176" class="svg-label">STOP</text><g class="animated follow-body"><g class="animated follow-rod"><path class="rod" d="M67 105V57"/>${dot(67, 52, 7, 'ink')}</g><rect x="48" y="105" width="38" height="40" class="ink"/></g>`);
+      case 'overlap': return svg(`<path class="line dash" d="M40 95H236"/><path class="line" d="M35 145H265"/>${arm}`);
+      case 'stagger': return svg(`${line}<g>${[50, 80, 110, 70, 95].map((height, value) => `<rect x="${43 + value * 45}" y="${145 - height}" width="34" height="${height}" class="${value % 2 ? 'violet' : 'ink'} animated stagger-block"/>`).join('')}</g><text x="41" y="162" class="svg-label">0 ms</text><text x="214" y="162" class="svg-label">+400 ms</text>`);
+      case 'match': return svg(`<path class="line" d="M35 145h230"/><rect x="35" y="40" width="230" height="100" class="paper animated match-a"/><rect x="35" y="40" width="230" height="100" class="pale animated match-b"/><path class="blue-line" d="M45 48h32M45 48v32M255 48h-32M255 48v32M45 132h32M45 132v-32M255 132h-32M255 132v-32"/>
+        <g transform="translate(150 90)"><g class="animated match-spin"><g class="animated match-a">${dot(0, 0, 34, 'ink')}<g class="paper"><circle cx="-12" cy="-15" r="5"/><circle cx="10" cy="9" r="9"/><circle cx="-18" cy="14" r="3.5"/><circle cx="14" cy="-20" r="3"/></g></g>
+        <g class="animated match-b">${dot(0, 0, 34, 'violet')}<path class="seam" d="M-34 0h68M0 -34v68M-22 -23c25 11 25 35 0 46M22 -23c-25 11-25 35 0 46"/></g></g></g><text x="257" y="34" text-anchor="end" class="svg-label animated match-flash">CUT</text>`);
+      case 'parallax': return svg(`<g class="animated parallax-sky">${dot(235, 45, 11, 'pale')}</g>
+        <g class="animated parallax-back"><path class="pale" d="${ridge(-200, 146, [[130, 92], [96, 58], [150, 104], [110, 66]], peaks, 8)}"/></g>
+        <g class="animated parallax-mid"><path class="violet" d="${ridge(-200, 158, [[110, 52], [84, 36], [130, 60]], hills, 10)}"/></g>
+        <g class="animated parallax-front"><path class="ink" d="${trees(-200, [[0, 26, 58], [128, 32, 76], [104, 24, 50], [136, 30, 66], [112, 28, 62], [124, 26, 54], [108, 32, 72], [140, 24, 52], [116, 30, 64], [126, 26, 58], [110, 32, 74], [132, 24, 50]])}M-200 160H700V172H-200Z"/></g>`);
+      case 'reveal': return svg(`<defs><clipPath id="reveal-window"><rect class="animated reveal-window" x="48" y="48" width="204" height="94"/></clipPath></defs><rect x="48" y="48" width="204" height="94" class="pale"/>
+        <text x="150" y="112" text-anchor="middle" class="reveal-glyph reveal-ghost">모션</text><g clip-path="url(#reveal-window)"><text x="150" y="112" text-anchor="middle" class="reveal-glyph ink">모션</text></g>
+        <rect x="46.5" y="48" width="3" height="94" class="ink animated reveal-bar"/><path class="line" d="M48 145h252"/>`);
       default: return svg(line);
     }
   }
