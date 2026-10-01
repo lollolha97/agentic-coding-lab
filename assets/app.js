@@ -24,14 +24,7 @@
 
   function catalog() {
     document.querySelector('#lab-intro').textContent = window.LAB.intro;
-    document.querySelector('#about-copy').textContent = window.LAB.about || window.LAB.intro;
     document.querySelector('#total-count').textContent = number(experiments.length);
-    document.querySelector('.nav-count').textContent = number(experiments.length);
-    document.querySelector('[data-filter="all"] span').textContent = number(experiments.length);
-    document.querySelector('#block-count').textContent = experiments.reduce((total, item) => total + item.demos.length, 0);
-    const aboutNumbers = document.querySelectorAll('.about-index > span:not(.tiny)');
-    aboutNumbers[0].firstChild.textContent = `${number(experiments.length)} `;
-    aboutNumbers[1].firstChild.textContent = `${experiments.reduce((total, item) => total + item.demos.length, 0)} `;
     const list = document.querySelector('#experiment-list');
     const search = document.querySelector('#search');
     let filter = 'all';
@@ -40,10 +33,10 @@
       const selected = experiments.filter(item => (filter === 'all' || item.category === filter) &&
         `${item.id} ${item.title} ${item.description} ${item.source} ${item.demos.map(demo => `${demo.name} ${demo.english}`).join(' ')}`.toLocaleLowerCase().includes(query));
       list.innerHTML = selected.map(item => `<a class="experiment-card" href="experiments/${escapeHTML(item.slug)}/" aria-label="${escapeHTML(item.id)} ${escapeHTML(item.title)} — ${item.demos.length}개 데모">
-        <div class="card-preview"><span class="preview-type">CSS ANIMATION</span>${preview(item)}<div class="preview-bottom"><span>${item.slug === 'exp-001' ? 'MOTION PRINCIPLES' : 'CAMERA MOVEMENTS'}</span><span>${number(item.demos.length)} BLOCKS</span></div></div>
-        <div class="card-info"><div class="card-topline"><span class="experiment-code">${escapeHTML(item.id)}</span><span class="badge">${escapeHTML(item.category)}</span></div><div class="card-title"><h3>${escapeHTML(item.title)}</h3><span aria-hidden="true">↗</span></div><p class="card-description">${escapeHTML(item.description)}</p><div class="card-meta"><span>${number(item.demos.length)}개 데모 · HTML / CSS</span><span>Threads ${escapeHTML(item.source)}</span></div></div></a>`).join('');
+        <div class="card-info"><span class="experiment-code">${escapeHTML(item.id)}</span><div class="card-title"><h3>${escapeHTML(item.title)}</h3><span aria-hidden="true">→</span></div></div>
+        <div class="card-preview">${preview(item)}</div><div class="card-meta"><span>${item.demos.length}개 데모</span><span>출처 ${escapeHTML(item.source)}</span></div></a>`).join('');
       document.querySelector('#empty-state').hidden = selected.length > 0;
-      document.querySelector('#catalog-result').textContent = `${number(selected.length)} / ${number(experiments.length)} EXPERIMENTS`;
+      document.querySelector('#catalog-result').textContent = `실험 ${selected.length}개 표시`;
       if (!reducedMotion.matches) list.querySelectorAll('.card-preview').forEach(element => element.classList.add('playing'));
     }
     document.querySelectorAll('[data-filter]').forEach(button => {
@@ -91,8 +84,6 @@
   };
   const motionDiagram = key => `<div class="scene scene-${key}" aria-hidden="true">${scenes[key].html}</div>`;
 
-  const cameraLabels = { pan: 'ROTATION / Y', tilt: 'ROTATION / X', roll: 'ROTATION / Z', truck: 'TRANSLATION / X', pedestal: 'TRANSLATION / Y', dolly: 'TRANSLATION / Z', zoom: 'FOCAL LENGTH', orbit: 'ROTATION / SUBJECT' };
-  const motionLabels = { easing: 'VELOCITY / TIME', anticipation: 'PREPARE → ACT', squash: 'VOLUME / IMPACT', arc: 'CURVED TRAJECTORY', follow: 'ACTION → SETTLE', overlap: 'PHASE / OFFSET', stagger: 'SEQUENCE / DELAY', match: 'SHAPE / CONTINUITY', parallax: 'DEPTH / SPEED', reveal: 'CLIP / VISIBILITY' };
   // Camera scenes (EXP-002): DOM stages on the motion-scene chassis, looping forever. Each scene animates one custom
   // property on .cm (--s swing, --t turn); the camera glyph, gauge and viewfinder all read it so they stay in sync.
   // Styles live in style.css under "Camera scenes".
@@ -151,17 +142,23 @@
     const experiment = experiments.find(item => item.slug === page);
     if (!experiment) return;
     const isCamera = experiment.category === '카메라';
-    const provenance = { 'exp-001': 'page structure gpt-6.1-sol · motion scenes Claude Sonnet 5.5 (restored) · 2026-10-01', 'exp-002': 'built by Claude Sonnet 5.5 · 2026-10-01' }[page] || '';
-    document.querySelector('#experiment-heading').innerHTML = `<section class="experiment-heading" aria-labelledby="experiment-title">${provenance ? `<span class="provenance">${provenance}</span>` : ''}<div><span class="experiment-code">${escapeHTML(experiment.id)} / ${isCamera ? 'CAMERA MOVEMENTS' : 'MOTION PRINCIPLES'}</span><h1 id="experiment-title">${escapeHTML(experiment.title)}</h1><p>${escapeHTML(experiment.description)}</p></div><aside class="source-note"><span class="tiny">REFERENCE / SOURCE</span><span>Threads</span><a href="${escapeHTML(experiment.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHTML(experiment.source)} ↗<span class="sr-only"> (새 탭)</span></a><small>원본에서 관찰하고, CSS로 재현한 실험.</small></aside></section>`;
-    document.querySelector('#demo-toolbar').innerHTML = `<div class="demo-toolbar"><h2>데모 <span class="count">${number(experiment.demos.length)}</span></h2><div class="toolbar-buttons"><button type="button" id="pause-all" aria-pressed="false">Ⅱ 일시정지</button><button type="button" id="replay-all">↻ 전체 다시 재생</button></div><p class="motion-notice" id="motion-notice" role="status" hidden>기기의 동작 줄이기 설정에 따라 정지 화면으로 표시합니다.</p></div>`;
-    document.querySelector('#demo-index').innerHTML = experiment.demos.map((demo, index) => `<a href="#${demo.key}"><span>${number(index + 1)}</span>${escapeHTML(demo.name)}</a>`).join('');
-    document.querySelector('#demo-list').innerHTML = experiment.demos.map((demo, index) => `<article class="demo-card" id="${demo.key}" aria-labelledby="title-${demo.key}"><div class="stage stage-scene" role="img" aria-label="${escapeHTML(isCamera ? `${demo.name} 움직임 시연` : scenes[demo.key].label)}"><div class="stage-label" aria-hidden="true"><span>${number(index + 1)} / ${escapeHTML(demo.english.toUpperCase())}</span><span>CSS</span></div>${isCamera ? cameraDiagram(demo.key) : motionDiagram(demo.key)}<div class="stage-footer" aria-hidden="true"><span>${(isCamera ? cameraLabels : motionLabels)[demo.key] || 'STUDY'}</span><span>${isCamera ? 'VIEWFINDER' : scenes[demo.key].time}</span></div></div><div class="demo-info"><div class="demo-heading"><h3 id="title-${demo.key}">${escapeHTML(demo.name)}</h3><span>${escapeHTML(demo.english)}</span></div><p class="demo-description">${escapeHTML(demo.description)}</p><div class="demo-controls"><span class="tiny" data-play-status>READY</span><button class="replay" type="button" aria-label="${escapeHTML(demo.name)} 다시 재생"><span aria-hidden="true">↻</span>다시 재생</button></div></div></article>`).join('');
+    const provenance = { 'exp-001': '구조 gpt-6.1-sol · 장면 Claude Sonnet 5.5 (복원) · 2026-10-01', 'exp-002': '제작 Claude Sonnet 5.5 · 2026-10-01' }[page] || '';
+    document.querySelector('#experiment-heading').innerHTML = `<section class="experiment-heading" aria-labelledby="experiment-title"><h1 id="experiment-title">${escapeHTML(experiment.title)}</h1><div class="experiment-meta"><a href="${escapeHTML(experiment.sourceUrl)}" target="_blank" rel="noopener noreferrer">출처 Threads ${escapeHTML(experiment.source)} ↗<span class="sr-only"> (새 탭)</span></a><span>${escapeHTML(provenance)}</span></div></section>`;
+    document.querySelector('#demo-toolbar').innerHTML = `<div class="demo-toolbar"><h2>데모 <span class="count">${number(experiment.demos.length)}</span></h2><div class="toolbar-buttons"><button type="button" id="pause-all" aria-pressed="false">전체 정지</button><button type="button" id="replay-all">전체 다시 재생</button></div><p class="motion-notice" id="motion-notice" role="status" hidden>동작 줄이기 설정으로 정지 화면을 표시합니다.</p></div>`;
+    document.querySelector('#demo-index').innerHTML = experiment.demos.map((demo, index) => `<a href="#${demo.key}"><span>${number(index + 1)}</span>${escapeHTML(demo.name)} ↓</a>`).join('');
+    document.querySelector('#demo-index').addEventListener('click', event => {
+      if (event.target.closest('a')) event.currentTarget.closest('details').open = false;
+    });
+    document.querySelector('#demo-list').innerHTML = experiment.demos.map((demo, index) => `<article class="demo-card" id="${demo.key}" aria-labelledby="title-${demo.key}"><div class="demo-heading"><h3 id="title-${demo.key}"><span class="demo-number">${number(index + 1)}</span>${escapeHTML(demo.name)}</h3><span>${escapeHTML(demo.english)}</span></div><div class="stage stage-scene" role="img" aria-label="${escapeHTML(isCamera ? `${demo.name} 움직임 시연` : scenes[demo.key].label)}">${isCamera ? cameraDiagram(demo.key) : motionDiagram(demo.key)}</div><div class="demo-controls"><span class="tiny" data-play-status role="status">대기</span><button class="replay" type="button" aria-label="${escapeHTML(demo.name)} 다시 재생"><span aria-hidden="true">↻</span>다시 재생</button></div><div class="demo-info"><p class="demo-description">${escapeHTML(demo.description)}</p></div></article>`).join('');
 
     const cards = [...document.querySelectorAll('.demo-card')];
     let started = new WeakSet();
     const pause = document.querySelector('#pause-all');
     const replayAll = document.querySelector('#replay-all');
     let paused = false;
+    function syncStatus(card) {
+      card.querySelector('[data-play-status]').textContent = reducedMotion.matches ? '정지 화면' : paused ? '일시정지' : card.classList.contains('is-off') ? '화면 밖에서 정지' : card.classList.contains('playing') ? '재생 중' : '대기';
+    }
     function run(card) {
       if (reducedMotion.matches) return;
       started.add(card);
@@ -170,46 +167,25 @@
       void card.offsetWidth;
       card.classList.remove('rewinding');
       card.classList.add('playing');
-      card.querySelector('[data-play-status]').textContent = paused ? 'PAUSED' : 'PLAYING';
+      syncStatus(card);
     }
     cards.forEach(card => {
-      card.querySelector('.replay').addEventListener('click', () => {
-        if (paused) {
-          paused = false;
-          document.body.classList.remove('is-paused');
-          pause.setAttribute('aria-pressed', 'false');
-          pause.textContent = 'Ⅱ 일시정지';
-          cards.forEach(item => {
-            if (item.querySelector('[data-play-status]').textContent === 'PAUSED') item.querySelector('[data-play-status]').textContent = 'PLAYING';
-          });
-        }
-        run(card);
-      });
-      card.addEventListener('animationend', () => {
-        if (card.getAnimations({ subtree: true }).every(animation => animation.playState === 'finished')) card.querySelector('[data-play-status]').textContent = 'COMPLETE';
-      });
+      card.querySelector('.replay').addEventListener('click', () => run(card));
     });
     pause.addEventListener('click', () => {
       paused = !paused;
       document.body.classList.toggle('is-paused', paused);
       pause.setAttribute('aria-pressed', String(paused));
-      pause.textContent = paused ? '▷ 계속 재생' : 'Ⅱ 일시정지';
-      cards.forEach(card => {
-        if (card.classList.contains('playing') && card.getAnimations({ subtree: true }).some(animation => animation.playState !== 'finished')) card.querySelector('[data-play-status]').textContent = paused ? 'PAUSED' : 'PLAYING';
-      });
+      pause.textContent = paused ? '전체 재생' : '전체 정지';
+      cards.forEach(syncStatus);
     });
-    replayAll.addEventListener('click', () => {
-      paused = false;
-      document.body.classList.remove('is-paused');
-      pause.setAttribute('aria-pressed', 'false');
-      pause.textContent = 'Ⅱ 일시정지';
-      cards.forEach(run);
-    });
+    replayAll.addEventListener('click', () => cards.forEach(run));
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         // Scenes loop forever, so cards scrolled out of view stop animating.
         entry.target.classList.toggle('is-off', !entry.isIntersecting);
         if (entry.isIntersecting && !started.has(entry.target) && !reducedMotion.matches) run(entry.target);
+        syncStatus(entry.target);
       });
     }, { threshold: .15, rootMargin: '60px 0px' });
     cards.forEach(card => observer.observe(card));
@@ -220,8 +196,9 @@
       replayAll.disabled = reducedMotion.matches;
       cards.forEach(card => {
         card.querySelector('.replay').disabled = reducedMotion.matches;
-        if (reducedMotion.matches) { card.classList.remove('playing'); card.querySelector('[data-play-status]').textContent = 'STILL'; }
+        if (reducedMotion.matches) card.classList.remove('playing');
         else { const rect = card.getBoundingClientRect(); if (rect.top < innerHeight && rect.bottom > 0) run(card); }
+        syncStatus(card);
       });
     }
     reducedMotion.addEventListener('change', syncMotion);

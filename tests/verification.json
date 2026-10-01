@@ -1,120 +1,288 @@
 {
-  "verifiedOn": "2026-10-01",
-  "browser": "Chromium 152 via Playwright",
-  "requireContent": true,
   "passed": 12,
   "projectPrefix": "passed",
   "contentReady": true,
+  "motionScenePreservation": {
+    "markup": "unchanged",
+    "keyframesUnchanged": 18
+  },
   "reports": [
     {
       "path": "/",
       "width": 390,
+      "height": 844,
       "colorScheme": "light",
       "demos": 0,
+      "firstContentY": 437,
+      "firstStageY": 519,
+      "pageHeight": 1327,
+      "screenshotAnimationTime": null,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "n/a",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-001/",
       "width": 390,
+      "height": 844,
       "colorScheme": "light",
       "demos": 10,
+      "firstContentY": 383,
+      "firstStageY": 447,
+      "pageHeight": 4807,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-002/",
       "width": 390,
+      "height": 844,
       "colorScheme": "light",
       "demos": 8,
+      "firstContentY": 383,
+      "firstStageY": 447,
+      "pageHeight": 3926,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     },
     {
       "path": "/",
       "width": 390,
+      "height": 844,
       "colorScheme": "dark",
       "demos": 0,
+      "firstContentY": 437,
+      "firstStageY": 519,
+      "pageHeight": 1327,
+      "screenshotAnimationTime": null,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "n/a",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-001/",
       "width": 390,
+      "height": 844,
       "colorScheme": "dark",
       "demos": 10,
+      "firstContentY": 383,
+      "firstStageY": 447,
+      "pageHeight": 4807,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-002/",
       "width": 390,
+      "height": 844,
       "colorScheme": "dark",
       "demos": 8,
+      "firstContentY": 383,
+      "firstStageY": 447,
+      "pageHeight": 3926,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     },
     {
       "path": "/",
       "width": 1440,
+      "height": 1000,
       "colorScheme": "light",
       "demos": 0,
+      "firstContentY": 396,
+      "firstStageY": 478,
+      "pageHeight": 1000,
+      "screenshotAnimationTime": null,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "n/a",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-001/",
       "width": 1440,
+      "height": 1000,
       "colorScheme": "light",
       "demos": 10,
+      "firstContentY": 381,
+      "firstStageY": 445,
+      "pageHeight": 2225,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-002/",
       "width": 1440,
+      "height": 1000,
       "colorScheme": "light",
       "demos": 8,
+      "firstContentY": 381,
+      "firstStageY": 445,
+      "pageHeight": 1807,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     },
     {
       "path": "/",
       "width": 1440,
+      "height": 1000,
       "colorScheme": "dark",
       "demos": 0,
+      "firstContentY": 396,
+      "firstStageY": 478,
+      "pageHeight": 1000,
+      "screenshotAnimationTime": null,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "n/a",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-001/",
       "width": 1440,
+      "height": 1000,
       "colorScheme": "dark",
       "demos": 10,
+      "firstContentY": 381,
+      "firstStageY": 445,
+      "pageHeight": 2225,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     },
     {
       "path": "/experiments/exp-002/",
       "width": 1440,
+      "height": 1000,
       "colorScheme": "dark",
       "demos": 8,
+      "firstContentY": 381,
+      "firstStageY": 445,
+      "pageHeight": 1807,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
       "errors": 0,
       "externalRequests": 0,
-      "overflow": false
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
     }
   ],
-  "screenshots": "/tmp/agentic-coding-lab-screenshots",
-  "caveat": "The source brief provides the site concept and experiment section headings only in English; those are preserved verbatim. All 18 Korean descriptions are integrated verbatim. Design and application code are unchanged."
+  "screenshots": "/tmp/agentic-coding-lab-screenshots"
 }

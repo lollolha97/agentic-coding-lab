@@ -11,9 +11,14 @@
   let current = read();
   apply(current);
 
-  const sync = () => document.querySelectorAll('[data-theme-choice]').forEach(button => {
-    button.setAttribute('aria-pressed', String(button.dataset.themeChoice === current));
-  });
+  const sync = () => {
+    document.querySelectorAll('[data-theme-choice]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.themeChoice === current));
+    });
+    document.querySelectorAll('.theme-switch summary').forEach(trigger => {
+      trigger.setAttribute('aria-label', `화면 테마 선택, 현재 ${current}`);
+    });
+  };
   const choose = choice => {
     current = choice; apply(choice); sync();
     try { localStorage.setItem(KEY, choice); } catch (error) { /* storage unavailable: the choice still applies for this page view */ }
@@ -21,7 +26,23 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.theme-switch').forEach(group => { group.hidden = false; });
-    document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => choose(button.dataset.themeChoice)));
+    document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => {
+      choose(button.dataset.themeChoice);
+      const menu = button.closest('.theme-switch');
+      menu.open = false;
+      menu.querySelector('summary').focus();
+    }));
+    document.addEventListener('click', event => {
+      document.querySelectorAll('.theme-switch[open]').forEach(menu => {
+        if (!menu.contains(event.target)) menu.open = false;
+      });
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') document.querySelectorAll('.theme-switch[open]').forEach(menu => {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      });
+    });
     sync();
   });
   // Keep other open tabs in step.

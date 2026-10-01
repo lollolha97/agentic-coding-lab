@@ -2,7 +2,7 @@
 window.LAB = {
   copyPending: false,
   title: 'Agentic Coding Lab',
-  intro: "a public catalog/archive of small web experiments. Each experiment re-implements a motion/design demo found on Instagram/Threads using agentic coding, recording method + result.",
+  intro: "소셜 미디어에서 발견한 모션과 디자인을 코드로 재현합니다.",
   experiments: [
     {
       id: 'EXP-001', slug: 'exp-001', title: '모션 용어', category: '모션',
