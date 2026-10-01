@@ -475,3 +475,17 @@ button:disabled { color: var(--gray-5); text-decoration: none; cursor: not-allow
   .scene .cm-zoom { --s: .3; --mm: 54; }
   .scene .cm-orbit { --t: .1; }
 }
+
+/* Category library (landing summaries, grouped demo pages, source lines). Generic classes shared by every category page. */
+.filters { flex-wrap: wrap; }
+.card-desc { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--gray-6); word-break: keep-all; }
+.card-outline { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; line-height: 1.6; color: var(--fg); }
+.demo-group { grid-column: 1 / -1; border-top: 1px solid var(--gray-3); padding: 20px 0 0; margin-top: 8px; }
+.demo-group:first-child { margin-top: 0; }
+.demo-group h2 { font-size: 20px; font-weight: 600; letter-spacing: -.03em; line-height: 1.4; }
+.demo-group h2 .count { font-size: 13px; font-weight: 400; color: var(--gray-6); margin-left: 8px; letter-spacing: 0; }
+.demo-group p { margin: 4px 0 0; font-size: 15px; color: var(--gray-6); word-break: keep-all; }
+.demo-index-group { flex-basis: 100%; padding-top: 8px; font-size: 13px; color: var(--fg); }
+.demo-credit { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: var(--gray-6); }
+.demo-credit a { display: inline-flex; align-items: center; min-height: 44px; color: var(--blue-3); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.experiment-pagination a[rel="next"] { margin-left: auto; text-align: right; justify-content: flex-end; }

@@ -1,0 +1,192 @@
+/* EXP-001 모션 카테고리 확장 (.mo- 접두). 기존 장면과 같은 .scene 샤시를 쓰므로 정지·재생·전체 정지는 style.css 규칙이 그대로 적용됩니다.
+   색은 .scene 토큰(--ink --subject --accent --guide --muted)과 테마 토큰만 쓰고, 포인트 색(--accent)은 장면당 한 요소에만 둡니다. */
+.mo-group { grid-column: 1 / -1; border-top: 1px solid var(--gray-3); padding: 20px 0 0; margin-top: 8px; }
+.mo-group h2 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -.03em; line-height: 1.4; }
+.mo-group h2 .count { font-size: 13px; font-weight: 400; color: var(--gray-6); margin-left: 8px; letter-spacing: 0; }
+.mo-group p { margin: 4px 0 0; font-size: 15px; color: var(--gray-6); word-break: keep-all; }
+.mo-credit { display: flex; flex-wrap: wrap; gap: 0 12px; margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: var(--gray-6); }
+.mo-credit a { color: var(--blue-3); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+
+.scene .mo { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; }
+.scene .mo-tag { position: absolute; z-index: 2; left: 0; right: 0; bottom: 8px; text-align: center; color: var(--gray-6); font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.2; letter-spacing: .02em; white-space: nowrap; }
+
+/* 1. 루프 모션 — 점 8개는 각자 0.5초씩 어긋난 같은 4초 주기, 고리는 4초에 한 바퀴, 가운데는 90°(정사각형의 대칭 각도)만 돌아서 이음매가 없습니다. */
+.scene .mo-lp-ring { position: absolute; left: 50%; top: 82px; width: 0; height: 0; animation: mo-spin 4s linear infinite; }
+.scene .mo-lp-ring i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; transform: rotate(calc(var(--i) * 45deg)) translateY(-54px); }
+.scene .mo-lp-ring i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--ink); animation: mo-lp-pulse 4s ease-in-out infinite; animation-delay: calc(var(--i) * -.5s); }
+.scene .mo-lp-core { position: absolute; left: calc(50% - 15px); top: 67px; width: 30px; height: 30px; background: var(--accent); animation: mo-lp-core 4s ease-in-out infinite; }
+.scene .mo-lp-bar { position: absolute; left: calc(50% - 60px); width: 120px; height: 2px; bottom: 34px; background: var(--guide); }
+.scene .mo-lp-bar b { position: absolute; inset: 0; background: var(--ink); transform-origin: 0 50%; animation: mo-lp-bar 4s linear infinite; }
+@keyframes mo-spin { to { rotate: 360deg; } }
+@keyframes mo-lp-pulse { 0%, 100% { scale: .4; } 50% { scale: 1.3; } }
+@keyframes mo-lp-core { 0%, 100% { rotate: 0deg; border-radius: 3px; } 50% { rotate: 45deg; border-radius: 15px; } }
+@keyframes mo-lp-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* 2. 프롬프트 모핑 — 24꼭짓점 폴리곤끼리라 clip-path가 꼭짓점별로 보간됩니다. */
+.scene .mo-mp { --mo-circle: polygon(14.6% 14.6%, 25% 6.7%, 37.1% 1.7%, 50% 0%, 62.9% 1.7%, 75% 6.7%, 85.4% 14.6%, 93.3% 25%, 98.3% 37.1%, 100% 50%, 98.3% 62.9%, 93.3% 75%, 85.4% 85.4%, 75% 93.3%, 62.9% 98.3%, 50% 100%, 37.1% 98.3%, 25% 93.3%, 14.6% 85.4%, 6.7% 75%, 1.7% 62.9%, 0% 50%, 1.7% 37.1%, 6.7% 25%);
+  --mo-square: polygon(4% 4%, 19.3% 4%, 34.7% 4%, 50% 4%, 65.3% 4%, 80.7% 4%, 96% 4%, 96% 19.3%, 96% 34.7%, 96% 50%, 96% 65.3%, 96% 80.7%, 96% 96%, 80.7% 96%, 65.3% 96%, 50% 96%, 34.7% 96%, 19.3% 96%, 4% 96%, 4% 80.7%, 4% 65.3%, 4% 50%, 4% 34.7%, 4% 19.3%);
+  --mo-star: polygon(14.6% 14.6%, 29.2% 20.7%, 43.8% 26.8%, 53.4% 14.3%, 62.9% 1.7%, 65% 17.4%, 67% 33%, 82.6% 35%, 98.3% 37.1%, 85.8% 46.7%, 73.2% 56.2%, 79.3% 70.8%, 85.4% 85.4%, 70.8% 79.3%, 56.2% 73.2%, 46.7% 85.8%, 37.1% 98.3%, 35% 82.6%, 33% 67%, 17.4% 65%, 1.7% 62.9%, 14.3% 53.4%, 26.8% 43.8%, 20.7% 29.2%); }
+.scene .mo-mp-prompt { position: absolute; left: calc(50% - 76px); top: 14px; width: 152px; height: 30px; display: flex; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid var(--guide); font-size: 15px; line-height: 1; color: var(--fg); }
+.scene .mo-mp-prompt b { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; color: var(--gray-6); font-weight: 400; }
+.scene .mo-mp-prompt span { position: absolute; left: 28px; opacity: 0; }
+.scene .mo-mp-w1 { animation: mo-mp-w1 6s linear infinite; }
+.scene .mo-mp-w2 { animation: mo-mp-w2 6s linear infinite; }
+.scene .mo-mp-w3 { animation: mo-mp-w3 6s linear infinite; }
+.scene .mo-mp-caret { position: absolute; right: 10px; width: 1px; height: 14px; background: var(--fg); animation: mo-blink 1s steps(1) infinite; }
+.scene .mo-mp-shape { position: absolute; left: calc(50% - 45px); top: 56px; width: 90px; height: 90px; background: var(--ink); clip-path: var(--mo-circle); animation: mo-mp-shape 6s ease-in-out infinite; }
+@keyframes mo-mp-w1 { 0%, 27% { opacity: 1; } 32%, 94% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes mo-mp-w2 { 0%, 27% { opacity: 0; } 32%, 60% { opacity: 1; } 65%, 100% { opacity: 0; } }
+@keyframes mo-mp-w3 { 0%, 60% { opacity: 0; } 65%, 91% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes mo-mp-shape {
+  0%, 25% { clip-path: var(--mo-circle); background: var(--ink); }
+  33%, 58% { clip-path: var(--mo-square); background: var(--gray-6); }
+  66%, 91% { clip-path: var(--mo-star); background: var(--accent); }
+  100% { clip-path: var(--mo-circle); background: var(--ink); }
+}
+@keyframes mo-blink { 50% { opacity: 0; } }
+
+/* 3. 파티클 플로우 — 가로(left)는 등속, 세로(translate)는 사인 곡선. 같은 지연을 공유해 점들이 고정된 물결 길 위를 지나갑니다. */
+.scene .mo-pf { display: block; }
+.scene .mo-pf-s { position: absolute; left: 22px; right: 22px; top: var(--y); height: 0; }
+.scene .mo-pf-s i { position: absolute; left: 0; top: calc(var(--z) / -2); width: var(--z); height: var(--z); border-radius: 50%; background: var(--c); opacity: 0; animation: mo-pf-x 6s linear infinite, mo-pf-y 3s ease-in-out infinite, mo-pf-o 6s linear infinite; animation-delay: calc(var(--k) * -.43s), calc(var(--k) * -.43s + var(--ph)), calc(var(--k) * -.43s); }
+.scene .mo-pf-s.is-ink { --c: var(--ink); }
+.scene .mo-pf-s.is-fg { --c: var(--fg); }
+.scene .mo-pf-s.is-gray { --c: var(--gray-5); }
+.scene .mo-pf-s.is-fg i:nth-child(6) { background: var(--accent); width: 9px; height: 9px; top: -4.5px; }
+@keyframes mo-pf-x { from { left: 0; } to { left: calc(100% - 6px); } }
+@keyframes mo-pf-y { 0%, 100% { translate: 0 0; } 25% { translate: 0 calc(var(--a) * -1); } 75% { translate: 0 var(--a); } }
+@keyframes mo-pf-o { 0% { opacity: 0; } 10%, 90% { opacity: 1; } 100% { opacity: 0; } }
+
+/* 4. 리빌 모션 — 가림막 네 장이 시차(.12s)로 걷히고 안쪽 그림은 1.25배에서 1배로 안착합니다. */
+.scene .mo-cr-frame { position: absolute; left: calc(50% - 120px); top: 22px; width: 240px; height: 130px; overflow: hidden; border: 1px solid var(--guide); background: var(--gray-2); }
+.scene .mo-cr-art { position: absolute; inset: 0; transform-origin: 50% 70%; animation: mo-cr-art 6s ease-in-out infinite; }
+.scene .mo-cr-sun { position: absolute; right: 36px; top: 20px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); }
+.scene .mo-cr-hill { position: absolute; left: -20px; right: -20px; bottom: -40px; height: 80px; border-radius: 50% 50% 0 0; background: var(--ink); }
+.scene .mo-cr-title { position: absolute; left: 16px; top: 18px; font-size: 26px; line-height: 1; font-weight: 800; letter-spacing: .02em; color: var(--fg); }
+.scene .mo-cr-strips { position: absolute; inset: 0; display: flex; }
+.scene .mo-cr-strips i { flex: 1; background: var(--gray-6); transform-origin: 50% 0; animation: mo-cr-strip 6s ease-in-out infinite; animation-delay: calc(var(--i) * .12s); }
+.scene .mo-cr-strips i + i { box-shadow: -1px 0 0 var(--gray-2); }
+@keyframes mo-cr-strip { 0%, 8% { transform: scaleY(1); } 32%, 66% { transform: scaleY(0); } 90%, 100% { transform: scaleY(1); } }
+@keyframes mo-cr-art { 0% { transform: scale(1.25); } 40%, 70% { transform: scale(1); } 100% { transform: scale(1.25); } }
+
+/* 5. 그라디언트 플로우 — 시작·끝 색이 같은 띠를 px 단위로 한 주기(520px)만큼 이동시켜 이음매가 없습니다. 회색·주황·전경색만 사용합니다. */
+.scene .mo-gf-card { position: absolute; left: calc(50% - 130px); top: 28px; width: 260px; height: 120px; overflow: hidden; border-radius: 18px; border: 1px solid var(--guide); background: var(--gray-2); }
+.scene .mo-gf-a { position: absolute; inset: 0; background: linear-gradient(90deg, var(--gray-3) 0%, var(--accent) 24%, var(--gray-1) 50%, var(--gray-5) 76%, var(--gray-3) 100%) 0 0 / 520px 100% repeat-x; animation: mo-gf-a 6s linear infinite; }
+.scene .mo-gf-b { position: absolute; inset: -60px; rotate: 24deg; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--fg) 22%, transparent), transparent) 0 0 / 70px 100% repeat-x; animation: mo-gf-b 3.5s linear infinite; }
+@keyframes mo-gf-a { to { background-position-x: 520px; } }
+@keyframes mo-gf-b { to { background-position-x: 70px; } }
+
+/* 6. 텍스트 이펙트 — 윤곽선 → 왼쪽에서 채움 → 위아래 반쪽 어긋남(steps) → 오른쪽으로 지움. */
+.scene .mo-te-word { position: relative; margin-top: -14px; font: 800 58px/1 Arial, Helvetica, sans-serif; letter-spacing: .02em; }
+.scene .mo-te-ol { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
+.scene .mo-te-h { position: absolute; inset: 0; }
+.scene .mo-te-top { clip-path: inset(0 0 50% 0); animation: mo-te-top 5s steps(1) infinite; }
+.scene .mo-te-bot { clip-path: inset(50% 0 0 0); animation: mo-te-bot 5s steps(1) infinite; }
+.scene .mo-te-f { display: block; color: var(--ink); clip-path: inset(0 100% 0 0); animation: mo-te-fill 5s ease-in-out infinite; }
+@keyframes mo-te-fill { 0%, 6% { clip-path: inset(0 100% 0 0); } 38%, 78% { clip-path: inset(0 0 0 0); } 96%, 100% { clip-path: inset(0 0 0 100%); } }
+@keyframes mo-te-top { 0%, 49% { translate: 0 0; } 50% { translate: -9px 0; } 54% { translate: 6px 0; } 58% { translate: -3px 0; } 62%, 100% { translate: 0 0; } }
+@keyframes mo-te-bot { 0%, 49% { translate: 0 0; } 50% { translate: 9px 0; } 54% { translate: -6px 0; } 58% { translate: 3px 0; } 62%, 100% { translate: 0 0; } }
+
+/* 7. 바운스 텍스트 — 낙하(ease-in) → 착지 납작 → 반동 두 번(ease-out/in 교대), 글자당 .08초 시차. */
+.scene .mo-bt-ground { position: absolute; left: 24px; right: 24px; bottom: 56px; height: 2px; background: var(--guide); }
+.scene .mo-bt-word { position: absolute; left: 0; right: 0; bottom: 58px; display: flex; justify-content: center; gap: 3px; font: 800 48px/1 Arial, Helvetica, sans-serif; color: var(--ink); }
+.scene .mo-bt-word span { position: relative; display: block; transform-origin: 50% 100%; opacity: 0; animation: mo-bt-drop 3.6s infinite; animation-delay: calc(var(--i) * .08s); }
+.scene .mo-bt-word span:nth-child(3) { color: var(--accent); }
+.scene .mo-bt-word span::after { content: ""; position: absolute; left: 2px; right: 2px; bottom: -6px; height: 4px; border-radius: 50%; background: var(--guide); opacity: 0; animation: mo-bt-shadow 3.6s infinite; animation-delay: calc(var(--i) * .08s); }
+@keyframes mo-bt-drop {
+  0% { opacity: 0; transform: translateY(-120px); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+  4% { opacity: 1; }
+  18% { opacity: 1; transform: translateY(0) scale(1, 1); animation-timing-function: ease-out; }
+  21% { transform: translateY(0) scale(1.28, .66); animation-timing-function: ease-out; }
+  27% { transform: translateY(-34px) scale(.92, 1.12); animation-timing-function: ease-in; }
+  33% { transform: translateY(0) scale(1.14, .84); animation-timing-function: ease-out; }
+  38% { transform: translateY(-12px) scale(.98, 1.04); animation-timing-function: ease-in; }
+  42%, 82% { opacity: 1; transform: translateY(0) scale(1, 1); }
+  92%, 100% { opacity: 0; transform: translateY(0) scale(1, 1); }
+}
+@keyframes mo-bt-shadow {
+  0%, 4% { opacity: 0; transform: scaleX(.2); }
+  18% { opacity: .9; transform: scaleX(1); }
+  27% { opacity: .35; transform: scaleX(.55); }
+  33% { opacity: .9; transform: scaleX(1); }
+  38% { opacity: .6; transform: scaleX(.8); }
+  42%, 82% { opacity: .9; transform: scaleX(1); }
+  92%, 100% { opacity: 0; transform: scaleX(1); }
+}
+
+/* 8. 3D 타이프 — 같은 글자 11장을 translateZ로 쌓아 두께를 만들고 rotateY로 돌립니다. */
+.scene .mo-3d-stage { position: absolute; inset: 0 0 24px; display: grid; place-items: center; perspective: 520px; }
+.scene .mo-3d-word { position: relative; transform-style: preserve-3d; font: 800 72px/1 Arial, Helvetica, sans-serif; letter-spacing: .02em; animation: mo-3d-turn 7s ease-in-out infinite; }
+.scene .mo-3d-l, .scene .mo-3d-front { display: block; font-style: normal; white-space: nowrap; }
+.scene .mo-3d-l { position: absolute; left: 0; top: 0; color: var(--gray-4); transform: translateZ(calc(var(--z) * -2.4px)); }
+.scene .mo-3d-l:nth-child(odd) { color: var(--gray-5); }
+.scene .mo-3d-front { position: relative; color: var(--ink); transform: translateZ(0); }
+@keyframes mo-3d-turn { 0%, 100% { transform: rotateX(10deg) rotateY(-38deg); } 50% { transform: rotateX(10deg) rotateY(38deg); } }
+
+/* 9. 텍스트 스트레치 — 바닥(transform-origin: bottom)에 붙어 세로로 늘어나고(폭은 줄고), 돌아올 때 살짝 눌리며, 글자 순서대로 물결처럼 이어집니다. */
+.scene .mo-ts-word { position: absolute; left: 0; right: 0; bottom: 50px; display: flex; justify-content: center; align-items: flex-end; gap: 4px; font: 800 44px/1 Arial, Helvetica, sans-serif; color: var(--ink); }
+.scene .mo-ts-word span { display: block; transform-origin: 50% 100%; animation: mo-ts-pull 3.2s ease-in-out infinite; animation-delay: calc(var(--i) * .1s); }
+.scene .mo-ts-word span:nth-child(4) { color: var(--accent); }
+.scene .mo-ts-base { position: absolute; left: 24px; right: 24px; bottom: 48px; height: 2px; background: var(--guide); }
+.scene .mo-ts-max { position: absolute; left: 24px; right: 24px; bottom: 142px; height: 0; border-top: 1px dashed var(--guide); }
+@keyframes mo-ts-pull { 0%, 12% { transform: scale(1, 1); } 34% { transform: scale(.78, 2.1); } 52% { transform: scale(1.12, .88); } 66%, 100% { transform: scale(1, 1); } }
+
+/* 10. 홀드·스텝 — 같은 이동 거리를 hold(키프레임마다 점프) / steps(6, end) / steps(6, start)로 비교. */
+.scene .mo-st { place-items: stretch; display: grid; grid-template-rows: repeat(3, 1fr); align-content: center; gap: 4px; padding: 10px 28px; }
+.scene .mo-st-row { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.scene .mo-st-row .mo-tag { position: static; text-align: left; margin-bottom: 7px; }
+.scene .mo-st-track { position: relative; height: 16px; border-right: 1px solid var(--guide); background: linear-gradient(90deg, var(--guide) 1px, transparent 1px) 0 0 / calc(100% / 6) 100% repeat-x; }
+.scene .mo-st-track::after { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--guide); opacity: .5; }
+.scene .mo-st-ball { position: absolute; z-index: 1; left: 0; top: 1px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); }
+.scene .mo-st-key { position: absolute; z-index: 0; top: 1px; left: calc((100% - 14px) * var(--k)); width: 14px; height: 14px; border-radius: 50%; border: 1.5px dashed var(--guide); }
+.scene .mo-st-hold .mo-st-ball { background: var(--accent); animation: mo-st-hold 4s infinite; }
+.scene .mo-st-end .mo-st-ball { animation: mo-st-move 4s steps(6, end) infinite; }
+.scene .mo-st-start .mo-st-ball { animation: mo-st-move 4s steps(6, start) infinite; }
+@keyframes mo-st-move { 0% { left: 0; } 75%, 100% { left: calc(100% - 14px); } }
+@keyframes mo-st-hold {
+  0% { left: 0; animation-timing-function: steps(1, end); }
+  25% { left: calc((100% - 14px) * .3); animation-timing-function: steps(1, end); }
+  50% { left: calc((100% - 14px) * .62); animation-timing-function: steps(1, end); }
+  75%, 100% { left: calc(100% - 14px); }
+}
+
+/* 11. 커스텀 베지어 — 제어점이 0~1 밖이면 도착선을 넘거나(back) 출발 전에 물러납니다. 바운스는 linear() 정지점(지원하지 않으면 ease-out). */
+.scene .mo-bz { place-items: stretch; display: grid; grid-template-rows: repeat(3, 1fr); align-content: center; padding: 8px 14px; }
+.scene .mo-bz-bounce { display: contents; --bounce: ease-out; }
+@supports (animation-timing-function: linear(0, 1)) { .scene .mo-bz-bounce { --bounce: var(--bounce-linear); } }
+.scene .mo-bz-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.scene .mo-bz-curve { flex: none; width: 34px; height: 34px; overflow: visible; }
+.scene .mo-bz-axis { fill: none; stroke: var(--guide); stroke-width: 1; }
+.scene .mo-bz-path { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; }
+.scene .mo-bz-col { flex: 1; min-width: 0; }
+.scene .mo-bz-col .mo-tag { position: static; text-align: left; margin-bottom: 6px; font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
+.scene .mo-bz-lane { position: relative; height: 14px; margin: 0 30px 0 20px; border-bottom: 0; background: linear-gradient(var(--guide), var(--guide)) 0 6px / 100% 2px no-repeat; }
+.scene .mo-bz-end { position: absolute; right: 0; top: -3px; width: 0; height: 20px; border-right: 1px dashed var(--guide); }
+.scene .mo-bz-ball { position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); animation: mo-bz-go 4.2s infinite; }
+.scene .mo-bz-row:first-child .mo-bz-ball { background: var(--accent); }
+@keyframes mo-bz-go {
+  0% { left: 0; animation-timing-function: var(--e); }
+  40%, 55% { left: calc(100% - 14px); animation-timing-function: var(--e); }
+  95%, 100% { left: 0; }
+}
+
+/* 동작 줄이기: style.css가 .scene의 모든 애니메이션을 끄므로, 각 장면이 가장 읽기 좋은 한 장면(정지 자세)으로 서도록 맞춥니다. */
+@media (prefers-reduced-motion: reduce) {
+  .scene .mo-lp-ring i::after { scale: 1; }
+  .scene .mo-lp-core { rotate: 45deg; border-radius: 15px; }
+  .scene .mo-lp-bar b { transform: scaleX(1); }
+  .scene .mo-mp-w1 { opacity: 1; }
+  .scene .mo-pf-s i { left: calc(var(--k) * 7%); opacity: 1; translate: 0 calc(var(--a) * sin(var(--k) * 80deg) * -1); }
+  .scene .mo-cr-strips i { transform: scaleY(0); }
+  .scene .mo-gf-a { background-position-x: 90px; }
+  .scene .mo-te-f { clip-path: inset(0 0 0 0); }
+  .scene .mo-bt-word span { opacity: 1; }
+  .scene .mo-bt-word span::after { opacity: .9; }
+  .scene .mo-3d-word { transform: rotateX(10deg) rotateY(-30deg); }
+  .scene .mo-ts-word span { transform: scale(1, 1); }
+  .scene .mo-ts-word span:nth-child(2), .scene .mo-ts-word span:nth-child(6) { transform: scale(.85, 1.6); }
+  .scene .mo-ts-word span:nth-child(3), .scene .mo-ts-word span:nth-child(5) { transform: scale(.78, 2.1); }
+  .scene .mo-ts-word span:nth-child(4) { transform: scale(.7, 2.1); }
+  .scene .mo-st-hold .mo-st-ball, .scene .mo-st-end .mo-st-ball, .scene .mo-st-start .mo-st-ball { left: calc((100% - 14px) * .62); }
+  .scene .mo-bz-ball { left: calc(100% - 14px); }
+}

@@ -1,11 +1,7 @@
 {
-  "passed": 12,
+  "passed": 20,
   "projectPrefix": "passed",
   "contentReady": true,
-  "motionScenePreservation": {
-    "markup": "unchanged",
-    "keyframesUnchanged": 18
-  },
   "reports": [
     {
       "path": "/",
@@ -13,9 +9,9 @@
       "height": 844,
       "colorScheme": "light",
       "demos": 0,
-      "firstContentY": 437,
-      "firstStageY": 519,
-      "pageHeight": 1327,
+      "firstContentY": 490,
+      "firstStageY": 573,
+      "pageHeight": 2502,
       "screenshotAnimationTime": null,
       "contrast": {
         "lineOnStage": 3.4864431631763817,
@@ -35,10 +31,10 @@
       "width": 390,
       "height": 844,
       "colorScheme": "light",
-      "demos": 10,
-      "firstContentY": 383,
-      "firstStageY": 447,
-      "pageHeight": 4807,
+      "demos": 21,
+      "firstContentY": 568,
+      "firstStageY": 632,
+      "pageHeight": 11065,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 3.4864431631763817,
@@ -77,14 +73,60 @@
       "reducedMotion": "passed"
     },
     {
+      "path": "/experiments/exp-003/",
+      "width": 390,
+      "height": 844,
+      "colorScheme": "light",
+      "demos": 18,
+      "firstContentY": 497,
+      "firstStageY": 561,
+      "pageHeight": 10199,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
+      "path": "/experiments/exp-004/",
+      "width": 390,
+      "height": 844,
+      "colorScheme": "light",
+      "demos": 5,
+      "firstContentY": 910,
+      "firstStageY": 1186,
+      "pageHeight": 5845,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
       "path": "/",
       "width": 390,
       "height": 844,
       "colorScheme": "dark",
       "demos": 0,
-      "firstContentY": 437,
-      "firstStageY": 519,
-      "pageHeight": 1327,
+      "firstContentY": 490,
+      "firstStageY": 573,
+      "pageHeight": 2502,
       "screenshotAnimationTime": null,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -104,10 +146,10 @@
       "width": 390,
       "height": 844,
       "colorScheme": "dark",
-      "demos": 10,
-      "firstContentY": 383,
-      "firstStageY": 447,
-      "pageHeight": 4807,
+      "demos": 21,
+      "firstContentY": 568,
+      "firstStageY": 632,
+      "pageHeight": 11065,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -146,6 +188,52 @@
       "reducedMotion": "passed"
     },
     {
+      "path": "/experiments/exp-003/",
+      "width": 390,
+      "height": 844,
+      "colorScheme": "dark",
+      "demos": 18,
+      "firstContentY": 497,
+      "firstStageY": 561,
+      "pageHeight": 10199,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
+      "path": "/experiments/exp-004/",
+      "width": 390,
+      "height": 844,
+      "colorScheme": "dark",
+      "demos": 5,
+      "firstContentY": 910,
+      "firstStageY": 1186,
+      "pageHeight": 5845,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
       "path": "/",
       "width": 1440,
       "height": 1000,
@@ -153,7 +241,7 @@
       "demos": 0,
       "firstContentY": 396,
       "firstStageY": 478,
-      "pageHeight": 1000,
+      "pageHeight": 1443,
       "screenshotAnimationTime": null,
       "contrast": {
         "lineOnStage": 3.4864431631763817,
@@ -173,10 +261,10 @@
       "width": 1440,
       "height": 1000,
       "colorScheme": "light",
-      "demos": 10,
-      "firstContentY": 381,
-      "firstStageY": 445,
-      "pageHeight": 2225,
+      "demos": 21,
+      "firstContentY": 492,
+      "firstStageY": 556,
+      "pageHeight": 4717,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 3.4864431631763817,
@@ -215,6 +303,52 @@
       "reducedMotion": "passed"
     },
     {
+      "path": "/experiments/exp-003/",
+      "width": 1440,
+      "height": 1000,
+      "colorScheme": "light",
+      "demos": 18,
+      "firstContentY": 478,
+      "firstStageY": 542,
+      "pageHeight": 3885,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
+      "path": "/experiments/exp-004/",
+      "width": 1440,
+      "height": 1000,
+      "colorScheme": "light",
+      "demos": 5,
+      "firstContentY": 649,
+      "firstStageY": 686,
+      "pageHeight": 3757,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 3.4864431631763817,
+        "lineOnPage": 3.851413382778797,
+        "lineOnFloor": 3.150281435347296,
+        "blueOnPale": 4.162086202300654
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
       "path": "/",
       "width": 1440,
       "height": 1000,
@@ -222,7 +356,7 @@
       "demos": 0,
       "firstContentY": 396,
       "firstStageY": 478,
-      "pageHeight": 1000,
+      "pageHeight": 1443,
       "screenshotAnimationTime": null,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -242,10 +376,10 @@
       "width": 1440,
       "height": 1000,
       "colorScheme": "dark",
-      "demos": 10,
-      "firstContentY": 381,
-      "firstStageY": 445,
-      "pageHeight": 2225,
+      "demos": 21,
+      "firstContentY": 492,
+      "firstStageY": 556,
+      "pageHeight": 4717,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -269,6 +403,52 @@
       "firstContentY": 381,
       "firstStageY": 445,
       "pageHeight": 1807,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
+      "path": "/experiments/exp-003/",
+      "width": 1440,
+      "height": 1000,
+      "colorScheme": "dark",
+      "demos": 18,
+      "firstContentY": 478,
+      "firstStageY": 542,
+      "pageHeight": 3885,
+      "screenshotAnimationTime": 1200,
+      "contrast": {
+        "lineOnStage": 4.716582411012002,
+        "lineOnPage": 5.6910116432201034,
+        "lineOnFloor": 3.4239983324938996,
+        "blueOnPale": 5.28960539963237
+      },
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false,
+      "themeTouchTargets": "passed",
+      "pauseReplay": "passed",
+      "reducedMotion": "passed"
+    },
+    {
+      "path": "/experiments/exp-004/",
+      "width": 1440,
+      "height": 1000,
+      "colorScheme": "dark",
+      "demos": 5,
+      "firstContentY": 649,
+      "firstStageY": 686,
+      "pageHeight": 3757,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -284,5 +464,9 @@
       "reducedMotion": "passed"
     }
   ],
-  "screenshots": "/tmp/agentic-coding-lab-screenshots"
+  "screenshots": "/tmp/agentic-coding-lab-screenshots",
+  "motionScenePreservation": {
+    "markup": "unchanged",
+    "keyframesUnchanged": 18
+  }
 }
