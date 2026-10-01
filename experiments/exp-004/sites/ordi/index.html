@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="ORDI(오르디) — 오늘 해야 할 세 가지에만 집중하게 돕는 생산성 서비스. @arman._.uiux의 디자인을 재현한 데모 사이트입니다.">
-  <title>ORDI — 시간에 집중하세요 · 데모 사이트</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314130F'/%3E%3Crect x='7' y='7' width='18' height='18' fill='%23D8F24A'/%3E%3C/svg%3E">
+  <meta name="description" content="ORDI(오르디) — 오늘 가장 중요한 일에 집중하도록 AI가 우선순위를 정하고 일정을 짜 주는 생산성 서비스. @arman._.uiux의 디자인을 재현한 데모 사이트입니다.">
+  <title>ORDI — FOCUS YOUR TIME · 데모 사이트</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2314110C'/%3E%3Cpath d='M18 5 9 18h6l-2 9 10-14h-6z' fill='%23F6F0E1'/%3E%3C/svg%3E">
   <script>
     // Theme before first paint: reuse the lab's saved choice (light / dark / system); "system" leaves the media query in charge.
     (function () {
@@ -16,374 +16,325 @@
     })();
   </script>
   <style>
-    /* ORDI — recreated landing page. Bold type, flat colour, hard 1px lines and offset layers. No gradients, glow or blur. */
+    /* ORDI — recreated landing page. Warm cream canvas, heavy black grotesk, orange accents, frosted white cards with soft shadows. */
     :root {
       color-scheme: light dark;
-      --bg: #EFECE4; --ink: #14130F; --muted: #5C584F; --card: #FAF8F3; --soft: #E3DFD4; --hair: #C9C4B6;
-      --accent: #D8F24A; --on-accent: #14130F;
-      --inv-bg: #14130F; --inv-fg: #EFECE4; --inv-muted: #B8B4A8; --inv-hi: #D8F24A; --inv-line: #3A3830;
-      --display: "Arial Black", "Helvetica Neue", Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      --bg: #F6F0E1; --stage: #EBDBBC; --stage-2: #F1E4C8; --ink: #15120D; --muted: #6A6150; --card: #FFFDF6; --line: #E4D9BF;
+      --glass: rgba(255, 252, 240, .42); --glass-line: rgba(255, 255, 255, .6); --shadow: 0 14px 34px rgba(122, 82, 24, .14); --shadow-s: 0 4px 14px rgba(110, 72, 20, .12);
+      --orange: #E8761F; --yellow: #F2B63D; --on-orange: #fff; --soft: #EFE5CC;
+      --inv-bg: #15120D; --inv-fg: #F6F0E1; --inv-muted: #B9AF9A; --inv-line: #3A3329;
+      --display: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
       --body: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system, "Segoe UI", sans-serif;
       --ease: cubic-bezier(.22, 1, .36, 1);
-      --header: 64px;
+      --header: 68px;
     }
     :root[data-theme="light"] { color-scheme: light; }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
-        --bg: #0F0F0D; --ink: #F2F0E8; --muted: #A9A69B; --card: #1A1A17; --soft: #22221E; --hair: #3A3932;
-        --inv-bg: #D8F24A; --inv-fg: #14130F; --inv-muted: #3F4A12; --inv-hi: #14130F; --inv-line: #14130F;
+        --bg: #1B1713; --stage: #2A231B; --stage-2: #332A20; --ink: #F5EDDC; --muted: #B3A78F; --card: #3A3126; --line: #3D3427;
+        --glass: rgba(255, 238, 205, .08); --glass-line: rgba(255, 232, 195, .16); --shadow: 0 16px 36px rgba(0, 0, 0, .35); --shadow-s: 0 4px 14px rgba(0, 0, 0, .3);
+        --soft: #29221A; --inv-bg: #F5EDDC; --inv-fg: #1B1713; --inv-muted: #5C523F; --inv-line: #CFC3A8;
       }
     }
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --bg: #0F0F0D; --ink: #F2F0E8; --muted: #A9A69B; --card: #1A1A17; --soft: #22221E; --hair: #3A3932;
-      --inv-bg: #D8F24A; --inv-fg: #14130F; --inv-muted: #3F4A12; --inv-hi: #14130F; --inv-line: #14130F;
+      --bg: #1B1713; --stage: #2A231B; --stage-2: #332A20; --ink: #F5EDDC; --muted: #B3A78F; --card: #3A3126; --line: #3D3427;
+      --glass: rgba(255, 238, 205, .08); --glass-line: rgba(255, 232, 195, .16); --shadow: 0 16px 36px rgba(0, 0, 0, .35); --shadow-s: 0 4px 14px rgba(0, 0, 0, .3);
+      --soft: #29221A; --inv-bg: #F5EDDC; --inv-fg: #1B1713; --inv-muted: #5C523F; --inv-line: #CFC3A8;
     }
 
     * { box-sizing: border-box; }
     @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
     html.menu-open { overflow: hidden; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.7; word-break: keep-all; -webkit-font-smoothing: antialiased; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.65; word-break: keep-all; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
-    button, input { font: inherit; color: inherit; border-radius: 0; }
-    button { cursor: pointer; background: none; border: 0; padding: 0; }
-    p, h1, h2, h3, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+    button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
+    p, h1, h2, h3, ul, ol, dl, dd, figure, blockquote { margin: 0; padding: 0; }
     ul, ol { list-style: none; }
     [hidden] { display: none !important; }
-    :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
-    .inverse :focus-visible { outline-color: var(--inv-fg); }
+    :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
     .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-    .wrap { width: 100%; max-width: 1280px; margin-inline: auto; padding-inline: clamp(20px, 4vw, 48px); }
-    section[id] { scroll-margin-top: var(--header); }
-    .skip { position: fixed; top: -80px; left: 12px; z-index: 60; background: var(--ink); color: var(--bg); padding: 12px 16px; }
+    .wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: clamp(20px, 4vw, 48px); }
+    section[id] { scroll-margin-top: calc(var(--header) + 8px); }
+    .skip { position: fixed; top: -80px; left: 12px; z-index: 60; background: var(--ink); color: var(--bg); padding: 12px 16px; border-radius: 999px; }
     .skip:focus { top: 12px; }
 
-    /* Buttons */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border: 2px solid var(--ink); background: var(--ink); color: var(--bg); font-weight: 700; font-size: 16px; letter-spacing: -.01em; transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s, color .2s; }
-    .btn:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--accent), 5px 5px 0 1px var(--ink); }
-    .btn:active { transform: translate(0, 0); box-shadow: none; }
-    .btn.accent { background: var(--accent); color: var(--on-accent); border-color: var(--on-accent); }
-    .btn.accent:hover { box-shadow: 5px 5px 0 var(--on-accent); }
-    .btn.ghost { background: transparent; color: var(--ink); }
-    .btn.ghost:hover { background: var(--ink); color: var(--bg); box-shadow: none; transform: none; }
-    .btn .arrow { transition: transform .2s var(--ease); }
-    .btn:hover .arrow { transform: translateX(4px); }
-    .link { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-    .link:hover { text-decoration-thickness: 3px; }
-
-    /* Provenance bar + header */
+    /* source credit bar */
     .bar { background: var(--ink); color: var(--bg); font-size: 13px; line-height: 1.5; }
-    .bar .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 20px; padding-block: 6px; }
-    .bar a { display: inline-flex; align-items: center; min-height: 32px; text-decoration: underline; text-underline-offset: 3px; }
-    .bar a:hover { color: var(--accent); }
-    .bar :focus-visible { outline-color: var(--bg); }
-    .header { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--ink); }
-    .header .wrap { height: var(--header); display: flex; align-items: center; gap: 12px; }
-    .progress { position: absolute; left: 0; bottom: -1px; height: 4px; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); pointer-events: none; }
-    .logo { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-family: var(--display); font-weight: 900; font-size: 26px; letter-spacing: -.04em; }
-    .logo i { width: 14px; height: 14px; background: var(--accent); border: 2px solid var(--ink); transition: transform .4s var(--ease); }
-    .logo:hover i { transform: rotate(90deg); }
-    .menu { position: absolute; left: 0; right: 0; top: 100%; height: calc(100dvh - var(--header) - var(--bar-offset, 0px)); background: var(--bg); border-top: 1px solid var(--ink); padding: 12px clamp(20px, 4vw, 48px) 28px; display: flex; flex-direction: column; overflow-y: auto; visibility: hidden; opacity: 0; transform: translateY(-10px); transition: opacity .25s, transform .3s var(--ease), visibility 0s .3s; }
-    .menu.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
-    .menu a.nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--hair); font-size: 26px; font-weight: 800; letter-spacing: -.04em; }
-    .menu a.nav::after { content: "→"; font-weight: 400; transition: transform .2s var(--ease); }
-    .menu a.nav:hover::after { transform: translateX(6px); }
-    .menu a.nav[aria-current="true"] { background: var(--accent); color: var(--on-accent); padding-inline: 12px; margin-inline: -12px; }
-    .menu .btn { margin-top: 24px; }
-    .actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-    .actions .btn { min-height: 44px; padding: 0 18px; font-size: 14px; display: none; }
-    .icon-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 0 10px; border: 1px solid var(--ink); font-size: 13px; font-weight: 700; transition: background .2s, color .2s; }
-    .icon-btn:hover { background: var(--ink); color: var(--bg); }
-    .icon-btn svg { width: 18px; height: 18px; flex: none; }
-    .icon-btn .label { display: none; }
+    .bar .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 20px; padding-block: 8px; max-width: none; }
+    .bar a { text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
+
+    /* header */
+    .header { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); }
+    .header .wrap { display: flex; align-items: center; justify-content: space-between; height: var(--header); max-width: none; padding-inline: clamp(20px, 3vw, 40px); }
+    .logo { display: inline-flex; align-items: center; gap: 8px; font: 900 22px/1 var(--display); letter-spacing: -.03em; }
+    .logo i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px; background: var(--ink); color: var(--bg); }
+    .logo svg { width: 15px; height: 15px; }
+    .nav { display: none; align-items: center; gap: clamp(22px, 3.4vw, 54px); font-size: 14px; font-weight: 500; }
+    .nav a:not(.pill) { position: relative; padding: 6px 0; }
+    .nav a:not(.pill)::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform .25s var(--ease); }
+    .nav a:not(.pill):hover::after, .nav a[aria-current="true"]::after { transform: scaleX(1); }
+    .pill { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 20px; border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 700; transition: transform .2s var(--ease), background .2s; }
+    .pill:hover { transform: translateY(-2px); background: var(--orange); color: #fff; }
+    .pill.lg { min-height: 54px; padding: 0 30px; font-size: 16px; }
+    .pill.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+    .pill.ghost:hover { background: var(--ink); color: var(--bg); }
+    .pill.orange { background: var(--orange); color: #fff; }
+    .pill.orange:hover { background: var(--bg); color: var(--ink); }
+    .tools { display: flex; align-items: center; gap: 8px; }
+    .icon-btn { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--line); transition: background .2s; }
+    .icon-btn:hover { background: var(--soft); }
+    .icon-btn svg { width: 18px; height: 18px; }
+    #theme-btn .moon { display: none; }
+    :root[data-theme="dark"] #theme-btn .sun { display: none; }
+    :root[data-theme="dark"] #theme-btn .moon { display: block; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) #theme-btn .sun { display: none; }
+      :root:not([data-theme="light"]) #theme-btn .moon { display: block; }
+    }
     .burger { position: relative; }
-    .burger span { position: absolute; left: 12px; right: 12px; height: 2px; background: currentColor; transition: transform .3s var(--ease), opacity .2s; }
-    .burger span:nth-child(1) { top: 16px; } .burger span:nth-child(2) { top: 21px; } .burger span:nth-child(3) { top: 26px; }
-    .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+    .burger span { position: absolute; left: 13px; right: 13px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .3s var(--ease), opacity .2s; }
+    .burger span:nth-child(1) { top: 16px; } .burger span:nth-child(2) { top: 20px; } .burger span:nth-child(3) { top: 24px; }
+    .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
     .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-    .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
-    @media (min-width: 640px) { .actions .btn { display: inline-flex; } .icon-btn .label { display: inline; } }
-    @media (min-width: 1040px) {
-      .burger { display: none; }
-      .menu { position: static; height: auto; padding: 0; background: none; border: 0; flex-direction: row; align-items: center; gap: 4px; margin-left: 32px; overflow: visible; visibility: visible; opacity: 1; transform: none; transition: none; }
-      .menu a.nav { min-height: 44px; padding: 0 14px; border: 0; font-size: 15px; font-weight: 600; letter-spacing: -.01em; position: relative; }
-      .menu a.nav::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 6px; height: 3px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .25s var(--ease); }
-      .menu a.nav:hover::after, .menu a.nav[aria-current="true"]::after { transform: scaleX(1); }
-      .menu a.nav[aria-current="true"] { background: none; color: inherit; padding-inline: 14px; margin: 0; }
-      .menu .btn { display: none; }
+    .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-4px) rotate(-45deg); }
+    .header .get { display: none; }
+    .menu { position: fixed; z-index: 39; left: 0; right: 0; top: var(--menu-top, 104px); bottom: 0; background: var(--bg); padding: 12px clamp(20px, 4vw, 48px) 32px; display: flex; flex-direction: column; overflow-y: auto; visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity .25s, transform .3s var(--ease), visibility 0s .3s; }
+    .menu.open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+    .menu a.m { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); font: 800 26px/1.2 var(--display); letter-spacing: -.02em; }
+    .menu a.m span { color: var(--orange); font-size: 18px; }
+    .menu .pill { margin-top: 24px; min-height: 56px; font-size: 16px; }
+    @media (min-width: 960px) {
+      .nav { display: flex; position: absolute; left: 50%; transform: translateX(-50%); }
+      .header .get { display: inline-flex; }
+      .burger, .menu { display: none; }
     }
 
-    /* Section scaffolding */
-    .section { padding-block: clamp(72px, 10vw, 144px); }
-    .label { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-    .label::before { content: ""; width: 28px; height: 2px; background: currentColor; }
-    .title { margin-top: 20px; font-weight: 800; font-size: clamp(34px, 5.6vw, 80px); line-height: 1.04; letter-spacing: -.055em; text-wrap: balance; }
-    .title em { font-style: normal; background: var(--accent); color: var(--on-accent); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-    .inverse .title em { background: none; color: var(--inv-hi); padding: 0; }
-    .lead { margin-top: 20px; max-width: 560px; color: var(--muted); font-size: 18px; }
-    .inverse { background: var(--inv-bg); color: var(--inv-fg); }
-    .inverse .lead { color: var(--inv-muted); }
+    /* ---------- hero ---------- */
+    .hero { padding: 6px clamp(10px, 1.4vw, 20px) 0; }
+    .stage { container-type: inline-size; position: relative; max-width: 1760px; margin-inline: auto; overflow: hidden; border-radius: clamp(22px, 2.4vw, 36px); background: radial-gradient(120% 90% at 50% 38%, var(--stage-2), var(--stage)); isolation: isolate; }
+    .stage h1 { font-family: var(--display); font-weight: 900; letter-spacing: -.045em; text-transform: uppercase; color: var(--ink); }
+    .glass { background: var(--glass); border: 1px solid var(--glass-line); box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .white { background: var(--card); box-shadow: var(--shadow-s); }
+    .bolt { display: block; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; filter: drop-shadow(0 28px 34px rgba(110, 60, 8, .22)); pointer-events: none; user-select: none; }
+    .how { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 18px; }
+    .phone { position: relative; flex: none; width: 52px; height: 66px; border-radius: 12px; background: linear-gradient(160deg, #E9C98E, #D9A55A); overflow: hidden; }
+    .phone::before { content: ""; position: absolute; left: 12px; top: 8px; width: 28px; height: 54px; border-radius: 8px; background: #fffaf0; border: 3px solid #1b1710; }
+    .phone::after { content: ""; position: absolute; left: 20px; top: 26px; width: 12px; height: 12px; border-radius: 50%; background: var(--orange); box-shadow: 0 10px 0 -2px #f2b63d; }
+    .how b, .focus-copy b { display: block; font-weight: 700; letter-spacing: -.02em; }
+    .how small, .focus-copy p { color: var(--muted); }
+    .how b { font-size: 15px; } .how small { display: block; font-size: 12px; line-height: 1.45; margin-top: 3px; }
+    .play { margin-left: auto; flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--card); box-shadow: var(--shadow-s); transition: transform .2s var(--ease), background .2s, color .2s; }
+    .play:hover { transform: scale(1.12); background: var(--orange); color: #fff; }
+    .play svg { width: 11px; height: 11px; margin-left: 2px; }
+    .rows { display: grid; gap: 8px; padding: 8px; border-radius: 18px; }
+    .row { display: grid; grid-template-columns: 1.25fr .85fr 1.1fr .5fr; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+    .row em { justify-self: start; font-style: normal; padding: 5px 0; width: 100%; max-width: 74px; text-align: center; border-radius: 8px; background: var(--orange); color: #fff; font-weight: 600; }
+    .row em.mid { background: var(--yellow); }
+    .row span:last-child { text-align: right; }
+    .tasks { padding: 14px 14px 14px; border-radius: 22px; }
+    .tasks header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; padding-inline: 4px; }
+    .tasks h2 { font-size: 17px; font-weight: 700; letter-spacing: -.02em; line-height: 1.3; }
+    .tasks header small { color: var(--muted); font-size: 12px; }
+    .arrow { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--card); box-shadow: var(--shadow-s); transition: transform .2s var(--ease), background .2s, color .2s; }
+    .arrow:hover { background: var(--ink); color: var(--bg); transform: translate(2px, -2px); }
+    .arrow svg { width: 14px; height: 14px; }
+    .minis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .mini { display: flex; flex-direction: column; gap: 3px; padding: 14px; border-radius: 14px; font-size: 12px; color: var(--muted); }
+    .mini strong { color: var(--ink); font-size: 15px; font-weight: 700; letter-spacing: -.02em; margin-top: 6px; }
+    .mini footer { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; font-size: 11px; }
+    .mini footer span { display: inline-flex; align-items: center; gap: 6px; }
+    .mini footer i { width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); }
+    .mini footer b { width: 14px; height: 14px; border-radius: 50%; background: var(--yellow); }
+    .mini.on footer b { background: var(--orange); }
+    .focus-copy b { font-size: 17px; transition: opacity .25s; }
+    .focus-copy p { margin-top: 8px; font-size: 13px; line-height: 1.6; max-width: 280px; transition: opacity .25s; }
+    .focus-copy.swap b, .focus-copy.swap p { opacity: 0; }
+    .car { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+    .car .nb { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: var(--card); box-shadow: var(--shadow-s); transition: transform .2s var(--ease), background .2s, color .2s; }
+    .car .nb:hover { background: var(--ink); color: var(--bg); transform: scale(1.08); }
+    .car .nb svg { width: 14px; height: 14px; }
+    .dots { display: flex; align-items: center; }
+    .dots button { display: grid; place-items: center; width: 22px; height: 34px; }
+    .dots button::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 28%, transparent); transition: width .25s var(--ease), background .25s; }
+    .dots button[aria-current="true"]::before { width: 9px; height: 9px; background: var(--ink); }
+    .widgets { font-size: 11px; font-weight: 500; letter-spacing: .1em; line-height: 1.7; text-transform: uppercase; color: var(--ink); max-width: 250px; }
 
-    /* Reveal on scroll */
-    .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0s); }
-    .js .reveal.is-in { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; transition: none; } }
-
-    /* Hero */
-    .hero { position: relative; padding-block: clamp(32px, 6vw, 72px) clamp(56px, 8vw, 104px); overflow-x: clip; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 14px 0 10px; border: 1px solid var(--ink); font-size: 13px; font-weight: 700; }
-    .eyebrow i { width: 10px; height: 10px; background: var(--accent); border: 1.5px solid var(--ink); }
-    .headline { margin-top: 24px; font-family: var(--display); font-weight: 900; font-size: 22vw; line-height: .86; letter-spacing: -.045em; text-transform: uppercase; }
-    .headline .line { display: flex; align-items: center; flex-wrap: wrap; column-gap: .18em; }
-    .headline .outline { color: transparent; -webkit-text-stroke: clamp(2px, .5vw, 5px) var(--ink); }
-    .headline .hl { background: var(--accent); color: var(--on-accent); padding: .02em .08em 0; }
-    .chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 2px solid var(--ink); background: var(--bg); font: 700 clamp(14px, 1.6vw, 20px)/1 var(--body); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; transform: rotate(-3deg); }
-    .chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }
-    .chip.is-running i { animation: blink 1s steps(2, jump-none) infinite; }
-    @keyframes blink { 50% { opacity: .15; } }
-    .hero-copy { margin-top: 32px; max-width: 520px; }
-    .hero-copy p { font-size: 19px; color: var(--muted); }
-    .hero-copy strong { color: var(--ink); font-weight: 700; }
-    .cta-row { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
-    .stack { position: relative; margin-top: 44px; display: grid; gap: 0; }
-    .card { background: var(--card); border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); }
-    .timer { position: relative; z-index: 2; padding: 20px; display: grid; gap: 18px; }
-    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; font-weight: 700; }
-    .seg { display: inline-flex; border: 1px solid var(--ink); }
-    .seg button { min-height: 36px; padding: 0 12px; font-size: 13px; font-weight: 700; }
-    .seg button + button { border-left: 1px solid var(--ink); }
-    .seg button:hover { background: var(--soft); }
-    .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
-    .dial { position: relative; display: grid; place-items: center; width: min(100%, 220px); margin-inline: auto; aspect-ratio: 1; }
-    .dial svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-    .dial circle { fill: none; stroke-width: 10; }
-    .dial .track { stroke: var(--soft); }
-    .dial .fill { stroke: var(--ink); stroke-linecap: butt; transition: stroke-dashoffset .3s linear; }
-    .dial output { position: relative; font-family: var(--display); font-weight: 900; font-size: clamp(40px, 11vw, 52px); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
-    .timer-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-    .timer-actions .btn { min-height: 48px; padding: 0 18px; }
-    .timer-status { min-height: 1.6em; font-size: 14px; color: var(--muted); text-align: center; }
-    .tasks { position: relative; z-index: 1; padding: 18px 20px 20px; margin: -14px 0 0 18px; display: grid; gap: 6px; box-shadow: 8px 8px 0 var(--accent), 8px 8px 0 2px var(--ink); }
-    .tasks .card-head { padding-top: 14px; }
-    .task { display: flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; font-weight: 600; }
-    .task input { position: absolute; opacity: 0; width: 24px; height: 24px; }
-    .task .box { flex: none; width: 24px; height: 24px; border: 2px solid var(--ink); display: grid; place-items: center; transition: background .15s; }
-    .task .box::after { content: ""; width: 12px; height: 7px; border-left: 3px solid var(--on-accent); border-bottom: 3px solid var(--on-accent); transform: translateY(-1px) rotate(-45deg) scale(0); transition: transform .2s var(--ease); }
-    .task input:checked + .box { background: var(--accent); }
-    .task input:checked + .box::after { transform: translateY(-1px) rotate(-45deg) scale(1); }
-    .task input:focus-visible + .box { outline: 3px solid var(--ink); outline-offset: 3px; }
-    .task span.text { text-decoration: line-through 2px transparent; transition: text-decoration-color .3s, color .3s; }
-    .task input:checked ~ .text { text-decoration-color: currentColor; color: var(--muted); }
-    .task:hover .box { background: var(--soft); }
-    .task:hover input:checked + .box { background: var(--accent); }
-    .sticker { display: none; }
-    @media (min-width: 700px) {
-      .headline { font-size: 14.5vw; }
-      .stack { grid-template-columns: 1fr 1fr; align-items: start; gap: 0; }
-      .tasks { margin: 56px 0 0 -14px; }
+    /* mobile / tablet: stacked */
+    .stage { display: flex; flex-direction: column; padding: 28px 20px 28px; gap: 14px; }
+    .headline { display: grid; grid-template-columns: auto auto; justify-content: space-between; align-items: start; position: relative; z-index: 1; font-size: 15.2cqw; line-height: .8; margin: 0; }
+    .headline .w2 { text-align: right; }
+    .bolt-wrap { position: relative; z-index: 2; width: min(78%, 400px); aspect-ratio: 1 / 1; margin: -11% auto -14%; }
+    .how, .rows, .tasks, .focus-copy, .car, .widgets { position: relative; z-index: 3; }
+    .focus-copy { margin-top: 14px; }
+    .widgets { margin-top: 14px; }
+    @media (min-width: 560px) and (max-width: 999px) {
+      .stage { padding: 36px 32px 36px; }
+      .bolt-wrap { width: min(60%, 460px); }
+      .row { font-size: 13px; }
     }
-    @media (min-width: 1100px) {
-      .hero-stage { position: relative; }
-      .headline { font-size: min(14.5vw, 232px); }
-      .stack { position: absolute; right: 0; top: 24px; width: 410px; margin: 0; grid-template-columns: 1fr; }
-      .tasks { margin: -14px 0 0 56px; }
-      .sticker { display: grid; place-items: center; position: absolute; z-index: 3; right: -18px; bottom: -44px; width: 104px; height: 104px; border-radius: 50%; background: var(--accent); color: var(--on-accent); border: 2px solid var(--on-accent); font-size: 14px; font-weight: 800; line-height: 1.25; text-align: center; transform: rotate(12deg); animation: spin 18s linear infinite; pointer-events: none; }
-      .hero-copy { max-width: 480px; }
+    @media (max-width: 400px) { .row { grid-template-columns: 1.1fr .9fr 1fr .5fr; font-size: 11.5px; padding-inline: 10px; } .minis { gap: 8px; } .mini { padding: 12px; } }
+
+    /* desktop: the poster composition, scaled with the stage width */
+    @media (min-width: 1000px) {
+      .stage { display: block; padding: 0; aspect-ratio: 1024 / 580; }
+      .stage > * { position: absolute; }
+      .headline { display: block; inset: 0; font-size: 11.6cqw; pointer-events: none; }
+      .headline .w1 { position: absolute; left: 2.5cqw; top: 1.2cqw; }
+      .headline .w2 { position: absolute; right: 2.4cqw; top: 1.2cqw; }
+      .bolt-wrap { left: 29%; width: 42%; top: 1%; height: 100%; aspect-ratio: auto; margin: 0; }
+      .how { left: 2.7%; top: 22%; width: 25%; padding: 1.2cqw 1.4cqw; gap: 1.4cqw; border-radius: 1.8cqw; }
+      .phone { width: 5.1cqw; height: 6.5cqw; border-radius: 1.2cqw; }
+      .phone::before { left: 1.2cqw; top: .8cqw; width: 2.7cqw; height: 5.3cqw; border-radius: .8cqw; border-width: .3cqw; }
+      .phone::after { left: 2cqw; top: 2.6cqw; width: 1.2cqw; height: 1.2cqw; box-shadow: 0 1cqw 0 -.2cqw #f2b63d; }
+      .how b { font-size: 1.45cqw; } .how small { font-size: max(11px, 1.15cqw); }
+      .play { width: 3cqw; height: 3cqw; } .play svg { width: 1.1cqw; height: 1.1cqw; }
+      .rows { left: 13.9%; top: 43%; width: 29.4%; padding: .9cqw; gap: .8cqw; border-radius: 1.8cqw; }
+      .row { font-size: max(11px, 1.15cqw); padding: .85cqw 1.2cqw; border-radius: 1.2cqw; gap: .8cqw; }
+      .row em { max-width: 7.4cqw; padding: .5cqw 0; border-radius: .8cqw; }
+      .tasks { left: 54.2%; top: 49%; width: 39%; padding: 1.4cqw; border-radius: 2.2cqw; }
+      .tasks header { margin-bottom: 1.2cqw; }
+      .tasks h2 { font-size: 1.65cqw; } .tasks header small { font-size: max(11px, 1.1cqw); }
+      .arrow { width: 3cqw; height: 3cqw; border-radius: 1cqw; } .arrow svg { width: 1.3cqw; height: 1.3cqw; }
+      .minis { gap: 1cqw; }
+      .mini { padding: 1.3cqw; border-radius: 1.4cqw; font-size: max(11px, 1.15cqw); gap: .3cqw; }
+      .mini strong { font-size: 1.5cqw; margin-top: .6cqw; }
+      .mini footer { margin-top: 1.7cqw; font-size: max(10px, 1.05cqw); }
+      .mini footer b { width: 1.35cqw; height: 1.35cqw; }
+      .focus-copy { left: 3.2%; top: 70%; margin: 0; width: 25%; }
+      .focus-copy b { font-size: 1.65cqw; }
+      .focus-copy p { font-size: max(12px, 1.2cqw); max-width: 26cqw; margin-top: .8cqw; }
+      .car { left: 3.2%; top: 90%; margin: 0; transform: translateY(-50%); gap: .8cqw; }
+      .car .nb { width: 3.4cqw; height: 3.4cqw; border-radius: 1.1cqw; }
+      .car .nb svg { width: 1.4cqw; height: 1.4cqw; }
+      .widgets { right: 3.3%; top: 89.5%; margin: 0; font-size: max(10px, .95cqw); max-width: 31cqw; }
     }
-    @keyframes spin { to { transform: rotate(372deg); } }
-    @media (prefers-reduced-motion: reduce) { .sticker, .chip.is-running i { animation: none; } }
+    @media (min-width: 1000px) and (max-width: 1180px) { .nav { gap: 22px; } }
 
-    /* Marquee */
-    .marquee { border-block: 1px solid var(--ink); background: var(--accent); color: var(--on-accent); overflow: hidden; }
-    .marquee .track { display: flex; width: max-content; animation: slide 28s linear infinite; }
-    .marquee:hover .track { animation-play-state: paused; }
-    .marquee ul { display: flex; flex: none; }
-    .marquee li { display: flex; align-items: center; gap: 28px; padding: 14px 14px 14px 0; font-weight: 800; font-size: clamp(22px, 3vw, 36px); letter-spacing: -.04em; white-space: nowrap; }
-    .marquee li::after { content: ""; width: 14px; height: 14px; background: var(--on-accent); transform: rotate(45deg); }
-    @keyframes slide { to { transform: translateX(-50%); } }
-    @media (prefers-reduced-motion: reduce) { .marquee .track { animation: none; } }
+    /* ---------- sections ---------- */
+    section.block { padding-block: clamp(72px, 10vw, 128px); }
+    .kicker { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--orange); letter-spacing: .02em; }
+    .kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+    .title { margin-top: 14px; font: 900 clamp(32px, 5.2vw, 64px)/1.14 var(--display); letter-spacing: -.04em; }
+    .title em { font-style: normal; color: var(--orange); }
+    .lead { margin-top: 18px; max-width: 560px; color: var(--muted); font-size: clamp(16px, 1.5vw, 18px); }
+    .head { display: grid; gap: 4px; margin-bottom: clamp(36px, 5vw, 64px); }
 
-    /* Stats */
-    .stats { display: grid; grid-template-columns: minmax(0, 1fr); border-bottom: 1px solid var(--ink); }
-    .stat { padding: 40px 0; border-top: 1px solid var(--hair); }
-    .stat:first-child { border-top: 0; }
-    .stat b { display: block; font-family: var(--display); font-weight: 900; font-size: clamp(56px, 9vw, 112px); line-height: 1; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
-    .stat b small { font-size: .4em; letter-spacing: -.02em; margin-left: 4px; }
-    .stat > span { display: block; margin-top: 10px; color: var(--muted); font-size: 16px; }
-    .stats-note { padding-top: 14px; font-size: 13px; color: var(--muted); }
-    @media (min-width: 800px) {
-      .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .stat { padding: 56px 32px; border-top: 0; border-left: 1px solid var(--hair); }
-      .stat:first-child { padding-left: 0; border-left: 0; }
-    }
+    .features { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .features { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1000px) { .features { grid-template-columns: repeat(3, 1fr); } }
+    .feature { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: 28px; background: var(--card); box-shadow: var(--shadow-s); min-height: 250px; transition: transform .3s var(--ease), box-shadow .3s; }
+    .feature:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .feature .ico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; background: var(--stage); color: var(--ink); margin-bottom: 14px; transition: background .25s, color .25s; }
+    .feature:hover .ico { background: var(--orange); color: #fff; }
+    .feature .ico svg { width: 24px; height: 24px; }
+    .feature h3 { font: 800 21px/1.3 var(--display); letter-spacing: -.03em; }
+    .feature p { color: var(--muted); font-size: 15px; }
+    .feature.wide { background: var(--inv-bg); color: var(--inv-fg); }
+    .feature.wide p { color: var(--inv-muted); }
+    .feature.wide .ico { background: var(--orange); color: #fff; }
+    @media (min-width: 1000px) { .feature.wide { grid-column: span 2; } }
 
-    /* Features */
-    .features { margin-top: clamp(40px, 6vw, 72px); display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
-    .feature { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 28px 24px 32px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); transition: background .25s, color .25s; min-height: 280px; }
-    .feature:hover { background: var(--accent); color: var(--on-accent); }
-    .feature:hover p { color: var(--on-accent); }
-    .feature .no { font-size: 13px; font-weight: 700; letter-spacing: .08em; }
-    .feature svg { width: 40px; height: 40px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: square; margin-top: auto; transition: transform .35s var(--ease); }
-    .feature:hover svg { transform: translate(6px, -6px) rotate(-6deg); }
-    .feature h3 { font-size: 26px; font-weight: 800; letter-spacing: -.045em; line-height: 1.2; }
-    .feature p { color: var(--muted); font-size: 16px; }
-    @media (min-width: 720px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1040px) { .features { grid-template-columns: repeat(3, minmax(0, 1fr)); } .feature { padding: 32px 32px 40px; min-height: 340px; } }
+    .steps-card { border-radius: clamp(28px, 4vw, 48px); background: var(--inv-bg); color: var(--inv-fg); padding: clamp(28px, 6vw, 80px); overflow: hidden; }
+    .steps-card .lead { color: var(--inv-muted); }
+    .steps { display: grid; gap: 14px; margin-top: clamp(32px, 5vw, 56px); counter-reset: s; }
+    @media (min-width: 860px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+    .step { position: relative; padding: 28px; border-radius: 24px; box-shadow: inset 0 0 0 1px var(--inv-line); transition: background .3s; counter-increment: s; }
+    .step:hover { background: color-mix(in srgb, var(--inv-fg) 7%, transparent); }
+    .step::before { content: counter(s, decimal-leading-zero); display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--orange); color: #fff; font: 800 15px/1 var(--display); margin-bottom: 22px; }
+    .step h3 { font: 800 22px/1.3 var(--display); letter-spacing: -.03em; }
+    .step p { margin-top: 10px; color: var(--inv-muted); font-size: 15px; }
+    .step .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .step .chips span { padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 600; box-shadow: inset 0 0 0 1px var(--inv-line); }
+    .step .chips span.o { background: var(--orange); color: #fff; box-shadow: none; }
 
-    /* How it works */
-    .how { margin-top: clamp(40px, 6vw, 72px); display: grid; gap: 28px; }
-    .steps { display: grid; gap: 0; border-top: 1px solid var(--inv-fg); }
-    .step { display: flex; align-items: center; gap: 18px; width: 100%; min-height: 84px; padding: 16px 0; border-bottom: 1px solid var(--inv-fg); text-align: left; transition: padding .3s var(--ease), background .2s, color .2s; }
-    .step .n { flex: none; font-family: var(--display); font-weight: 900; font-size: 40px; letter-spacing: -.05em; width: 64px; }
-    .step .t { font-size: clamp(19px, 2.4vw, 26px); font-weight: 800; letter-spacing: -.04em; line-height: 1.25; }
-    .step .t small { display: block; margin-top: 4px; font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--inv-muted); }
-    .step:hover { padding-left: 12px; }
-    .step[aria-selected="true"] { background: var(--inv-fg); color: var(--inv-bg); padding-inline: 16px; }
-    .step[aria-selected="true"] small { color: var(--inv-bg); }
-    .step:focus-visible { outline-offset: -3px; }
-    .mock { position: relative; z-index: 0; isolation: isolate; background: var(--card); color: var(--ink); border: 2px solid var(--ink); padding: 24px; min-height: 340px; display: grid; align-content: start; gap: 18px; }
-    .inverse .mock { border-color: var(--inv-fg); }
-    .mock h3 { font-size: 22px; font-weight: 800; letter-spacing: -.04em; }
-    .mock .meta { font-size: 13px; font-weight: 700; color: var(--muted); }
-    .mock ul { display: grid; gap: 10px; }
-    .mock li { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 16px; border: 1px solid var(--ink); background: var(--bg); font-weight: 600; }
-    .mock li b { font-family: var(--display); font-weight: 900; width: 22px; }
-    .mock li.on { background: var(--accent); color: var(--on-accent); border-color: var(--on-accent); }
-    .mock .big { font-family: var(--display); font-weight: 900; font-size: clamp(64px, 14vw, 120px); line-height: 1; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
-    .mock .rail { height: 12px; border: 1px solid var(--ink); background: var(--bg); }
-    .mock .rail i { display: block; height: 100%; width: var(--w); background: var(--ink); }
-    .mock .rows { display: grid; gap: 12px; }
-    .mock .row { display: grid; grid-template-columns: 76px minmax(0, 1fr) 44px; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; }
-    .mock .row b { text-align: right; font-variant-numeric: tabular-nums; }
-    @media (min-width: 960px) { .how { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 56px; align-items: start; } .mock { padding: 36px; min-height: 420px; } }
-    .panel-enter { animation: pop .45s var(--ease); }
-    @keyframes pop { from { opacity: 0; transform: translateY(14px); } }
-    @media (prefers-reduced-motion: reduce) { .panel-enter { animation: none; } }
+    .quotes { display: grid; gap: 16px; }
+    @media (min-width: 860px) { .quotes { grid-template-columns: repeat(3, 1fr); } .quotes figure:nth-child(2) { margin-top: 36px; } }
+    .quotes figure { display: flex; flex-direction: column; justify-content: space-between; gap: 28px; padding: 30px; border-radius: 28px; background: var(--card); box-shadow: var(--shadow-s); }
+    .quotes blockquote { font: 700 19px/1.55 var(--display); letter-spacing: -.02em; }
+    .quotes blockquote::before { content: "“"; display: block; font: 900 56px/.7 var(--display); color: var(--orange); margin-bottom: 10px; }
+    .quotes figcaption { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--muted); }
+    .quotes figcaption b { display: block; color: var(--ink); font-size: 15px; }
+    .av { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--yellow); color: #15120D; font-weight: 800; }
+    .av.o { background: var(--orange); color: #fff; } .av.k { background: var(--ink); color: var(--bg); }
+    .note { margin-top: 20px; font-size: 13px; color: var(--muted); }
 
-    /* Report showcase */
-    .report { margin-top: clamp(40px, 6vw, 72px); display: grid; gap: 56px; align-items: center; }
-    .points { display: grid; gap: 0; margin-top: 28px; border-top: 1px solid var(--ink); }
-    .points li { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--hair); font-size: 17px; }
-    .points b { flex: none; font-family: var(--display); font-weight: 900; width: 30px; }
-    .layer { position: relative; isolation: isolate; margin: 0 14px 14px 0; }
-    .layer::before { content: ""; position: absolute; inset: 0; transform: translate(14px, 14px); background: var(--accent); border: 2px solid var(--ink); z-index: -1; }
-    .chart-card { background: var(--card); border: 2px solid var(--ink); padding: 22px; display: grid; gap: 22px; }
-    .chart-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-    .chart-top h3 { font-size: 20px; font-weight: 800; letter-spacing: -.04em; }
-    .chart { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(6px, 2vw, 16px); height: 240px; align-items: end; border-bottom: 2px solid var(--ink); }
-    .col { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; gap: 6px; text-align: center; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
-    .col i { display: block; height: var(--h); background: var(--ink); transition: height .8s var(--ease), background .2s; transition-delay: var(--d, 0s); }
-    .js .chart:not(.is-in) .col i { height: 0; }
-    .col:hover i { background: var(--accent); outline: 2px solid var(--ink); outline-offset: -2px; }
-    .col.best i { background: var(--accent); outline: 2px solid var(--ink); outline-offset: -2px; }
-    .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(6px, 2vw, 16px); text-align: center; font-size: 13px; color: var(--muted); font-weight: 600; margin-top: -10px; }
-    .sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-    .sum div { border: 1px solid var(--ink); padding: 10px 12px; }
-    .sum b { display: block; font-family: var(--display); font-weight: 900; font-size: clamp(20px, 5vw, 28px); letter-spacing: -.04em; line-height: 1.2; font-variant-numeric: tabular-nums; }
-    .sum span { font-size: 12px; color: var(--muted); font-weight: 600; }
-    @media (min-width: 960px) { .report { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 80px; } .chart-card { padding: 32px; } }
+    .toggle { display: inline-flex; align-items: center; gap: 12px; margin-top: 28px; font-size: 15px; font-weight: 600; }
+    .switch { position: relative; width: 56px; height: 32px; border-radius: 999px; background: var(--ink); transition: background .25s; }
+    .switch::after { content: ""; position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg); transition: transform .3s var(--ease), background .25s; }
+    .switch[aria-checked="true"] { background: var(--orange); }
+    .switch[aria-checked="true"]::after { transform: translateX(24px); background: #fff; }
+    .toggle .off, .toggle .on { color: var(--muted); transition: color .2s; }
+    .toggle[data-annual="false"] .off, .toggle[data-annual="true"] .on { color: var(--ink); }
+    .save { padding: 3px 9px; border-radius: 999px; background: var(--yellow); color: #15120D; font-size: 12px; font-weight: 800; margin-left: 6px; }
+    .plans { display: grid; gap: 16px; margin-top: 36px; align-items: stretch; }
+    @media (min-width: 860px) { .plans { grid-template-columns: repeat(3, 1fr); } }
+    .plan { position: relative; display: flex; flex-direction: column; gap: 18px; padding: 32px; border-radius: 28px; background: var(--card); box-shadow: var(--shadow-s); }
+    .plan.pro { background: var(--inv-bg); color: var(--inv-fg); box-shadow: var(--shadow); }
+    .plan .tag { position: absolute; top: 24px; right: 24px; padding: 4px 12px; border-radius: 999px; background: var(--orange); color: #fff; font-size: 12px; font-weight: 800; }
+    .plan h3 { font: 800 20px/1.3 var(--display); letter-spacing: -.02em; }
+    .plan .price { font: 900 46px/1 var(--display); letter-spacing: -.04em; }
+    .plan .price small { font: 500 14px/1 var(--body); letter-spacing: 0; color: var(--muted); margin-left: 4px; }
+    .plan.pro .price small, .plan.pro .desc { color: var(--inv-muted); }
+    .plan .desc { color: var(--muted); font-size: 14px; margin-top: -8px; }
+    .plan ul { display: grid; gap: 11px; font-size: 15px; flex: 1; }
+    .plan li { display: flex; gap: 10px; align-items: flex-start; }
+    .plan li::before { content: ""; flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: 50%; background: var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='m5 9.4 2.5 2.4L13 6.4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; }
+    .plan .pill { margin-top: 6px; min-height: 52px; }
+    .plan.pro .pill.ghost { color: var(--inv-fg); box-shadow: inset 0 0 0 1.5px var(--inv-fg); }
 
-    /* Reviews */
-    .reviews { margin-top: clamp(40px, 6vw, 72px); display: grid; gap: 24px; }
-    .quote { display: flex; flex-direction: column; gap: 24px; padding: 28px; background: var(--card); border: 2px solid var(--ink); box-shadow: 0 0 0 0 var(--ink); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
-    .quote:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--ink); }
-    .quote .mark { font-family: var(--display); font-weight: 900; font-size: 72px; line-height: .6; height: 36px; }
-    .quote blockquote { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -.03em; line-height: 1.55; }
-    .quote figcaption { margin-top: auto; display: flex; align-items: center; gap: 12px; padding-top: 20px; border-top: 1px solid var(--hair); font-size: 14px; }
-    .quote .av { flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: var(--accent); color: var(--on-accent); border: 2px solid var(--on-accent); font-weight: 800; }
-    .quote b { display: block; font-size: 15px; }
-    .quote small { color: var(--muted); font-size: 13px; }
-    .reviews-note { margin-top: 20px; font-size: 13px; color: var(--muted); }
-    @media (min-width: 900px) { .reviews { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: stretch; } .quote:nth-child(2) { margin-top: 48px; } .quote:nth-child(3) { margin-top: 96px; } }
-
-    /* Pricing */
-    .billing { margin-top: 32px; display: inline-flex; align-items: center; gap: 14px; min-height: 48px; font-weight: 700; font-size: 15px; }
-    .switch { position: relative; width: 64px; height: 36px; border: 2px solid var(--ink); background: var(--bg); transition: background .2s; flex: none; }
-    .switch::after { content: ""; position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; background: var(--ink); transition: transform .3s var(--ease); }
-    .switch[aria-checked="true"] { background: var(--accent); }
-    .switch[aria-checked="true"]::after { transform: translateX(28px); background: var(--on-accent); }
-    .save { display: inline-block; padding: 1px 8px; background: var(--accent); color: var(--on-accent); font-size: 12px; font-weight: 800; border: 1px solid var(--on-accent); }
-    .plans { margin-top: 28px; display: grid; gap: 20px; }
-    .plan { position: relative; display: flex; flex-direction: column; gap: 20px; padding: 28px; background: var(--card); border: 2px solid var(--ink); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
-    .plan:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--ink); }
-    .plan.hot { background: var(--accent); color: var(--on-accent); border-color: var(--on-accent); }
-    .plan.hot:hover { box-shadow: 8px 8px 0 var(--on-accent); }
-    .plan .tag { position: absolute; top: -2px; right: 20px; transform: translateY(-50%); padding: 2px 10px; background: var(--ink); color: var(--bg); font-size: 12px; font-weight: 800; }
-    .plan h3 { font-size: 22px; font-weight: 800; letter-spacing: -.04em; }
-    .plan .desc { font-size: 15px; color: var(--muted); }
-    .plan.hot .desc { color: var(--on-accent); }
-    .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; font-variant-numeric: tabular-nums; }
-    .price b { font-family: var(--display); font-weight: 900; font-size: clamp(44px, 9vw, 60px); letter-spacing: -.05em; line-height: 1; }
-    .price span { font-size: 15px; font-weight: 600; }
-    .price-sub { min-height: 1.6em; margin-top: -12px; font-size: 13px; color: var(--muted); }
-    .plan.hot .price-sub { color: var(--on-accent); }
-    .plan ul { display: grid; gap: 10px; padding-top: 20px; border-top: 1px solid currentColor; font-size: 15px; }
-    .plan li { display: flex; gap: 10px; }
-    .plan li::before { content: ""; flex: none; width: 14px; height: 8px; margin-top: 9px; border-left: 3px solid currentColor; border-bottom: 3px solid currentColor; transform: rotate(-45deg) scale(.85); }
-    .plan .btn { margin-top: auto; width: 100%; }
-    .plan.hot .btn { background: var(--on-accent); color: var(--accent); }
-    @media (min-width: 900px) { .plans { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; } .plan.hot { margin-top: -24px; padding-block: 52px 32px; } }
-
-    /* FAQ */
     .faq-grid { display: grid; gap: 40px; }
-    .faq { border-top: 2px solid var(--ink); }
-    .faq-item { border-bottom: 1px solid var(--ink); }
-    .faq-item h3 { font-size: inherit; }
-    .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; min-height: 76px; padding: 18px 0; text-align: left; font-size: clamp(18px, 2.2vw, 22px); font-weight: 800; letter-spacing: -.04em; line-height: 1.35; transition: padding .3s var(--ease), background .2s; }
-    .faq-q:hover { padding-left: 12px; background: var(--soft); }
-    .faq-q .pm { position: relative; flex: none; width: 36px; height: 36px; border: 2px solid var(--ink); transition: background .2s, transform .35s var(--ease); }
-    .faq-q .pm::before, .faq-q .pm::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; background: currentColor; transform: translate(-50%, -50%); transition: transform .35s var(--ease); }
-    .faq-q .pm::after { transform: translate(-50%, -50%) rotate(90deg); }
-    .faq-q[aria-expanded="true"] .pm { background: var(--accent); color: var(--on-accent); border-color: var(--ink); }
-    .faq-q[aria-expanded="true"] .pm::after { transform: translate(-50%, -50%) rotate(0); }
-    .faq-a { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows .35s var(--ease), visibility 0s .35s; }
-    .faq-a > div { overflow: hidden; }
-    .faq-a p { padding: 0 56px 24px 0; color: var(--muted); font-size: 17px; max-width: 680px; }
-    .faq-item.is-open .faq-a { grid-template-rows: 1fr; visibility: visible; transition-delay: 0s; }
-    @media (min-width: 960px) { .faq-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 80px; } .faq-grid > header { position: sticky; top: calc(var(--header) + 32px); align-self: start; } }
+    @media (min-width: 960px) { .faq-grid { grid-template-columns: 5fr 7fr; gap: 72px; } .faq-grid .head { position: sticky; top: calc(var(--header) + 24px); align-self: start; margin: 0; } }
+    .faq { display: grid; gap: 12px; }
+    .qa { border-radius: 22px; background: var(--card); box-shadow: var(--shadow-s); }
+    .qa h3 { font: inherit; }
+    .qa button { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; min-height: 68px; padding: 14px 24px; text-align: left; font: 700 17px/1.45 var(--display); letter-spacing: -.02em; border-radius: 22px; }
+    .qa .pm { position: relative; flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--soft); transition: background .25s, transform .35s var(--ease); }
+    .qa .pm::before, .qa .pm::after { content: ""; position: absolute; left: 9px; right: 9px; top: 15px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .3s var(--ease); }
+    .qa .pm::after { transform: rotate(90deg); }
+    .qa button[aria-expanded="true"] .pm { background: var(--orange); color: #fff; transform: rotate(180deg); }
+    .qa button[aria-expanded="true"] .pm::after { transform: rotate(0); }
+    .panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease); }
+    .panel.open { grid-template-rows: 1fr; }
+    .panel > div { overflow: hidden; }
+    .panel p { padding: 0 24px 24px; max-width: 620px; color: var(--muted); font-size: 15.5px; }
 
-    /* CTA */
-    .cta { text-align: left; }
-    .cta .title { font-size: clamp(40px, 8vw, 112px); line-height: 1; max-width: 12ch; }
-    .signup { margin-top: 40px; max-width: 640px; }
-    .signup .row { display: grid; gap: 12px; }
-    .signup input[type="email"] { width: 100%; min-height: 60px; padding: 0 18px; background: var(--inv-bg); color: var(--inv-fg); border: 2px solid var(--inv-fg); font-size: 17px; }
-    .signup input::placeholder { color: var(--inv-muted); opacity: 1; }
-    .signup input[aria-invalid="true"] { border-color: var(--inv-hi); border-width: 4px; }
-    .signup .btn { background: var(--inv-fg); color: var(--inv-bg); border-color: var(--inv-fg); min-height: 60px; }
-    .signup .btn:hover { box-shadow: 5px 5px 0 var(--inv-hi); }
-    .signup .msg { min-height: 1.7em; margin-top: 12px; font-size: 15px; color: var(--inv-muted); }
-    .signup .msg.error { color: var(--inv-fg); font-weight: 700; }
-    .signup .plan-note { margin-top: 14px; font-size: 14px; color: var(--inv-muted); }
-    .done { margin-top: 40px; max-width: 640px; padding: 28px; border: 2px solid var(--inv-fg); }
-    .done h3 { font-size: 26px; font-weight: 800; letter-spacing: -.04em; }
-    .done p { margin-top: 8px; color: var(--inv-muted); }
-    .done button { margin-top: 18px; min-height: 44px; padding: 0 18px; border: 1px solid var(--inv-fg); font-weight: 700; }
-    .done button:hover { background: var(--inv-fg); color: var(--inv-bg); }
-    @media (min-width: 640px) { .signup .row { grid-template-columns: minmax(0, 1fr) auto; } }
+    .cta { margin-block: 0 clamp(56px, 8vw, 96px); text-align: center; border-radius: clamp(28px, 4vw, 48px); padding: clamp(48px, 9vw, 110px) 24px; background: var(--orange); color: #fff; position: relative; overflow: hidden; }
+    .cta h2 { font: 900 clamp(34px, 6vw, 76px)/1.08 var(--display); letter-spacing: -.045em; }
+    .cta p { margin: 18px auto 0; max-width: 480px; opacity: .92; }
+    .cta .pill { margin-top: 32px; background: #15120D; color: #F6F0E1; }
+    .cta .pill:hover { background: #F6F0E1; color: #15120D; }
 
-    /* Footer */
-    .footer { border-top: 1px solid var(--ink); padding-top: 56px; overflow: hidden; }
-    .foot-grid { display: grid; gap: 36px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .foot-grid .about { grid-column: 1 / -1; max-width: 420px; }
-    .foot-grid h2 { font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--muted); }
-    .foot-grid ul { margin-top: 12px; }
-    .foot-grid li a { display: inline-flex; align-items: center; min-height: 40px; }
-    .foot-grid li a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .provenance { margin-top: 48px; padding: 18px 20px; border: 1px solid var(--ink); background: var(--card); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; font-size: 14px; }
-    .provenance a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
-    .provenance a:hover { background: var(--accent); color: var(--on-accent); text-decoration: none; padding-inline: 6px; margin-inline: -6px; }
-    .fine { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; padding-block: 20px 28px; font-size: 13px; color: var(--muted); }
-    .fine a { display: inline-flex; align-items: center; min-height: 40px; }
-    .fine a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .wordmark { display: block; font-family: var(--display); font-weight: 900; font-size: 36vw; line-height: .72; letter-spacing: -.06em; margin: 12px 0 0 -.04em; user-select: none; white-space: nowrap; }
-    @media (min-width: 800px) { .foot-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } .foot-grid .about { grid-column: auto; } .wordmark { font-size: min(30vw, 420px); } }
+    footer.foot { padding: 20px 0 48px; border-top: 1px solid var(--line); }
+    .foot .cols { display: grid; gap: 36px; padding-top: 48px; grid-template-columns: repeat(2, 1fr); }
+    .foot .cols > div:first-child { grid-column: 1 / -1; }
+    @media (min-width: 860px) { .foot .cols { grid-template-columns: 2fr 1fr 1fr 1fr; } .foot .cols > div:first-child { grid-column: auto; } }
+    .foot p.about { margin-top: 14px; max-width: 320px; color: var(--muted); font-size: 14px; }
+    .foot h3 { font: 800 14px/1.4 var(--display); margin-bottom: 14px; }
+    .foot li { margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+    .foot li a:hover { color: var(--orange); }
+    .foot .legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    .foot .legal a { text-decoration: underline; text-underline-offset: 3px; }
+
+    /* demo dialog */
+    dialog { width: min(92vw, 520px); border: 0; border-radius: 28px; padding: 28px; background: var(--card); color: var(--ink); box-shadow: 0 30px 80px rgba(0, 0, 0, .35); }
+    dialog::backdrop { background: rgba(21, 18, 13, .55); }
+    dialog h2 { font: 900 26px/1.2 var(--display); letter-spacing: -.03em; }
+    dialog ol { margin-top: 18px; display: grid; gap: 12px; counter-reset: d; }
+    dialog li { counter-increment: d; display: flex; gap: 12px; color: var(--muted); font-size: 15px; }
+    dialog li::before { content: counter(d); flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: #fff; font-weight: 800; font-size: 13px; }
+    dialog .pill { margin-top: 24px; width: 100%; }
+
+    /* scroll reveal */
+    .js .rv { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0s); }
+    .js .rv.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .js .rv { opacity: 1; transform: none; transition: none; } * { transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
-  <a class="skip" href="#features">본문으로 건너뛰기</a>
+  <a class="skip" href="#product">본문으로 건너뛰기</a>
 
-  <div class="bar" id="top">
+  <div class="bar">
     <div class="wrap">
       <span>이 페이지는 <a href="https://www.instagram.com/p/DdySvZ4m8Zh/" target="_blank" rel="noopener noreferrer" data-source>원본: @arman._.uiux<span class="sr-only"> (새 탭)</span></a>의 디자인을 재현한 데모입니다.</span>
       <a href="../../" data-back>← EXP-004 갤러리로</a>
@@ -392,510 +343,345 @@
 
   <header class="header" id="header">
     <div class="wrap">
-      <a class="logo" href="#top" aria-label="ORDI 맨 위로"><i></i>ORDI</a>
-      <nav class="menu" id="menu" aria-label="주 메뉴">
-        <a class="nav" href="#features">기능</a>
-        <a class="nav" href="#how">사용 방법</a>
-        <a class="nav" href="#report">리포트</a>
-        <a class="nav" href="#reviews">후기</a>
-        <a class="nav" href="#pricing">요금제</a>
-        <a class="nav" href="#faq">FAQ</a>
-        <a class="btn accent" href="#cta" data-plan="시작">무료로 시작하기 <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="logo" href="#hero" aria-label="ORDI 처음으로">
+        <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 1 4 14h6l-2 9 11-14h-6z"/></svg></i>ORDI
+      </a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="#product">제품</a>
+        <a href="#ai">AI 기능</a>
+        <a href="#cases">활용 사례</a>
+        <a href="#pricing">요금제</a>
       </nav>
-      <div class="actions">
+      <div class="tools">
         <button class="icon-btn" type="button" id="theme-btn" aria-label="화면 테마 전환">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
-          <span class="label" id="theme-label">다크</span>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>
         </button>
-        <a class="btn accent" href="#cta" data-plan="시작">무료로 시작</a>
-        <button class="icon-btn burger" type="button" id="burger" aria-expanded="false" aria-controls="menu" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+        <a class="pill get" href="#pricing">시작하기</a>
+        <button class="icon-btn burger" type="button" id="burger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
       </div>
     </div>
-    <i class="progress" id="progress" aria-hidden="true"></i>
+    <div class="menu" id="menu">
+      <a class="m" href="#product">제품 <span aria-hidden="true">↗</span></a>
+      <a class="m" href="#ai">AI 기능 <span aria-hidden="true">↗</span></a>
+      <a class="m" href="#cases">활용 사례 <span aria-hidden="true">↗</span></a>
+      <a class="m" href="#pricing">요금제 <span aria-hidden="true">↗</span></a>
+      <a class="m" href="#faq">자주 묻는 질문 <span aria-hidden="true">↗</span></a>
+      <a class="pill" href="#pricing">시작하기</a>
+    </div>
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap">
-        <p class="eyebrow reveal"><i></i>집중 타이머 · 오늘의 세 가지 · 주간 리포트</p>
-        <div class="hero-stage">
-          <h1 class="headline" id="hero-title" aria-label="FOCUS YOUR TIME">
-            <span class="line reveal" style="--d:.05s" aria-hidden="true">FOCUS</span>
-            <span class="line reveal outline" style="--d:.15s" aria-hidden="true">YOUR</span>
-            <span class="line reveal" style="--d:.25s" aria-hidden="true"><span class="hl">TIME</span><span class="chip" id="chip"><i></i><span id="chip-time">25:00</span></span></span>
-          </h1>
-          <div class="stack reveal" style="--d:.35s">
-            <span class="sticker" aria-hidden="true">시간은<br>내 것</span>
-            <section class="card timer" aria-label="집중 타이머">
-              <div class="card-head">
-                <span id="session-name">집중 세션</span>
-                <div class="seg" role="group" aria-label="세션 종류">
-                  <button type="button" data-mode="focus" data-min="25" aria-pressed="true">집중 25분</button>
-                  <button type="button" data-mode="rest" data-min="5" aria-pressed="false">휴식 5분</button>
-                </div>
-              </div>
-              <div class="dial">
-                <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="54"/><circle class="fill" id="ring" cx="60" cy="60" r="54" stroke-dasharray="339.292" stroke-dashoffset="0"/></svg>
-                <output id="time" role="timer" aria-label="남은 시간">25:00</output>
-              </div>
-              <div class="timer-actions">
-                <button class="btn" type="button" id="start">시작하기</button>
-                <button class="btn ghost" type="button" id="reset" aria-label="타이머 처음으로">↺</button>
-              </div>
-              <p class="timer-status" id="status" role="status" aria-live="polite">버튼을 눌러 지금 바로 써 보세요.</p>
-            </section>
-            <section class="card tasks" aria-labelledby="tasks-title">
-              <div class="card-head"><h2 id="tasks-title" style="font-size:13px;font-weight:700">오늘의 세 가지</h2><span id="task-count" aria-live="polite">0 / 3 완료</span></div>
-              <label class="task"><input type="checkbox"><span class="box"></span><span class="text">기획안 첫 장 쓰기</span></label>
-              <label class="task"><input type="checkbox"><span class="box"></span><span class="text">점심 먹고 30분 걷기</span></label>
-              <label class="task"><input type="checkbox"><span class="box"></span><span class="text">책 스무 쪽 읽기</span></label>
-            </section>
-          </div>
-          <div class="hero-copy reveal" style="--d:.3s">
-            <p>할 일은 끝이 없고 시간은 한정되어 있습니다. 오르디는 오늘 <strong>꼭 해야 할 세 가지</strong>만 남기고, 타이머가 도는 동안 그 하나에만 집중하도록 돕습니다.</p>
-            <div class="cta-row">
-              <a class="btn" href="#cta" data-plan="시작">무료로 시작하기 <span class="arrow" aria-hidden="true">→</span></a>
-              <a class="btn ghost" href="#how">사용 방법 보기</a>
-            </div>
-          </div>
+    <!-- HERO -->
+    <section class="hero" id="hero" aria-label="ORDI 소개">
+      <div class="stage">
+        <h1 class="headline" aria-label="FOCUS YOUR TIME"><span class="w1" aria-hidden="true">Focus</span><span class="w2" aria-hidden="true">Your<br>Time</span></h1>
+
+        <div class="bolt-wrap"><img class="bolt" src="assets/cursor.png" alt="주황색 테두리의 하얀 털로 만든 번개 모양 커서" decoding="async" fetchpriority="high"></div>
+
+        <div class="how glass">
+          <span class="phone" aria-hidden="true"></span>
+          <div><b>작동 방식</b><small>영상으로 ORDI가 어떻게 동작하는지 확인해 보세요.</small></div>
+          <button class="play" type="button" id="play" aria-label="소개 영상 보기" aria-haspopup="dialog"><svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M1.5 0.5v11L11 6z"/></svg></button>
         </div>
+
+        <div class="rows glass" role="list" aria-label="오늘의 업무 요약">
+          <div class="row white" role="listitem"><span>앱 디자인</span><em>높음</em><span>진행 중</span><span>4시간</span></div>
+          <div class="row white" role="listitem"><span>팀 미팅</span><em class="mid">보통</em><span>예정</span><span>30분</span></div>
+        </div>
+
+        <section class="tasks glass" aria-labelledby="today">
+          <header>
+            <div><h2 id="today">오늘의 할 일</h2><small>오늘을 더 나은 하루로.</small></div>
+            <a class="arrow" href="#ai" aria-label="AI 기능 자세히 보기"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5 10.5 3.5M4.5 3.5h6v6"/></svg></a>
+          </header>
+          <div class="minis">
+            <article class="mini white on"><span>오전 10:00</span><strong>모바일 앱 디자인</strong><span>작업당 4시간</span><footer><span><i></i>진행 중</span><b></b></footer></article>
+            <article class="mini white"><span>오후 02:00</span><strong>대시보드 디자인</strong><span>작업당 3시간</span><footer><span><i></i>예정</span><b></b></footer></article>
+          </div>
+        </section>
+
+        <div class="focus-copy" id="focus-copy" aria-live="polite">
+          <b id="focus-title">오늘 중요한 일에 집중하세요</b>
+          <p id="focus-text">가장 중요한 업무를 AI가 알아서 우선순위를 정하고 일정에 배치해 드려요.</p>
+        </div>
+        <div class="car" role="group" aria-label="소개 문구 넘기기">
+          <button class="nb" type="button" id="prev" aria-label="이전"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2 4 7l5 5"/></svg></button>
+          <div class="dots" id="dots"></div>
+          <button class="nb" type="button" id="next" aria-label="다음"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 2 5 5-5 5"/></svg></button>
+        </div>
+        <p class="widgets">웹과 모바일에서 내 업무 방식에 맞춰 변하는 스마트 위젯.</p>
       </div>
     </section>
 
-    <div class="marquee" aria-hidden="true">
-      <div class="track">
-        <ul><li>집중</li><li>몰입</li><li>완료</li><li>휴식</li><li>반복</li><li>내 시간</li></ul>
-        <ul><li>집중</li><li>몰입</li><li>완료</li><li>휴식</li><li>반복</li><li>내 시간</li></ul>
-      </div>
-    </div>
-
-    <section class="wrap" aria-label="숫자로 보는 오르디">
-      <div class="stats">
-        <div class="stat reveal"><b><span data-count="3.2" data-decimals="1">3.2</span><small>시간</small></b><span>사용자의 하루 평균 몰입 시간</span></div>
-        <div class="stat reveal" style="--d:.1s"><b><span data-count="87">87</span><small>%</small></b><span>오늘의 세 가지를 모두 끝낸 날의 비율</span></div>
-        <div class="stat reveal" style="--d:.2s"><b><span data-count="4">4</span><small>분</small></b><span>가입부터 첫 집중 세션 시작까지</span></div>
-      </div>
-      <p class="stats-note">※ 데모용으로 만든 예시 수치입니다.</p>
-    </section>
-
-    <section class="section" id="features" aria-labelledby="features-title">
+    <!-- FEATURES -->
+    <section class="block" id="product">
       <div class="wrap">
-        <p class="label reveal">01 — 기능</p>
-        <h2 class="title reveal" id="features-title">집중에 필요한 것만<br>남겼습니다.</h2>
-        <p class="lead reveal">기능이 많아질수록 집중은 흐트러집니다. 오르디는 꼭 필요한 여섯 가지만 단단하게 만들었습니다.</p>
+        <div class="head rv">
+          <span class="kicker">제품</span>
+          <h2 class="title">하루가 가벼워지는 <em>여섯 가지</em> 기능</h2>
+          <p class="lead">해야 할 일이 많을수록 필요한 건 더 많은 목록이 아니라, 지금 할 일 하나를 정해 주는 도구예요.</p>
+        </div>
         <div class="features">
-          <article class="feature reveal"><span class="no">01</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 3h6"/></svg><h3>집중 타이머</h3><p>25분 집중, 5분 휴식. 길이는 직접 정하고, 끝나는 순간 조용히 알려 드립니다.</p></article>
-          <article class="feature reveal" style="--d:.08s"><span class="no">02</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h8"/></svg><h3>오늘의 세 가지</h3><p>하루에 고를 수 있는 일은 딱 세 가지. 많이 담는 대신 끝까지 해내는 날을 만듭니다.</p></article>
-          <article class="feature reveal" style="--d:.16s"><span class="no">03</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17h12l-1.5-2.5V10a4.5 4.5 0 0 0-9 0v4.5L6 17zM10 20h4M4 4l16 16"/></svg><h3>방해 금지 모드</h3><p>세션 동안 알림을 잠시 멈추고, 끝나면 놓친 알림을 한꺼번에 모아 보여 줍니다.</p></article>
-          <article class="feature reveal"><span class="no">04</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11M10 20V4M16 20v-7M22 20H2"/></svg><h3>주간 리포트</h3><p>어느 요일, 어느 시간대에 가장 잘 집중했는지 보여 주고 다음 주 계획의 단서를 남깁니다.</p></article>
-          <article class="feature reveal" style="--d:.08s"><span class="no">05</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><h3>캘린더 연동</h3><p>일정 사이의 빈 시간을 찾아 집중 세션을 알맞게 제안합니다.</p></article>
-          <article class="feature reveal" style="--d:.16s"><span class="no">06</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c0-3.5 2.7-5.5 6-5.5s6 2 6 5.5M15 14.5c3 0 6 1.5 6 4.5"/></svg><h3>함께 집중하기</h3><p>친구나 팀과 같은 방에 들어가 조용히 같은 시간을 보냅니다. 서로의 진행 상황만 보입니다.</p></article>
+          <article class="feature wide rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><h3>AI 우선순위</h3><p>마감일, 중요도, 예상 소요 시간을 함께 보고 지금 해야 할 일을 맨 위로 올려요. 우선순위를 고민하는 시간부터 줄여 드려요.</p></article>
+          <article class="feature rv" style="--d:.08s"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span><h3>자동 일정 배치</h3><p>캘린더의 빈 시간을 찾아 업무를 알맞은 자리에 넣어요.</p></article>
+          <article class="feature rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg></span><h3>집중 타이머</h3><p>한 번에 하나씩. 업무마다 집중 시간을 재고 쉬어야 할 때를 알려 줘요.</p></article>
+          <article class="feature rv" style="--d:.08s"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg></span><h3>스마트 위젯</h3><p>홈 화면과 웹 대시보드에서 오늘 할 일을 바로 확인하세요.</p></article>
+          <article class="feature rv" style="--d:.16s"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c1.8.7 3.1 2.4 3.5 5.2"/></svg></span><h3>팀 공유</h3><p>팀원과 우선순위를 맞추고 회의 시간을 미리 확보해요.</p></article>
+          <article class="feature rv"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h3>주간 리포트</h3><p>시간을 어디에 썼는지 한눈에 보고 다음 주 계획에 반영해요.</p></article>
         </div>
       </div>
     </section>
 
-    <section class="section inverse" id="how" aria-labelledby="how-title">
+    <!-- HOW IT WORKS -->
+    <section class="block" id="ai" style="padding-top:0">
       <div class="wrap">
-        <p class="label reveal">02 — 사용 방법</p>
-        <h2 class="title reveal" id="how-title">세 걸음이면<br><em>하루가 정리됩니다.</em></h2>
-        <div class="how">
-          <div class="steps reveal" role="tablist" aria-label="사용 단계" aria-orientation="vertical">
-            <button class="step" type="button" role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1"><span class="n" aria-hidden="true">01</span><span class="t">세 가지만 고르기<small>아침에 오늘 할 일을 딱 세 개로 줄입니다.</small></span></button>
-            <button class="step" type="button" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1"><span class="n" aria-hidden="true">02</span><span class="t">타이머 켜고 몰입하기<small>하나를 정하고 25분 동안 그 일만 합니다.</small></span></button>
-            <button class="step" type="button" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" tabindex="-1"><span class="n" aria-hidden="true">03</span><span class="t">돌아보고 내일 준비하기<small>끝난 일과 집중한 시간을 한눈에 확인합니다.</small></span></button>
-          </div>
-          <div class="layer reveal" style="--d:.1s">
-            <div class="mock" role="tabpanel" id="panel-1" aria-labelledby="tab-1" tabindex="0">
-              <p class="meta">월요일 아침 · 08:40</p><h3>오늘 꼭 할 일</h3>
-              <ul><li class="on"><b>1</b>기획안 첫 장 쓰기</li><li><b>2</b>점심 먹고 30분 걷기</li><li><b>3</b>책 스무 쪽 읽기</li></ul>
-              <p class="meta">네 번째 할 일은 내일로 넘겨 둘게요.</p>
-            </div>
-            <div class="mock" role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0" hidden>
-              <p class="meta">집중 중 · 기획안 첫 장 쓰기</p><div class="big">17:42</div>
-              <div class="rail" aria-hidden="true"><i style="--w:29%"></i></div>
-              <p class="meta">알림이 모두 잠시 멈춰 있습니다. 놓친 알림 3건은 세션이 끝나면 보여 드려요.</p>
-            </div>
-            <div class="mock" role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0" hidden>
-              <p class="meta">저녁 정리 · 21:10</p><h3>오늘은 2.5시간 집중했어요</h3>
-              <div class="rows">
-                <div class="row"><span>오전</span><div class="rail"><i style="--w:70%"></i></div><b>1.4h</b></div>
-                <div class="row"><span>오후</span><div class="rail"><i style="--w:55%"></i></div><b>1.1h</b></div>
-                <div class="row"><span>저녁</span><div class="rail"><i style="--w:0%"></i></div><b>0h</b></div>
-              </div>
-              <p class="meta">세 가지 중 두 가지를 끝냈습니다. 남은 하나는 내일 아침 첫 번째로 올라옵니다.</p>
-            </div>
-          </div>
+        <div class="steps-card rv">
+          <span class="kicker">AI 기능</span>
+          <h2 class="title">세 단계면 <em>충분해요</em></h2>
+          <p class="lead">설정은 5분, 정리는 AI가 맡아요. 사용자는 오늘의 첫 번째 일만 시작하면 돼요.</p>
+          <ol class="steps">
+            <li class="step"><h3>업무 불러오기</h3><p>캘린더와 할 일 앱을 연결하면 흩어져 있던 업무가 한곳에 모여요.</p><div class="chips"><span>캘린더</span><span>메일</span><span>메모</span></div></li>
+            <li class="step"><h3>AI가 정리하기</h3><p>마감과 중요도를 따져 오늘 할 일의 순서를 정하고 빈 시간에 배치해요.</p><div class="chips"><span class="o">높음</span><span>보통</span><span>낮음</span></div></li>
+            <li class="step"><h3>집중해서 끝내기</h3><p>위젯에서 지금 할 일 하나만 보여 줘요. 끝나면 체크하고 다음으로 넘어가요.</p><div class="chips"><span class="o">진행 중</span><span>예정</span><span>완료</span></div></li>
+          </ol>
         </div>
       </div>
     </section>
 
-    <section class="section" id="report" aria-labelledby="report-title">
+    <!-- TESTIMONIALS -->
+    <section class="block" id="cases" style="padding-top:0">
       <div class="wrap">
-        <p class="label reveal">03 — 리포트</p>
-        <div class="report">
-          <div>
-            <h2 class="title reveal" id="report-title">한 주를<br>한 장으로.</h2>
-            <p class="lead reveal">매주 일요일 저녁, 지난 한 주의 집중이 막대 하나씩으로 정리됩니다. 막대에 마우스를 올려 보세요.</p>
-            <ul class="points reveal">
-              <li><b>A</b>가장 집중한 요일이 강조되어 한눈에 보입니다.</li>
-              <li><b>B</b>지난 주와 이번 주를 같은 눈금으로 비교합니다.</li>
-              <li><b>C</b>숫자를 줄이는 대신 몰입의 질을 높이는 데 쓰입니다.</li>
-            </ul>
-          </div>
-          <div class="layer reveal" style="--d:.1s">
-            <div class="chart-card">
-              <div class="chart-top">
-                <h3>집중 시간 (시간)</h3>
-                <div class="seg" role="group" aria-label="기간">
-                  <button type="button" data-week="this" aria-pressed="true">이번 주</button>
-                  <button type="button" data-week="last" aria-pressed="false">지난 주</button>
-                </div>
-              </div>
-              <div class="chart" id="chart" role="img" aria-label="요일별 집중 시간 막대 그래프"></div>
-              <div class="days" aria-hidden="true"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
-              <div class="sum" aria-live="polite">
-                <div><b id="sum-total">21.0</b><span>총 시간</span></div>
-                <div><b id="sum-avg">3.0</b><span>하루 평균</span></div>
-                <div><b id="sum-best">목</b><span>가장 집중한 요일</span></div>
-              </div>
-            </div>
-          </div>
+        <div class="head rv">
+          <span class="kicker">활용 사례</span>
+          <h2 class="title">이런 하루를 <em>보내고 있어요</em></h2>
         </div>
+        <div class="quotes">
+          <figure class="rv"><blockquote>아침마다 뭘 먼저 할지 고민하던 20분이 사라졌어요. 위젯에 뜬 첫 번째 일만 하면 하루가 굴러가요.</blockquote><figcaption><span class="av">서</span><span><b>김서연</b>프로덕트 디자이너</span></figcaption></figure>
+          <figure class="rv" style="--d:.1s"><blockquote>회의 사이 비는 시간에 작업이 알아서 들어가요. 캘린더가 이렇게 똑똑해질 줄 몰랐어요.</blockquote><figcaption><span class="av o">준</span><span><b>박준호</b>프리랜서 개발자</span></figcaption></figure>
+          <figure class="rv" style="--d:.2s"><blockquote>팀 전체의 우선순위가 한눈에 보여서 주간 회의가 절반으로 줄었어요.</blockquote><figcaption><span class="av k">하</span><span><b>이하린</b>스타트업 PM</span></figcaption></figure>
+        </div>
+        <p class="note rv">※ 후기는 데모 페이지를 위해 만든 가상의 내용입니다.</p>
       </div>
     </section>
 
-    <section class="section" id="reviews" aria-labelledby="reviews-title" style="padding-top:0">
+    <!-- PRICING -->
+    <section class="block" id="pricing" style="padding-top:0">
       <div class="wrap">
-        <p class="label reveal">04 — 후기</p>
-        <h2 class="title reveal" id="reviews-title">써 본 사람들이<br>먼저 말합니다.</h2>
-        <div class="reviews">
-          <figure class="quote reveal"><span class="mark" aria-hidden="true">“</span><blockquote>할 일 목록이 서른 줄이던 제가 세 줄로 하루를 시작합니다. 줄이니까 오히려 끝까지 하게 돼요.</blockquote><figcaption><span class="av" aria-hidden="true">서</span><span><b>김서연</b><small>프리랜서 디자이너</small></span></figcaption></figure>
-          <figure class="quote reveal" style="--d:.1s"><span class="mark" aria-hidden="true">“</span><blockquote>25분이 끝나는 알림이 이렇게 반가울 줄 몰랐습니다. 퇴근 시간이 눈에 띄게 빨라졌어요.</blockquote><figcaption><span class="av" aria-hidden="true">준</span><span><b>박준호</b><small>백엔드 개발자</small></span></figcaption></figure>
-          <figure class="quote reveal" style="--d:.2s"><span class="mark" aria-hidden="true">“</span><blockquote>주간 리포트를 보고 제가 오전에 제일 집중한다는 걸 처음 알았습니다. 일정을 통째로 바꿨어요.</blockquote><figcaption><span class="av" aria-hidden="true">민</span><span><b>이민지</b><small>대학원생</small></span></figcaption></figure>
-        </div>
-        <p class="reviews-note">※ 데모용으로 만든 가상의 후기입니다.</p>
-      </div>
-    </section>
-
-    <section class="section" id="pricing" aria-labelledby="pricing-title" style="padding-top:0">
-      <div class="wrap">
-        <p class="label reveal">05 — 요금제</p>
-        <h2 class="title reveal" id="pricing-title">필요한 만큼만,<br>투명하게.</h2>
-        <div class="billing reveal">
-          <span id="bill-m">월간 결제</span>
-          <button class="switch" type="button" role="switch" id="billing" aria-checked="false" aria-labelledby="bill-label"><span class="sr-only" id="bill-label">연간 결제로 보기</span></button>
-          <span id="bill-y">연간 결제 <span class="save">20% 할인</span></span>
+        <div class="head rv" style="margin-bottom:0">
+          <span class="kicker">요금제</span>
+          <h2 class="title">나에게 맞는 <em>요금제</em>를 고르세요</h2>
+          <div class="toggle" id="billing" data-annual="false">
+            <span class="off">월간 결제</span>
+            <button class="switch" type="button" role="switch" aria-checked="false" aria-label="연간 결제로 전환"></button>
+            <span class="on">연간 결제 <span class="save">20% 할인</span></span>
+          </div>
         </div>
         <div class="plans">
-          <article class="plan reveal">
-            <h3>시작</h3><p class="desc">처음 써 보는 분에게 알맞은 무료 요금제입니다.</p>
-            <div class="price"><b data-m="0" data-y="0">0</b><span>원 / 월</span></div><p class="price-sub">&nbsp;</p>
-            <ul><li>오늘의 세 가지</li><li>집중 타이머</li><li>기본 주간 리포트</li></ul>
-            <a class="btn ghost" href="#cta" data-plan="시작">무료로 시작</a>
+          <article class="plan rv">
+            <h3>스타터</h3><p class="desc">처음 써 보는 분께</p>
+            <p class="price"><span data-m="₩0" data-a="₩0">₩0</span><small>/ 월</small></p>
+            <ul><li>하루 3개 업무 우선순위 추천</li><li>기본 위젯 1종</li><li>캘린더 1개 연결</li></ul>
+            <a class="pill ghost" href="#faq">무료로 시작</a>
           </article>
-          <article class="plan hot reveal" style="--d:.1s">
-            <span class="tag">가장 많이 선택</span>
-            <h3>프로</h3><p class="desc">혼자 일하는 사람을 위한 모든 기능입니다.</p>
-            <div class="price"><b data-m="6900" data-y="5500">6,900</b><span>원 / 월</span></div><p class="price-sub" data-sub="66,000">&nbsp;</p>
-            <ul><li>기간 제한 없는 세션 기록</li><li>방해 금지 모드</li><li>캘린더 연동</li><li>상세 리포트와 비교</li></ul>
-            <a class="btn" href="#cta" data-plan="프로">프로로 시작</a>
+          <article class="plan pro rv" style="--d:.08s">
+            <span class="tag">인기</span>
+            <h3>프로</h3><p class="desc">매일 쓰는 개인을 위해</p>
+            <p class="price"><span data-m="₩9,900" data-a="₩7,900">₩9,900</span><small>/ 월</small></p>
+            <ul><li>무제한 AI 우선순위·자동 일정</li><li>모든 스마트 위젯 (웹·모바일)</li><li>집중 타이머와 주간 리포트</li><li>캘린더 무제한 연결</li></ul>
+            <a class="pill orange" href="#faq">프로 시작하기</a>
           </article>
-          <article class="plan reveal" style="--d:.2s">
-            <h3>팀</h3><p class="desc">함께 집중하는 팀을 위한 요금제입니다.</p>
-            <div class="price"><b data-m="12000" data-y="9600">12,000</b><span>원 / 인 / 월</span></div><p class="price-sub" data-sub="115,200">&nbsp;</p>
-            <ul><li>프로의 모든 기능</li><li>함께 집중하기 방</li><li>팀 리포트</li><li>관리자 설정</li></ul>
-            <a class="btn ghost" href="#cta" data-plan="팀">팀으로 시작</a>
+          <article class="plan rv" style="--d:.16s">
+            <h3>팀</h3><p class="desc">함께 일하는 팀을 위해</p>
+            <p class="price"><span data-m="₩14,900" data-a="₩11,900">₩14,900</span><small>/ 인 · 월</small></p>
+            <ul><li>프로의 모든 기능</li><li>팀 우선순위 보드</li><li>회의 시간 자동 확보</li><li>관리자 권한과 우선 지원</li></ul>
+            <a class="pill ghost" href="#faq">팀 도입 문의</a>
           </article>
         </div>
+        <p class="note rv">※ 데모 페이지용 가상의 요금입니다. 연간 결제는 월 요금 기준 20% 할인된 금액이에요.</p>
       </div>
     </section>
 
-    <section class="section" id="faq" aria-labelledby="faq-title" style="padding-top:0">
+    <!-- FAQ -->
+    <section class="block" id="faq" style="padding-top:0">
       <div class="wrap faq-grid">
-        <header>
-          <p class="label reveal">06 — FAQ</p>
-          <h2 class="title reveal" id="faq-title">자주 묻는<br>질문</h2>
-          <p class="lead reveal">찾는 답이 없다면 언제든 문의해 주세요.</p>
-        </header>
-        <div class="faq reveal" id="faq-list">
-          <div class="faq-item is-open"><h3><button class="faq-q" type="button" aria-expanded="true" aria-controls="a1" id="q1">무료 요금제만으로도 충분히 쓸 수 있나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="faq-a" id="a1" role="region" aria-labelledby="q1"><div><p>네. 오늘의 세 가지와 집중 타이머, 기본 리포트는 무료 요금제에서 기간 제한 없이 쓸 수 있습니다. 세션 기록을 오래 보관하고 싶을 때 프로로 옮기면 됩니다.</p></div></div></div>
-          <div class="faq-item"><h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a2" id="q2">집중 시간을 25분이 아닌 다른 길이로 바꿀 수 있나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="faq-a" id="a2" role="region" aria-labelledby="q2"><div><p>5분부터 90분까지 직접 정할 수 있고, 자주 쓰는 길이는 저장해 둘 수 있습니다. 25분은 처음 시작할 때의 기본값일 뿐입니다.</p></div></div></div>
-          <div class="faq-item"><h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a3" id="q3">내 기록은 어디에 저장되나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="faq-a" id="a3" role="region" aria-labelledby="q3"><div><p>기록은 암호화되어 서버에 저장되고, 설정에서 언제든 내려받거나 삭제할 수 있습니다. 광고나 제3자 분석을 위해 쓰지 않습니다.</p></div></div></div>
-          <div class="faq-item"><h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a4" id="q4">휴대폰과 컴퓨터에서 함께 쓸 수 있나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="faq-a" id="a4" role="region" aria-labelledby="q4"><div><p>같은 계정으로 로그인하면 타이머와 할 일이 실시간으로 이어집니다. 컴퓨터에서 시작한 세션을 휴대폰에서 이어서 확인할 수 있습니다.</p></div></div></div>
-          <div class="faq-item"><h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a5" id="q5">요금제는 언제든 바꾸거나 해지할 수 있나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="faq-a" id="a5" role="region" aria-labelledby="q5"><div><p>네, 설정에서 바로 바꾸거나 해지할 수 있습니다. 해지해도 결제한 기간이 끝날 때까지는 그대로 쓸 수 있고, 모아 둔 기록은 무료 요금제에서도 남습니다.</p></div></div></div>
-          <div class="faq-item"><h3><button class="faq-q" type="button" aria-expanded="false" aria-controls="a6" id="q6">학생이나 비영리 단체를 위한 할인이 있나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="faq-a" id="a6" role="region" aria-labelledby="q6"><div><p>학생 인증을 마치면 프로 요금제를 50% 할인된 가격으로 쓸 수 있습니다. 비영리 단체는 문의해 주시면 별도로 안내해 드립니다.</p></div></div></div>
+        <div class="head rv">
+          <span class="kicker">자주 묻는 질문</span>
+          <h2 class="title">궁금한 점이 <em>있나요?</em></h2>
+          <p class="lead">여기에 없는 질문은 언제든 편하게 보내 주세요.</p>
+        </div>
+        <div class="faq" id="faq-list">
+          <div class="qa rv"><h3><button type="button" aria-expanded="true" aria-controls="a1" id="q1">AI는 어떤 기준으로 우선순위를 정하나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="panel open" id="a1" role="region" aria-labelledby="q1"><div><p>마감일, 직접 설정한 중요도, 예상 소요 시간, 그리고 캘린더의 빈 시간을 함께 고려해요. 결과가 마음에 들지 않으면 순서를 끌어서 바꿀 수 있고, ORDI는 그 선택을 다음 추천에 반영해요.</p></div></div></div>
+          <div class="qa rv"><h3><button type="button" aria-expanded="false" aria-controls="a2" id="q2">어떤 캘린더와 연동되나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="panel" id="a2" role="region" aria-labelledby="q2"><div><p>구글 캘린더, 아웃룩, 애플 캘린더를 지원해요. 스타터 요금제는 캘린더 1개, 프로부터는 개수 제한 없이 연결할 수 있어요.</p></div></div></div>
+          <div class="qa rv"><h3><button type="button" aria-expanded="false" aria-controls="a3" id="q3">위젯은 어디에서 쓸 수 있나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="panel" id="a3" role="region" aria-labelledby="q3"><div><p>웹 대시보드와 iOS·안드로이드 홈 화면에서 쓸 수 있어요. 크기와 보여 줄 정보를 고를 수 있고, 어느 기기에서든 같은 오늘의 할 일이 보여요.</p></div></div></div>
+          <div class="qa rv"><h3><button type="button" aria-expanded="false" aria-controls="a4" id="q4">연간 결제 중에 해지할 수 있나요?<span class="pm" aria-hidden="true"></span></button></h3><div class="panel" id="a4" role="region" aria-labelledby="q4"><div><p>언제든 해지할 수 있어요. 해지하면 남은 기간 동안은 그대로 사용하고, 다음 결제일부터 요금이 청구되지 않아요.</p></div></div></div>
+          <div class="qa rv"><h3><button type="button" aria-expanded="false" aria-controls="a5" id="q5">내 데이터는 안전한가요?<span class="pm" aria-hidden="true"></span></button></h3><div class="panel" id="a5" role="region" aria-labelledby="q5"><div><p>모든 데이터는 전송 중과 저장 시 암호화돼요. 업무 내용은 AI 모델 학습에 사용하지 않고, 설정에서 언제든 전체 삭제를 요청할 수 있어요.</p></div></div></div>
         </div>
       </div>
     </section>
 
-    <section class="section inverse cta" id="cta" aria-labelledby="cta-title">
-      <div class="wrap">
-        <p class="label reveal">시작하기</p>
-        <h2 class="title reveal" id="cta-title">지금, <em>한 가지</em>부터.</h2>
-        <form class="signup reveal" id="signup" novalidate>
-          <label for="email" class="sr-only">이메일 주소</label>
-          <div class="row">
-            <input type="email" id="email" name="email" placeholder="이메일 주소를 입력하세요" autocomplete="email" aria-describedby="email-msg">
-            <button class="btn" type="submit">무료로 시작하기 <span class="arrow" aria-hidden="true">→</span></button>
-          </div>
-          <p class="msg" id="email-msg" role="status" aria-live="polite">신용카드 없이 바로 시작할 수 있습니다.</p>
-          <p class="plan-note" id="plan-note">선택한 요금제: 시작 (무료)</p>
-        </form>
-        <div class="done" id="done" hidden tabindex="-1">
-          <h3>신청이 접수되었습니다.</h3>
-          <p id="done-text"></p>
-          <button type="button" id="again">다른 주소로 다시 입력</button>
-        </div>
-      </div>
-    </section>
+    <div class="wrap">
+      <section class="cta rv" aria-labelledby="cta-title">
+        <h2 id="cta-title">오늘부터, 시간에<br>집중하세요</h2>
+        <p>첫 2주는 프로의 모든 기능을 무료로 써 볼 수 있어요.</p>
+        <a class="pill lg" href="#pricing">무료로 시작하기</a>
+      </section>
+    </div>
   </main>
 
-  <footer class="footer">
+  <footer class="foot">
     <div class="wrap">
-      <div class="foot-grid">
-        <div class="about"><a class="logo" href="#top" aria-label="ORDI 맨 위로"><i></i>ORDI</a><p style="margin-top:12px;color:var(--muted)">오늘 해야 할 세 가지에만 집중하게 돕는 생산성 서비스. 이 사이트는 실제 서비스가 아닌 디자인 데모입니다.</p></div>
-        <nav aria-label="제품"><h2>제품</h2><ul><li><a href="#features">기능</a></li><li><a href="#how">사용 방법</a></li><li><a href="#report">리포트</a></li></ul></nav>
-        <nav aria-label="안내"><h2>안내</h2><ul><li><a href="#reviews">후기</a></li><li><a href="#pricing">요금제</a></li><li><a href="#faq">FAQ</a></li></ul></nav>
-        <nav aria-label="데모"><h2>데모</h2><ul><li><a href="../../">EXP-004 갤러리</a></li><li><a href="https://www.instagram.com/p/DdySvZ4m8Zh/" target="_blank" rel="noopener noreferrer">원본 게시물 ↗<span class="sr-only"> (새 탭)</span></a></li></ul></nav>
+      <div class="cols">
+        <div>
+          <a class="logo" href="#hero"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 1 4 14h6l-2 9 11-14h-6z"/></svg></i>ORDI</a>
+          <p class="about">오늘 가장 중요한 일에 집중하도록 돕는 생산성 서비스. 이 사이트는 디자인 재현용 데모입니다.</p>
+        </div>
+        <div><h3>제품</h3><ul><li><a href="#product">기능</a></li><li><a href="#ai">AI 기능</a></li><li><a href="#pricing">요금제</a></li></ul></div>
+        <div><h3>회사</h3><ul><li><a href="#cases">활용 사례</a></li><li><a href="#faq">자주 묻는 질문</a></li></ul></div>
+        <div><h3>원본 디자인</h3><ul><li><a href="https://www.instagram.com/p/DdySvZ4m8Zh/" target="_blank" rel="noopener noreferrer">Instagram @arman._.uiux<span class="sr-only"> (새 탭)</span></a></li><li><a href="../../">EXP-004 갤러리</a></li></ul></div>
       </div>
-      <div class="provenance" id="provenance">
-        <span>이 페이지는 @arman._.uiux의 디자인을 재현한 데모입니다.</span>
-        <a href="https://www.instagram.com/p/DdySvZ4m8Zh/" target="_blank" rel="noopener noreferrer" data-source>원본: @arman._.uiux ↗<span class="sr-only"> (새 탭)</span></a>
-      </div>
-      <div class="fine"><span>© 2026 ORDI (가상의 서비스) · 제작 Claude Sonnet 5.5 · 2026-10-01</span><a href="#top">맨 위로 ↑</a></div>
+      <div class="legal"><span>© ORDI 데모 · 상업적 서비스가 아닙니다.</span><a href="#hero">맨 위로</a></div>
     </div>
-    <span class="wordmark" aria-hidden="true">ORDI</span>
   </footer>
 
+  <dialog id="demo" aria-labelledby="demo-title">
+    <h2 id="demo-title">ORDI 둘러보기</h2>
+    <ol>
+      <li>캘린더와 할 일 앱을 연결해요.</li>
+      <li>AI가 오늘 할 일의 순서를 정하고 빈 시간에 배치해요.</li>
+      <li>위젯에서 지금 할 일 하나만 보고 집중해요.</li>
+    </ol>
+    <button class="pill orange" type="button" id="demo-close">닫기</button>
+  </dialog>
+
   <script>
-  (() => {
-    'use strict';
-    const $ = (selector, root = document) => root.querySelector(selector);
-    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-    const root = document.documentElement;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    const wide = matchMedia('(min-width: 1040px)');
-    const pad = value => String(value).padStart(2, '0');
+    (function () {
+      var root = document.documentElement;
+      var $ = function (s, c) { return (c || document).querySelector(s); };
+      var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    /* Theme: flips between light and dark, shares the lab's saved choice */
-    const dark = matchMedia('(prefers-color-scheme: dark)');
-    const isDark = () => root.dataset.theme === 'dark' || (root.dataset.theme !== 'light' && dark.matches);
-    const themeBtn = $('#theme-btn');
-    const syncTheme = () => { $('#theme-label').textContent = isDark() ? '라이트' : '다크'; themeBtn.setAttribute('aria-label', isDark() ? '라이트 화면으로 전환' : '다크 화면으로 전환'); };
-    themeBtn.addEventListener('click', () => {
-      const next = isDark() ? 'light' : 'dark';
-      root.dataset.theme = next;
-      try { localStorage.setItem('acl-theme', next); } catch (error) { /* the choice still applies to this view */ }
+      /* theme */
+      var dark = window.matchMedia('(prefers-color-scheme: dark)');
+      var themeBtn = $('#theme-btn');
+      var isDark = function () { return root.dataset.theme === 'dark' || (root.dataset.theme !== 'light' && dark.matches); };
+      var syncTheme = function () { themeBtn.setAttribute('aria-label', isDark() ? '라이트 모드로 전환' : '다크 모드로 전환'); };
+      themeBtn.addEventListener('click', function () {
+        var next = isDark() ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('acl-theme', next); } catch (error) { /* the choice still applies to this view */ }
+        syncTheme();
+      });
+      dark.addEventListener('change', syncTheme);
       syncTheme();
-    });
-    dark.addEventListener('change', syncTheme);
-    syncTheme();
 
-    /* Header: scroll progress, mobile menu, active link */
-    const header = $('#header');
-    const bar = $('.bar');
-    const progress = $('#progress');
-    let ticking = false;
-    const onScroll = () => {
-      ticking = false;
-      const max = root.scrollHeight - innerHeight;
-      progress.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
-    };
-    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-    onScroll();
-
-    const menu = $('#menu');
-    const burger = $('#burger');
-    function setMenu(open) {
-      if (open) { menu.style.setProperty('--bar-offset', `${Math.max(0, Math.round(bar.getBoundingClientRect().bottom))}px`); }
-      menu.classList.toggle('is-open', open);
-      root.classList.toggle('menu-open', open);
-      burger.setAttribute('aria-expanded', String(open));
-      burger.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
-      if (!wide.matches) menu.inert = !open;
-    }
-    const syncMenuMode = () => { menu.inert = false; if (wide.matches) { menu.classList.remove('is-open'); root.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); } else setMenu(menu.classList.contains('is-open')); };
-    burger.addEventListener('click', () => setMenu(!menu.classList.contains('is-open')));
-    wide.addEventListener('change', syncMenuMode);
-    syncMenuMode();
-    addEventListener('keydown', event => {
-      if (event.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); burger.focus(); }
-    });
-
-    // In-page links: close the menu first so the page can scroll, then let the browser (CSS smooth scrolling) do the move.
-    $$('a[href^="#"]').forEach(link => link.addEventListener('click', () => { if (menu.classList.contains('is-open')) setMenu(false); }));
-
-    const navLinks = $$('a.nav');
-    const sections = navLinks.map(link => $(link.getAttribute('href')));
-    const activeIo = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach(link => link.toggleAttribute('aria-current', link.getAttribute('href') === `#${entry.target.id}`));
-        navLinks.forEach(link => { if (link.hasAttribute('aria-current')) link.setAttribute('aria-current', 'true'); });
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    sections.forEach(section => section && activeIo.observe(section));
-    new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) navLinks.forEach(link => link.removeAttribute('aria-current')); }), { rootMargin: '-45% 0px -50% 0px' }).observe($('.hero'));
-
-    /* Scroll reveal + count-up */
-    const countUp = element => {
-      const target = Number(element.dataset.count);
-      const decimals = Number(element.dataset.decimals || 0);
-      if (reduced.matches) { element.textContent = target.toFixed(decimals); return; }
-      const start = performance.now();
-      const step = now => {
-        const t = Math.min(1, (now - start) / 1100);
-        element.textContent = (target * (1 - Math.pow(1 - t, 3))).toFixed(decimals);
-        if (t < 1) requestAnimationFrame(step);
+      /* mobile menu */
+      var burger = $('#burger'), menu = $('#menu'), header = $('#header');
+      var setMenu = function (open) {
+        if (open) menu.style.setProperty('--menu-top', header.getBoundingClientRect().bottom + 'px');
+        menu.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+        root.classList.toggle('menu-open', open);
+        if (open) { menu.removeAttribute('inert'); } else { menu.setAttribute('inert', ''); }
       };
-      element.textContent = (0).toFixed(decimals);
-      requestAnimationFrame(step);
-    };
-    const revealIo = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-in');
-      $$('[data-count]', entry.target).forEach(countUp);
-      revealIo.unobserve(entry.target);
-    }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
-    $$('.reveal').forEach(element => revealIo.observe(element));
+      setMenu(false);
+      burger.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+      $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); burger.focus(); } });
+      window.matchMedia('(min-width: 960px)').addEventListener('change', function (e) { if (e.matches) setMenu(false); });
 
-    /* Focus timer */
-    const CIRC = 2 * Math.PI * 54;
-    const timer = { total: 25 * 60, left: 25 * 60, endAt: 0, id: 0, mode: 'focus' };
-    const display = $('#time'), ring = $('#ring'), startBtn = $('#start'), status = $('#status'), chip = $('#chip');
-    const fmt = seconds => `${pad(Math.floor(seconds / 60))}:${pad(seconds % 60)}`;
-    function paint() {
-      const text = fmt(Math.max(0, Math.ceil(timer.left)));
-      display.textContent = text;
-      $('#chip-time').textContent = text;
-      ring.style.strokeDashoffset = String(CIRC * (1 - timer.left / timer.total));
-    }
-    const running = () => timer.id !== 0;
-    function stop() { clearInterval(timer.id); timer.id = 0; chip.classList.remove('is-running'); }
-    function finish() {
-      stop(); timer.left = 0; paint();
-      startBtn.textContent = '다시 시작';
-      status.textContent = timer.mode === 'focus' ? '집중 세션이 끝났습니다. 잠시 쉬어 볼까요?' : '휴식이 끝났습니다. 다시 집중해 볼까요?';
-    }
-    function tick() { timer.left = (timer.endAt - Date.now()) / 1000; if (timer.left <= 0) finish(); else paint(); }
-    function start() {
-      if (timer.left <= 0) timer.left = timer.total;
-      timer.endAt = Date.now() + timer.left * 1000;
-      timer.id = setInterval(tick, 200);
-      chip.classList.add('is-running');
-      startBtn.textContent = '일시정지';
-      status.textContent = timer.mode === 'focus' ? '집중하는 중입니다. 알림은 잠시 멈춰 있어요.' : '충분히 쉬어 가세요.';
-      paint();
-    }
-    function pause() { tick(); if (!running()) return; stop(); startBtn.textContent = '이어서 시작'; status.textContent = '일시정지했습니다.'; }
-    function reset(minutes = timer.total / 60) {
-      stop(); timer.total = minutes * 60; timer.left = timer.total;
-      startBtn.textContent = '시작하기'; status.textContent = '버튼을 눌러 지금 바로 써 보세요.'; paint();
-    }
-    startBtn.addEventListener('click', () => (running() ? pause() : start()));
-    $('#reset').addEventListener('click', () => reset());
-    $$('[data-mode]').forEach(button => button.addEventListener('click', () => {
-      timer.mode = button.dataset.mode;
-      $$('[data-mode]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      $('#session-name').textContent = timer.mode === 'focus' ? '집중 세션' : '휴식 세션';
-      reset(Number(button.dataset.min));
-    }));
-    paint();
-
-    /* Tasks */
-    const boxes = $$('.task input');
-    const countEl = $('#task-count');
-    boxes.forEach(box => box.addEventListener('change', () => {
-      const done = boxes.filter(item => item.checked).length;
-      countEl.textContent = done === boxes.length ? '모두 끝냈어요 ✓' : `${done} / ${boxes.length} 완료`;
-    }));
-
-    /* How it works: tabs with arrow keys */
-    const tabs = $$('.step');
-    function selectTab(tab, focus) {
-      tabs.forEach(item => {
-        const on = item === tab;
-        item.setAttribute('aria-selected', String(on));
-        item.tabIndex = on ? 0 : -1;
-        const panel = $(`#${item.getAttribute('aria-controls')}`);
-        if (on && panel.hidden) { panel.hidden = false; panel.classList.remove('panel-enter'); void panel.offsetWidth; panel.classList.add('panel-enter'); }
-        if (!on) panel.hidden = true;
+      /* smooth scroll to in-page anchors (CSS scroll-margin handles the sticky header; this covers reduced-motion and focus) */
+      $$('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var id = a.getAttribute('href');
+          var target = id.length > 1 ? $(id) : null;
+          if (!target && id !== '#') return;
+          e.preventDefault();
+          (target || document.body).scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+          if (target) { try { history.replaceState(null, '', id); } catch (error) { /* file:// or sandbox */ } }
+        });
       });
-      if (focus) tab.focus();
-    }
-    tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => selectTab(tab, false));
-      tab.addEventListener('keydown', event => {
-        const keys = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
-        if (event.key in keys) { event.preventDefault(); selectTab(tabs[(index + keys[event.key] + tabs.length) % tabs.length], true); }
-        else if (event.key === 'Home') { event.preventDefault(); selectTab(tabs[0], true); }
-        else if (event.key === 'End') { event.preventDefault(); selectTab(tabs[tabs.length - 1], true); }
+
+      /* active nav link */
+      var links = $$('.nav a');
+      if ('IntersectionObserver' in window) {
+        var spy = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            links.forEach(function (a) { a.removeAttribute('aria-current'); if (a.getAttribute('href') === '#' + entry.target.id) a.setAttribute('aria-current', 'true'); });
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        $$('#product, #ai, #cases, #pricing').forEach(function (s) { spy.observe(s); });
+      }
+
+      /* scroll reveal */
+      var rv = $$('.rv');
+      if ('IntersectionObserver' in window && !reduce.matches) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); } });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+        rv.forEach(function (el) { io.observe(el); });
+      } else { rv.forEach(function (el) { el.classList.add('in'); }); }
+
+      /* hero carousel */
+      var slides = [
+        ['오늘 중요한 일에 집중하세요', '가장 중요한 업무를 AI가 알아서 우선순위를 정하고 일정에 배치해 드려요.'],
+        ['일정은 AI가 알아서', '회의와 집중 시간을 비교해 빈 시간에 업무를 자동으로 배치해요.'],
+        ['하나씩, 끝까지', '지금 할 일 하나만 보여 줘서 흐름이 끊기지 않아요.'],
+        ['위젯으로 한눈에', '홈 화면과 웹 대시보드에서 오늘의 진행 상황을 바로 확인하세요.'],
+        ['쌓이는 기록', '끝낸 일은 주간 리포트로 모여 다음 계획의 기준이 돼요.']
+      ];
+      var idx = 0, copy = $('#focus-copy'), dots = $('#dots'), timer;
+      slides.forEach(function (_, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.setAttribute('aria-label', (i + 1) + '번째 문구 보기');
+        b.addEventListener('click', function () { show(i); });
+        dots.appendChild(b);
       });
-    });
+      function show(i) {
+        idx = (i + slides.length) % slides.length;
+        copy.classList.add('swap');
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          $('#focus-title').textContent = slides[idx][0];
+          $('#focus-text').textContent = slides[idx][1];
+          copy.classList.remove('swap');
+        }, reduce.matches ? 0 : 180);
+        $$('button', dots).forEach(function (b, n) { if (n === idx) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+      }
+      $('#prev').addEventListener('click', function () { show(idx - 1); });
+      $('#next').addEventListener('click', function () { show(idx + 1); });
+      $$('button', dots)[0].setAttribute('aria-current', 'true');
 
-    /* Weekly report */
-    const WEEKS = { this: [3.1, 4.2, 2.8, 5.0, 3.9, 1.2, 0.8], last: [2.4, 3.0, 3.6, 2.9, 4.1, 2.0, 1.0] };
-    const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
-    const chart = $('#chart');
-    function drawChart(key) {
-      const data = WEEKS[key];
-      const best = data.indexOf(Math.max(...data));
-      const total = data.reduce((sum, value) => sum + value, 0);
-      chart.innerHTML = data.map((value, index) => `<div class="col${index === best ? ' best' : ''}" style="--d:${index * 0.06}s"><span>${value.toFixed(1)}</span><i style="--h:${(value / 6) * 100}%" title="${DAYS[index]}요일 ${value.toFixed(1)}시간"></i></div>`).join('');
-      chart.setAttribute('aria-label', `요일별 집중 시간 막대 그래프: ${data.map((value, index) => `${DAYS[index]} ${value.toFixed(1)}시간`).join(', ')}`);
-      $('#sum-total').textContent = total.toFixed(1);
-      $('#sum-avg').textContent = (total / 7).toFixed(1);
-      $('#sum-best').textContent = DAYS[best];
-    }
-    drawChart('this');
-    new IntersectionObserver((entries, observer) => entries.forEach(entry => { if (entry.isIntersecting) { chart.classList.add('is-in'); observer.disconnect(); } }), { threshold: .3 }).observe(chart);
-    $$('[data-week]').forEach(button => button.addEventListener('click', () => {
-      $$('[data-week]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      drawChart(button.dataset.week);
-    }));
+      /* demo dialog */
+      var demo = $('#demo');
+      $('#play').addEventListener('click', function () { if (demo.showModal) demo.showModal(); });
+      $('#demo-close').addEventListener('click', function () { demo.close(); });
+      demo.addEventListener('click', function (e) { if (e.target === demo) demo.close(); });
 
-    /* Pricing */
-    const billing = $('#billing');
-    const won = value => value.toLocaleString('ko-KR');
-    function paintPrices() {
-      const yearly = billing.getAttribute('aria-checked') === 'true';
-      $$('.price b').forEach(el => { el.textContent = won(Number(el.dataset[yearly ? 'y' : 'm'])); });
-      $$('.price-sub').forEach(el => { el.textContent = el.dataset.sub ? (yearly ? `연 ${el.dataset.sub}원 한 번에 결제` : '월 단위로 결제') : ' '; });
-      $('#bill-m').style.fontWeight = yearly ? 400 : 800;
-      $('#bill-y').style.fontWeight = yearly ? 800 : 400;
-    }
-    billing.addEventListener('click', () => { billing.setAttribute('aria-checked', String(billing.getAttribute('aria-checked') !== 'true')); paintPrices(); });
-    paintPrices();
-
-    /* FAQ accordion: opening one closes the others */
-    const items = $$('.faq-item');
-    items.forEach(item => {
-      const button = $('.faq-q', item);
-      button.addEventListener('click', () => {
-        const open = !item.classList.contains('is-open');
-        items.forEach(other => { other.classList.remove('is-open'); $('.faq-q', other).setAttribute('aria-expanded', 'false'); });
-        item.classList.toggle('is-open', open);
-        button.setAttribute('aria-expanded', String(open));
+      /* pricing toggle */
+      var billing = $('#billing'), sw = $('.switch', billing);
+      sw.addEventListener('click', function () {
+        var annual = sw.getAttribute('aria-checked') !== 'true';
+        sw.setAttribute('aria-checked', String(annual));
+        billing.dataset.annual = String(annual);
+        $$('[data-m]').forEach(function (el) { el.textContent = annual ? el.dataset.a : el.dataset.m; });
       });
-    });
 
-    /* Signup: plan buttons preselect, form validates locally (nothing is sent) */
-    const form = $('#signup'), email = $('#email'), msg = $('#email-msg'), done = $('#done');
-    let plan = '시작';
-    const planLabel = () => `선택한 요금제: ${plan}${plan === '시작' ? ' (무료)' : ''}`;
-    $$('[data-plan]').forEach(link => link.addEventListener('click', () => { plan = link.dataset.plan; $('#plan-note').textContent = planLabel(); }));
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      const value = email.value.trim();
-      if (!value) { email.setAttribute('aria-invalid', 'true'); msg.textContent = '이메일 주소를 입력해 주세요.'; msg.className = 'msg error'; email.focus(); return; }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) { email.setAttribute('aria-invalid', 'true'); msg.textContent = '이메일 형식이 올바르지 않습니다. 예: name@example.com'; msg.className = 'msg error'; email.focus(); return; }
-      email.removeAttribute('aria-invalid');
-      $('#done-text').textContent = `${value} 주소로 ${plan} 요금제 안내를 보내 드릴게요. (데모 사이트라 실제로 전송되지는 않습니다.)`;
-      form.hidden = true; done.hidden = false; done.focus();
-    });
-    email.addEventListener('input', () => { if (email.hasAttribute('aria-invalid')) { email.removeAttribute('aria-invalid'); msg.textContent = '신용카드 없이 바로 시작할 수 있습니다.'; msg.className = 'msg'; } });
-    $('#again').addEventListener('click', () => { email.value = ''; form.hidden = false; done.hidden = true; email.focus(); });
-  })();
+      /* FAQ accordion: one open at a time */
+      var faqBtns = $$('#faq-list button');
+      faqBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var open = btn.getAttribute('aria-expanded') !== 'true';
+          faqBtns.forEach(function (b) {
+            var on = b === btn && open;
+            b.setAttribute('aria-expanded', String(on));
+            document.getElementById(b.getAttribute('aria-controls')).classList.toggle('open', on);
+          });
+        });
+      });
+    })();
   </script>
 </body>
 </html>
