@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiquidBar QA harness</title>
+<link rel="stylesheet" href="../liquid-bar/liquid-bar.css">
+<style>html,body{margin:0;height:100%;overflow:hidden;background:#f1f1f1}#host{width:100vw;height:100vh}#before,#after{position:fixed;left:0;top:0;opacity:.01;z-index:5}#after{top:20px}</style>
+</head><body><a href="#top" id="before">before</a><div id="host"></div><a href="#end" id="after">after</a>
+<script src="../liquid-bar/liquid-bar.js"></script>
+<script>
+  // QA harness: full-viewport host so a 960x640 viewport gives scale 1 (spec 14). Query: ?scene=refraction&view=outline&webgl=0&rm=1
+  const q = new URLSearchParams(location.search);
+  window.errors = [];
+  addEventListener('error', e => window.errors.push(String(e.message)));
+  addEventListener('unhandledrejection', e => window.errors.push('rejection: ' + e.reason));
+  window.actions = [];
+  window.bar = LiquidBar.create(document.getElementById('host'), {
+    scene: q.get('scene') || 'reference', webgl: q.get('webgl') !== '0',
+    reducedMotion: q.get('rm') === '1' ? true : (q.get('rm') === '0' ? false : 'auto'),
+    onAction: null
+  });
+  document.getElementById('host').addEventListener('liquidbar:action', e => window.actions.push(e.detail));
+  if (q.get('view')) window.bar.setView(q.get('view'));
+</script></body></html>

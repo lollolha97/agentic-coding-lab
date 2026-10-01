@@ -1,0 +1,28 @@
+/* Liquid Actions V2 — component styles (content layer, focus, fallback label). The liquid/glass itself is drawn by WebGL 2 in liquid-bar.js.
+   All sizes inside .lb-content are DESIGN UNITS: the wrapper is scaled once per resize, never per frame. */
+.lb-host { position: relative; width: 100%; height: 100%; overflow: hidden; background: #f1f1f1; color: #050706; touch-action: manipulation; -webkit-user-select: none; user-select: none; isolation: isolate; font-synthesis: none; }
+.lb-bg, .lb-gl { position: absolute; display: block; pointer-events: none; }
+.lb-bg { left: 0; top: 0; width: 100%; height: 100%; }
+.lb-content { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-origin: 0 0; }
+.lb-btn { position: absolute; left: 0; top: 0; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; border-radius: 9999px; cursor: pointer; overflow: visible; -webkit-tap-highlight-color: transparent; outline: none; }
+.lb-btn::after { content: ""; position: absolute; inset: calc(var(--lb-hy, 0px) * -1) calc(var(--lb-hx, 0px) * -1); }
+.lb-btn[hidden] { display: none; }
+.lb-btn[inert] { pointer-events: none; }   /* outgoing content still fades; it just can't be hit or focused */
+.lb-btn:focus-visible { outline: 3px solid #050706; outline-offset: 5px; }
+.lb-inner { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; gap: 22px; box-sizing: border-box; padding-left: 16px; white-space: nowrap; pointer-events: none;
+  font: 600 48px/1 ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; letter-spacing: -1.8px; color: #050706; }
+.lb-inner--launch { gap: 20px; }
+.lb-inner--close { padding-left: 0; justify-content: center; }
+.lb-orb { flex: none; width: 114px; height: 114px; border-radius: 50%; display: grid; place-items: center; }
+.lb-orb--pay { background: linear-gradient(140deg, #20e169, #21e76a); }
+.lb-orb--request { background: linear-gradient(140deg, #51abf2, #54acf3); }
+.lb-orb svg { width: 61px; height: 61px; }
+.lb-ico { flex: none; width: 58px; height: 58px; display: grid; place-items: center; }
+.lb-ico svg { width: 58px; height: 58px; }
+.lb-inner--close .lb-ico, .lb-inner--close .lb-ico svg { width: 51px; height: 51px; }
+.lb-label { display: block; }
+.lb-note { position: absolute; left: 8px; right: 8px; bottom: 6px; z-index: 3; font: 600 12px/1.4 system-ui, sans-serif; color: #050706; background: rgba(255, 255, 255, .85); border: 1px solid rgba(5, 7, 6, .35); padding: 4px 8px; }
+/* Outline-only inspection: text is hidden, the silhouette comes from the same WebGL field. */
+.lb-host[data-view="outline"] .lb-inner { visibility: hidden; }
+/* Explicit fallback (no WebGL 2): flat pills, clearly NOT the liquid-glass effect. */
+.lb-host[data-fallback] .lb-btn { background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 1px rgba(5, 7, 6, .22); }

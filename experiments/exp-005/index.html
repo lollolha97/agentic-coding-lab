@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
+  <meta name="description" content="EXP-005 — 연결된 표면이 늘어나고 가늘어지다 끊어지는 액체 유리 캡슐 액션 바. WebGL 2 암시적 표면과 감쇠 스프링으로 구현했습니다.">
+  <title>EXP-005 — 리퀴드 글래스 액션 바 · Agentic Coding Lab</title>
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="liquid-bar/liquid-bar.css"><link rel="stylesheet" href="demo.css"><script src="../../assets/theme.js"></script>
+  <script src="liquid-bar/liquid-bar.js" defer></script><script src="demo.js" defer></script>
+</head>
+<body data-page="exp-005">
+  <a class="skip-link" href="#main">본문으로 이동</a>
+  <header class="site-header"><a class="brand" href="../../" aria-label="Agentic Coding Lab 홈">Agentic<br>Coding Lab</a><nav aria-label="주 메뉴"><a href="../../#catalog">실험 목록 →</a></nav><details class="theme-switch" hidden><summary aria-label="화면 테마 선택">테마</summary><div role="group" aria-label="화면 테마"><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button><button type="button" data-theme-choice="system" aria-pressed="true">System</button></div></details></header>
+  <main id="main" class="container experiment-main"><nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">아카이브</a><span aria-hidden="true">/</span><span>EXP-005</span></nav>
+    <section class="experiment-heading" aria-labelledby="experiment-title"><h1 id="experiment-title">리퀴드 글래스 액션 바</h1><div class="experiment-meta"><span>버튼이 “움직이는 유리 알약”이 아니라 연결 → 늘어남 → 가늘어짐 → 분리, 그리고 합쳐짐 → 흡수로 이어지는 하나의 액체 윤곽으로 동작합니다.</span><a href="https://x.com/yunfeifan_x/status/2104925818195468503" target="_blank" rel="noopener noreferrer">원본 명세: @yunfeifan_x ↗<span class="sr-only"> (새 탭)</span></a><span>제작 Claude Sonnet 5.5 · 2026-10-01</span></div></section>
+
+    <section class="demo-card exp5" id="liquid-bar-demo" aria-labelledby="exp5-title">
+      <div class="demo-heading"><h3 id="exp5-title"><span class="demo-number">01</span>Liquid Actions V2</h3><span>Pay / Request를 눌러 펼치고, × 로 닫아 보세요. Tab · Enter · Space로 조작하고 Esc로 처음 상태로 돌아갑니다.</span></div>
+      <div class="exp5-sticky"><div class="exp5-stage" id="exp5-stage"><div id="exp5-bar" aria-label="Pay와 Request 액션 바"></div></div>
+      <p class="exp5-status" id="exp5-status" role="status" aria-live="polite">준비 중…</p></div>
+      <noscript><p>이 데모는 JavaScript와 WebGL 2가 필요합니다.</p></noscript>
+
+      <div class="exp5-controls" role="group" aria-label="보기 설정">
+        <fieldset><legend>배경</legend><div class="exp5-seg"><button type="button" data-scene="reference" aria-pressed="true">기준 배경</button><button type="button" data-scene="refraction" aria-pressed="false">굴절 테스트</button></div></fieldset>
+        <fieldset><legend>보기</legend><div class="exp5-seg"><button type="button" data-view="glass" aria-pressed="true">유리</button><button type="button" data-view="outline" aria-pressed="false">외곽선만</button></div></fieldset>
+        <fieldset><legend>속도</legend><div class="exp5-seg"><button type="button" data-speed="1" aria-pressed="true">1x</button><button type="button" data-speed="0.5" aria-pressed="false">0.5x</button><button type="button" data-speed="0.25" aria-pressed="false">0.25x</button></div></fieldset>
+        <fieldset><legend>자동 재생</legend><div class="exp5-seg"><button type="button" id="exp5-autoplay" aria-pressed="false">끔</button></div></fieldset>
+        <label class="exp5-range">유리 두께 <output id="exp5-thick-out">25</output><input id="exp5-thick" type="range" min="5" max="60" step="1" value="25"></label>
+        <label class="exp5-range">액체성 <output id="exp5-liq-out">1.00</output><input id="exp5-liq" type="range" min="0" max="1" step="0.05" value="1"></label>
+      </div>
+
+      <section class="exp5-inspect" aria-labelledby="exp5-inspect-title">
+        <h4 id="exp5-inspect-title">변형 분해 타임라인 <span class="count">0–900ms</span></h4>
+        <p class="exp5-note">같은 솔버와 같은 셰이더로 정지 상태에서 해당 시각까지 진행시킨 뒤 그 상태를 그대로 멈춥니다. 별도의 “스크린샷용 애니메이션”이 아닙니다.</p>
+        <div class="exp5-seg exp5-branches" role="group" aria-label="분해할 전환"><button type="button" data-branch="pay" data-dir="open" aria-pressed="false">Pay 펼치기</button><button type="button" data-branch="pay" data-dir="close" aria-pressed="false">Pay 합치기</button><button type="button" data-branch="request" data-dir="open" aria-pressed="false">Request 펼치기</button><button type="button" data-branch="request" data-dir="close" aria-pressed="false">Request 합치기</button></div>
+        <div class="exp5-scrub"><label for="exp5-time">시간</label><input id="exp5-time" type="range" min="0" max="900" step="1" value="0" disabled><output id="exp5-time-out" for="exp5-time">0 ms</output></div>
+        <div class="exp5-seg exp5-marks" role="group" aria-label="주요 시각"><button type="button" data-ms="0">0</button><button type="button" data-ms="100">100</button><button type="button" data-ms="200">200</button><button type="button" data-ms="300">300</button><button type="button" data-ms="350">350</button><button type="button" data-ms="450">450</button><button type="button" data-ms="600">600</button><button type="button" data-ms="900">900</button></div>
+        <div class="exp5-seg"><button type="button" id="exp5-play" disabled>▶ 이어서 재생</button><button type="button" id="exp5-verify" disabled>윤곽 검증(픽셀)</button><button type="button" id="exp5-exit" disabled>검사 종료</button></div>
+        <p class="exp5-readout" id="exp5-readout" aria-live="polite">전환을 고르면 그 시각의 장력·목 두께·연결 상태가 여기에 표시됩니다.</p>
+      </section>
+
+      <section class="exp5-log" aria-labelledby="exp5-log-title"><h4 id="exp5-log-title">버튼 이벤트</h4><p class="exp5-note">실제 연락처·QR·결제는 연결되어 있지 않습니다. 이벤트가 발생했다는 사실만 기록합니다.</p><ol id="exp5-log" aria-live="polite"><li class="exp5-empty">아직 없음</li></ol></section>
+
+      <section class="exp5-limits" aria-labelledby="exp5-limits-title"><h4 id="exp5-limits-title">구현 범위와 한계</h4>
+        <ul>
+          <li>굴절은 컴포넌트가 직접 그린 배경 캔버스(기준 배경·굴절 테스트·전달된 이미지/캔버스)만 대상으로 합니다. 임의의 DOM을 자동으로 캡처해 굴절시키지는 않습니다.</li>
+          <li>WebGL 2를 쓸 수 없으면 “FALLBACK” 표기가 붙은 단색 버튼만 보입니다. 이는 액체 유리 효과가 아닙니다.</li>
+          <li>60/120fps 같은 실시간 성능은 측정해 주장하지 않습니다. 이 페이지의 검증 범위는 <code>experiments/exp-005/liquid-bar/README.md</code>에 기록했습니다.</li>
+        </ul>
+      </section>
+    </section>
+
+    <nav class="experiment-pagination" aria-label="다른 실험"><a href="../exp-004/" rel="prev">← EXP-004 <span>웹사이트 갤러리</span></a></nav>
+  </main>
+  <footer class="site-footer"><a href="#main">맨 위로 ↑</a></footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+/* EXP-005 demo page: stage + inspection controls. The component itself is styled by liquid-bar/liquid-bar.css. */
+.exp5 { padding-bottom: 8px; }
+.exp5-sticky { position: sticky; top: 0; z-index: 3; background: var(--bg); padding: 8px 0 2px; }   /* the effect stays visible while the controls below are used */
+.exp5-stage { border: 1px solid var(--line); background: #f1f1f1; height: 420px; overflow: hidden; }
+.exp5-stage > div { height: 100%; }
+.exp5-status { margin-top: 10px; font-size: 13px; line-height: 1.6; color: var(--gray-6); min-height: 1.6em; }
+.exp5-controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; margin: 12px 0 8px; padding: 12px 0; border-top: 1px solid var(--gray-3); }
+.exp5 fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.exp5 legend { padding: 0; font-size: 13px; color: var(--gray-6); margin-bottom: 4px; }
+.exp5-seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.exp5-seg button { border: 1px solid var(--line); min-height: 44px; min-width: 44px; padding: 8px 12px; font-size: 14px; line-height: 1.2; }
+.exp5-seg button:not(:disabled):hover { background: var(--gray-1); text-decoration: underline; text-underline-offset: 4px; }
+.exp5-seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.exp5-seg button:disabled { border-color: var(--gray-3); }
+.exp5-range { display: grid; grid-template-columns: auto auto; gap: 2px 8px; align-items: center; font-size: 13px; color: var(--gray-6); min-width: 190px; }
+.exp5-range output { text-align: right; font-variant-numeric: tabular-nums; color: var(--fg); }
+.exp5-range input { grid-column: 1 / -1; width: 100%; min-height: 44px; margin: 0; accent-color: var(--blue-3); }
+.exp5-inspect, .exp5-log, .exp5-limits { border-top: 1px solid var(--gray-3); padding: 14px 0 6px; }
+.exp5 h4 { margin: 0 0 4px; font-size: 16px; font-weight: 600; line-height: 1.5; letter-spacing: -.02em; }
+.exp5-note { font-size: 13px; line-height: 1.65; color: var(--gray-6); margin-bottom: 10px; word-break: keep-all; }
+.exp5-branches, .exp5-marks { margin-bottom: 8px; }
+.exp5-scrub { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; margin: 4px 0 8px; font-size: 14px; }
+.exp5-scrub input { width: 100%; min-height: 44px; margin: 0; accent-color: var(--blue-3); }
+.exp5-scrub output { min-width: 64px; text-align: right; font-variant-numeric: tabular-nums; }
+.exp5-seg + .exp5-seg { margin-top: 0; }
+.exp5-inspect .exp5-seg:last-of-type { margin-top: 8px; }
+.exp5-readout { margin-top: 10px; font: 13px/1.7 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; color: var(--gray-6); overflow-wrap: anywhere; }
+.exp5-log ol { list-style: none; padding: 0; margin: 0; font: 13px/1.8 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; max-height: 9em; overflow: auto; }
+.exp5-empty { color: var(--gray-5); }
+.exp5-limits ul { margin: 6px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.7; color: var(--gray-6); word-break: keep-all; }
+.exp5-limits code { font-size: 12.5px; overflow-wrap: anywhere; }
+@media (max-height: 620px) { .exp5-sticky { position: static; } }
+@media (max-width: 640px) {
+  .exp5-stage { height: 230px; }
+  .exp5-controls { gap: 10px 14px; }
+  .exp5-range { min-width: 100%; }
+  .exp5-scrub { grid-template-columns: 1fr auto; }
+  .exp5-scrub label { grid-column: 1 / -1; }
+}
