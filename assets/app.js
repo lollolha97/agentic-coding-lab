@@ -22,7 +22,11 @@
     'exp-003': () => `<rect class="line" x="30" y="18" width="240" height="30"/><rect class="ink" x="30" y="18" width="74" height="30"/><path class="line" d="M118 33h40M172 33h40M226 33h30"/>
       <rect class="line" x="30" y="62" width="112" height="86"/><rect class="gray-fill" x="42" y="76" width="64" height="8"/><path class="line" d="M42 96h86M42 106h70"/><rect class="ink" x="42" y="122" width="40" height="16"/>
       <rect class="line" x="158" y="62" width="112" height="22"/><rect class="line" x="158" y="90" width="112" height="22"/><rect class="line" x="158" y="118" width="112" height="30"/><path class="ink-line" d="M258 70v6m-4-3 4 4 4-4"/><rect class="ink" x="238" y="97" width="22" height="8"/><rect class="gray-fill" x="170" y="130" width="52" height="6"/>
-      <text x="30" y="172" class="svg-label">TABS · MODAL · FORM</text>`
+      <text x="30" y="172" class="svg-label">TABS · MODAL · FORM</text>`,
+    'exp-004': () => `<rect class="line" x="30" y="14" width="240" height="152"/><path class="line" d="M30 34H270"/><circle class="line" cx="42" cy="24" r="3"/><circle class="line" cx="54" cy="24" r="3"/><circle class="line" cx="66" cy="24" r="3"/>
+      <rect class="ink" x="44" y="46" width="108" height="22"/><rect class="line" x="44" y="74" width="84" height="22"/><rect class="gray-fill" x="44" y="102" width="72" height="22"/>
+      <rect class="line" x="168" y="96" width="88" height="54"/><rect class="ink" x="178" y="108" width="34" height="8"/><rect class="gray-fill" x="178" y="124" width="60" height="6"/><path class="line" d="M178 138h44"/>
+      <text x="44" y="148" class="svg-label">FOCUS</text>`
   };
   function preview(experiment) {
     if (previews[experiment.slug]) return svg(previews[experiment.slug]());
@@ -272,6 +276,13 @@
     reducedMotion.addEventListener('change', syncMotion);
     syncMotion();
   }
+  // Static pages only hard-code their "previous" link: the next experiment is looked up from the order in data.js so new categories link in automatically.
+  function paginationNext() {
+    const nav = document.querySelector('.experiment-pagination');
+    const next = experiments[experiments.findIndex(item => item.slug === page) + 1];
+    if (!nav || !next || nav.querySelector('a[rel="next"]')) return;
+    nav.insertAdjacentHTML('beforeend', `<a href="../${escapeHTML(next.slug)}/" rel="next">${escapeHTML(next.id)} <span>${escapeHTML(next.title)} →</span></a>`);
+  }
   if (page === 'catalog') catalog();
-  else experimentPage();
+  else { paginationNext(); experimentPage(); }
 })();

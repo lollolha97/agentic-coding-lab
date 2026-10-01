@@ -15,9 +15,9 @@ const toDemo = ([key, name, english, description, group, account, url]) => ({ ke
 window.LAB = {
   copyPending: false,
   title: 'Agentic Coding Lab',
-  intro: "소셜 미디어에서 발견한 모션, 카메라, 웹 디자인 아이디어를 코드로 재현합니다.",
+  intro: "소셜 미디어에서 발견한 모션, 카메라, 웹 디자인, 웹사이트 아이디어를 코드로 재현합니다.",
   credit: '제작 Claude Sonnet 5.5 · 2026-10-01',
-  categories: ['모션', '카메라', '웹 디자인'],
+  categories: ['모션', '카메라', '웹 디자인', '웹사이트'],
   experiments: [
     {
       id: 'EXP-001', slug: 'exp-001', title: '모션 용어', category: '모션', unit: '데모',
@@ -98,6 +98,18 @@ window.LAB = {
         toDemo(['toast', '토스트', 'Toast', "버튼을 누르면 화면 아래에 알림이 쌓이고 몇 초 뒤 사라집니다. 마우스를 올리면 타이머가 멈추고 ✕로 바로 닫을 수 있으며 최대 세 개만 보입니다.", 'feedback']),
         toDemo(['toggle', '토글 스위치', 'Toggle Switch', "스위치를 켜고 끄면 옆 미리보기가 바로 바뀝니다. role=switch와 aria-checked로 상태를 전달하고 Space·Enter로도 조작합니다.", 'feedback']),
         toDemo(['form', '폼 검증', 'Form Validation', "입력칸을 벗어나면 이메일 형식과 비밀번호 규칙을 검사해 오류를 알려 주고, 제출하면 첫 오류 칸으로 포커스를 옮깁니다. 모두 맞으면 완료 화면으로 바뀝니다.", 'feedback'])
+      ]
+    },
+    {
+      // A gallery, not a pattern library: the page is static HTML (experiments/exp-004/index.html) and each demo is a full site at
+      // experiments/exp-004/sites/<key>/ that is entered by clicking its card. New sites: add a row here, a card there, and a folder under sites/.
+      id: 'EXP-004', slug: 'exp-004', title: '웹사이트 갤러리', category: '웹사이트', unit: '사이트',
+      description: "목록에서 고르면 전체 화면으로 들어가 직접 둘러보는, 실제 웹사이트를 재현한 데모 갤러리",
+      sources: [],
+      provenance: '제작 Claude Sonnet 5.5 · 2026-10-01',
+      sourceNote: '사이트마다 원본 출처를 카드와 사이트 안에 표기합니다.',
+      demos: [
+        toDemo(['ordi', 'ORDI', 'Focus Your Time', "굵은 타이포와 겹쳐 쌓은 레이어가 돋보이는 생산성 서비스 사이트. 작동하는 집중 타이머, 모바일 메뉴, 요금제 전환, FAQ 아코디언, 스크롤 리빌까지 실제 사이트처럼 둘러볼 수 있습니다.", '', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/'])
       ]
     }
   ]

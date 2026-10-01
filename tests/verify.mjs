@@ -37,11 +37,11 @@ const failures = [];
 const reports = [];
 const source = await fs.readFile(new URL('../assets/data.js', import.meta.url), 'utf8');
 const data = new Function('window', `${source}; return window.LAB;`)({});
-// Three categories, one page each; demo counts are asserted against both data.js and the rendered DOM.
-const EXPECTED = { 'exp-001': 21, 'exp-002': 8, 'exp-003': 13 };
+// Four categories, one page each; demo counts are asserted against both data.js and the rendered DOM.
+const EXPECTED = { 'exp-001': 21, 'exp-002': 8, 'exp-003': 13, 'exp-004': 1 };
 const ORDER = Object.keys(EXPECTED);
-assert.deepEqual(data.experiments.map(item => item.slug), ORDER, 'data.js must list the three categories in order');
-assert.deepEqual(data.categories, ['모션', '카메라', '웹 디자인']);
+assert.deepEqual(data.experiments.map(item => item.slug), ORDER, 'data.js must list the four categories in order');
+assert.deepEqual(data.categories, ['모션', '카메라', '웹 디자인', '웹사이트']);
 data.experiments.forEach(item => assert.equal(item.demos.length, EXPECTED[item.slug], `${item.slug}: demo count in data.js`));
 assert.equal(new Set(data.experiments.map(item => item.id)).size, ORDER.length, 'duplicate EXP ids in data.js');
 // EXP-003 is a library of working patterns, so each one is operated like a user would (click, hover, type, scroll, keys) and the resulting state is asserted.
@@ -338,7 +338,7 @@ try {
             .map(element => element.outerHTML.slice(0, 100)),
           cards: document.querySelectorAll('.demo-card').length,
           firstContentY: Math.round(document.querySelector('.experiment-card, .demo-card').getBoundingClientRect().top),
-          firstStageY: Math.round(document.querySelector('.card-preview, .stage').getBoundingClientRect().top),
+          firstStageY: Math.round(document.querySelector('.card-preview, .stage, .site-preview').getBoundingClientRect().top),
           pageHeight: document.documentElement.scrollHeight
         }));
         assert.equal(geometry.scroll, width, `${path}: horizontal overflow at ${width}`);
@@ -390,15 +390,15 @@ try {
         assert(Object.values(contrast).every(value => value >= 3), `Meaningful line contrast below 3:1: ${JSON.stringify(contrast)}`);
 
         if (slug === 'catalog') {
-          assert.equal(await page.locator('.experiment-card').count(), 3);
+          assert.equal(await page.locator('.experiment-card').count(), 4);
           assert.deepEqual(await page.locator('.experiment-card .experiment-code').allTextContents(), data.experiments.map(item => item.id));
           // The landing groups demos by category: no demo title is listed as its own card, and card text is unique.
           const cardText = await page.locator('.experiment-card').evaluateAll(cards => cards.map(card => ({ title: card.querySelector('h3').textContent, desc: card.querySelector('.card-desc').textContent, meta: card.querySelector('.card-meta').textContent })));
-          assert.equal(new Set(cardText.map(card => card.title)).size, 3, 'duplicate landing titles');
-          assert.equal(new Set(cardText.map(card => card.desc)).size, 3, 'duplicate landing descriptions');
-          assert.equal(await page.locator('#total-count').textContent(), '03');
+          assert.equal(new Set(cardText.map(card => card.title)).size, 4, 'duplicate landing titles');
+          assert.equal(new Set(cardText.map(card => card.desc)).size, 4, 'duplicate landing descriptions');
+          assert.equal(await page.locator('#total-count').textContent(), '04');
           assert.deepEqual(await page.locator('[data-filter]').allTextContents(), ['전체', ...data.categories]);
-          assert.equal(await page.locator('.card-preview svg').count(), 3);
+          assert.equal(await page.locator('.card-preview svg').count(), 4);
           await page.locator('.experiment-card').first().focus();
           assert.equal(await page.locator('.card-title h3').first().evaluate(element => getComputedStyle(element).textDecorationLine), 'underline');
           assert.equal(await page.locator('.experiment-card').first().evaluate(element => getComputedStyle(element).outlineStyle), 'solid');
@@ -408,13 +408,17 @@ try {
             assert.equal(await page.locator('.experiment-card .experiment-code').textContent(), data.experiments.find(item => item.category === category).id);
           }
           await page.getByRole('button', { name: /^전체/ }).click();
-          assert.equal(await page.locator('.experiment-card').count(), 3);
+          assert.equal(await page.locator('.experiment-card').count(), 4);
           await page.locator('#search').fill('이징');
           assert.equal(await page.locator('.experiment-card').count(), 1);
           await page.locator('#search').fill('accordion');
           assert.equal(await page.locator('.experiment-card .experiment-code').textContent(), 'EXP-003');
           await page.locator('#search').fill('GPU');
-          assert.equal(await page.locator('.experiment-card').count(), 0, 'EXP-004 must be gone from search');
+          assert.equal(await page.locator('.experiment-card').count(), 0, 'the removed GPU experiment must stay gone from search');
+          await page.locator('#search').fill('@arman._.uiux');
+          assert.equal(await page.locator('.experiment-card .experiment-code').allTextContents().then(codes => codes.join()), 'EXP-003,EXP-004', 'source account search finds both categories that credit it');
+          await page.locator('#search').fill('focus your time');
+          assert.equal(await page.locator('.experiment-card .experiment-code').textContent(), 'EXP-004', 'search finds the site by name');
           await page.locator('#search').fill('no-such-experiment');
           assert.equal(await page.locator('.experiment-card').count(), 0);
           assert(await page.locator('#empty-state').isVisible());
@@ -423,6 +427,35 @@ try {
           await page.keyboard.press('/');
           assert(await page.locator('#search').evaluate(element => element === document.activeElement));
           await page.locator('#search').blur();
+        } else if (slug === 'exp-004') {
+          // The gallery is static: one card per site, the card is the link into the site, and the Instagram source is shown on the card.
+          const demo = entry.demos[0];
+          const info = await page.evaluate(() => {
+            const card = document.querySelector('.demo-card');
+            const link = card.querySelector('.site-link');
+            const source = card.querySelector('a[href^="https://www.instagram.com/"]');
+            const centre = element => { const r = element.getBoundingClientRect(); return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); };
+            return {
+              id: card.id, title: card.querySelector('h3 a').childNodes[0].textContent.trim(), description: card.querySelector('.demo-description').textContent.trim(),
+              count: document.querySelector('.demo-toolbar .count').textContent, siteHref: link.getAttribute('href'),
+              sourceHref: source.href, sourceText: source.textContent.replace(/\s+/g, ' ').trim(), sourceTarget: `${source.target}|${source.rel}`,
+              sourceOnTop: centre(source) === source || source.contains(centre(source)),
+              cardCoveredByLink: [...card.querySelectorAll('.site-preview, .demo-description')].every(element => { const hit = centre(element); return hit && (hit === link || link.contains(hit) || hit.closest('a') === link); }),
+              prev: document.querySelector('.experiment-pagination a[rel="prev"]')?.getAttribute('href') ?? null,
+              next: document.querySelector('.experiment-pagination a[rel="next"]')?.getAttribute('href') ?? null
+            };
+          });
+          assert.equal(info.id, demo.key); assert.equal(info.title, demo.name, `${path}: card title differs from data.js`);
+          assert.equal(info.description, demo.description, `${path}: card description differs from data.js`);
+          assert.equal(info.count, '01'); assert.equal(info.siteHref, `sites/${demo.key}/`);
+          assert.equal(info.sourceHref, 'https://www.instagram.com/p/DdySvZ4m8Zh/', 'gallery card must link the original post');
+          assert.equal(info.sourceHref, demo.sources[0].url); assert.equal(demo.sources[0].account, '@arman._.uiux');
+          assert(info.sourceText.includes('원본: @arman._.uiux'), `gallery card source label: ${info.sourceText}`);
+          assert.equal(info.sourceTarget, '_blank|noopener noreferrer');
+          assert(info.sourceOnTop, 'source link must stay clickable above the stretched card link');
+          assert(info.cardCoveredByLink, 'the whole card (preview and text) must hit the site link');
+          assert.deepEqual([info.prev, info.next], ['../exp-003/', null], `${path}: previous/next links must follow EXP-003 ← 004`);
+          assert.equal(await page.locator('.demo-card').first().evaluate(card => card.querySelector('.site-link').getBoundingClientRect().height >= 24), true);
         } else {
           // Rendered page must match data.js: same titles in order, unique ids/titles/descriptions, one credit line with a source link per sourced demo.
           const rendered = await page.evaluate(() => ({
@@ -455,8 +488,8 @@ try {
             assert.deepEqual(card.instagram, demo.sources.map(source => source.url), `${path}: ${demo.key} source links`);
             assert(card.targets.every(target => target === '_blank|noopener noreferrer'), `${path}: ${demo.key} external links need noopener`);
           }
-          const neighbours = { 'exp-001': [null, '../exp-002/'], 'exp-002': ['../exp-001/', '../exp-003/'], 'exp-003': ['../exp-002/', null] }[slug];
-          assert.deepEqual([rendered.prev, rendered.next], neighbours, `${path}: previous/next links must follow EXP-001 ↔ 002 ↔ 003`);
+          const neighbours = { 'exp-001': [null, '../exp-002/'], 'exp-002': ['../exp-001/', '../exp-003/'], 'exp-003': ['../exp-002/', '../exp-004/'], 'exp-004': ['../exp-003/', null] }[slug];
+          assert.deepEqual([rendered.prev, rendered.next], neighbours, `${path}: previous/next links must follow EXP-001 ↔ 002 ↔ 003 ↔ 004`);
           await page.locator('.demo-jump summary').focus();
           await page.keyboard.press('Enter');
           await page.locator('#demo-index a').last().focus();
@@ -586,6 +619,253 @@ try {
       }
     }
   }
+  // EXP-004: the card enters the demo site, and the ORDI site itself is a working page that is operated like a user would.
+  const SOURCE = 'https://www.instagram.com/p/DdySvZ4m8Zh/';
+  const SITE = '/experiments/exp-004/sites/ordi/';
+  const open = async (width, colorScheme, extra = {}) => {
+    const page = await browser.newPage({ viewport: { width, height: width === 390 ? 844 : 1000 }, colorScheme, ...extra });
+    await page.route(`${base}/**`, async route => {
+      const response = await fetch(route.request().url());
+      await route.fulfill({ status: response.status, headers: Object.fromEntries(response.headers), body: Buffer.from(await response.arrayBuffer()) });
+    });
+    const watch = { errors: [], external: [], broken: [] };
+    page.on('pageerror', error => watch.errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') watch.errors.push(message.text()); });
+    page.on('request', request => { if (!request.url().startsWith(base)) watch.external.push(request.url()); });
+    page.on('response', response => { if (response.status() >= 400) watch.broken.push(`${response.status()} ${response.url()}`); });
+    return { page, watch };
+  };
+  {
+    // Gallery → site (mouse on the preview, keyboard on the title link) and back.
+    const { page: gallery, watch } = await open(1440, 'light');
+    await gallery.goto(`${base}/experiments/exp-004/`);
+    // Real mouse clicks at the centre of the preview / description: the stretched title link must catch them (locator.click refuses because the link "intercepts" them).
+    const clickCentre = async selector => { const box = await gallery.locator(selector).boundingBox(); await gallery.mouse.click(box.x + box.width / 2, box.y + box.height / 2); };
+    await clickCentre('.site-preview');
+    await gallery.waitForURL(`${base}${SITE}`);
+    assert.match(await gallery.title(), /ORDI/);
+    await gallery.locator('a[data-back]').click();
+    await gallery.waitForURL(`${base}/experiments/exp-004/`);
+    await gallery.locator('.site-link').focus();
+    await gallery.keyboard.press('Enter');
+    await gallery.waitForURL(`${base}${SITE}`);
+    await gallery.goBack();
+    await clickCentre('.demo-description');
+    await gallery.waitForURL(`${base}${SITE}`);
+    // EXP-003 links forward to the gallery; the landing card opens it.
+    await gallery.goto(`${base}/experiments/exp-003/`);
+    await gallery.locator('.experiment-pagination a[rel="next"]').click();
+    await gallery.waitForURL(`${base}/experiments/exp-004/`);
+    await gallery.goto(`${base}/`);
+    await gallery.locator('.experiment-card', { hasText: 'EXP-004' }).click();
+    await gallery.waitForURL(`${base}/experiments/exp-004/`);
+    assert.deepEqual([watch.errors, watch.external, watch.broken], [[], [], []], 'gallery navigation: errors / external / broken');
+    await gallery.close();
+  }
+
+  async function exerciseSite(width, colorScheme) {
+    const tag = `ordi ${width}px ${colorScheme}`;
+    const { page, watch } = await open(width, colorScheme);
+    await page.goto(`${base}${SITE}`);
+    await page.waitForSelector('#hero-title');
+    const mobile = width < 1040;
+    const sleep = ms => page.waitForTimeout(ms);
+    const scrollTop = () => page.evaluate(() => Math.round(scrollY));
+    const sectionTop = id => page.evaluate(sectionId => Math.round(document.getElementById(sectionId).getBoundingClientRect().top), id);
+    const settle = async () => { let last = -1; for (let i = 0; i < 40; i++) { const now = await scrollTop(); if (now === last) return; last = now; await sleep(80); } };
+    const geometry = () => page.evaluate(() => ({
+      scroll: document.documentElement.scrollWidth, viewport: innerWidth, bg: getComputedStyle(document.body).backgroundColor,
+      // Clipped containers hide real overflow, so the headline and every heading are measured directly.
+      clipped: [...document.querySelectorAll('.headline .line > *, h1, h2, h3, .title, .stat b, .price b, .plan, .feature, .quote, .mock, .chart-card, .signup input, .btn')]
+        .filter(element => { const r = element.getBoundingClientRect(); return r.width > 0 && (r.right > innerWidth + 1 || r.left < -1 || element.scrollWidth > element.clientWidth + 1 && getComputedStyle(element).display !== 'inline'); })
+        .map(element => `${element.tagName}.${element.className} ${Math.round(element.getBoundingClientRect().right)}`),
+      headlineRight: Math.max(...[...document.querySelectorAll('.headline .line > *')].map(element => Math.round(element.getBoundingClientRect().right)))
+    }));
+
+    // Layout, theme, document basics.
+    assert.equal(await page.locator('html').getAttribute('lang'), 'ko');
+    let g = await geometry();
+    assert.equal(g.scroll, width, `${tag}: horizontal overflow on load`);
+    assert.deepEqual(g.clipped, [], `${tag}: content overflows its box`);
+    assert(g.headlineRight <= width - 10, `${tag}: headline reaches the viewport edge (${g.headlineRight})`);
+    assert.equal(g.bg, colorScheme === 'light' ? 'rgb(239, 236, 228)' : 'rgb(15, 15, 13)', `${tag}: page background`);
+    assert.equal(await page.locator('#hero-title').getAttribute('aria-label'), 'FOCUS YOUR TIME');
+    assert.equal(await page.locator('h1').count(), 1);
+    assert.equal((await page.locator('#hero-title').innerText()).replace(/\s+/g, ' ').trim().startsWith('FOCUS YOUR TIME'), true, 'hero headline text');
+    const ids = await page.evaluate(() => [...document.querySelectorAll('[id]')].map(element => element.id));
+    assert.equal(new Set(ids).size, ids.length, `${tag}: duplicate ids`);
+    assert.equal(await page.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].filter(a => a.getAttribute('href').length > 1 && !document.querySelector(a.getAttribute('href'))).length), 0, 'every anchor must have a target');
+    assert.equal(await page.evaluate(() => /gradient|backdrop-filter|box-shadow:[^;]*blur/i.test([...document.styleSheets].flatMap(sheet => [...sheet.cssRules]).map(rule => rule.cssText).join('\n'))), false, 'no gradients, blur or glow in the stylesheet');
+    assert.equal(await page.evaluate(() => [...document.querySelectorAll('*')].some(element => getComputedStyle(element).boxShadow.split('rgb').slice(1).some(part => /\)\s+-?\d+px\s+-?\d+px\s+[1-9]\d*px/.test(part)))), false, 'no blurred (glow) shadows');
+
+    // Source credit: top bar and footer, both pointing at the original post.
+    const credit = await page.evaluate(() => [...document.querySelectorAll('a[href^="https://www.instagram.com/"]')].map(a => ({ href: a.href, text: a.textContent.replace(/\s+/g, ' ').trim(), where: a.closest('.bar, .provenance, footer')?.className || '', target: `${a.target}|${a.rel}` })));
+    assert(credit.length >= 2 && credit.every(item => item.href === SOURCE && item.target === '_blank|noopener noreferrer'), `${tag}: Instagram links ${JSON.stringify(credit)}`);
+    assert(credit.some(item => item.where.includes('bar') && item.text.includes('원본: @arman._.uiux')), 'top bar credit');
+    assert(credit.some(item => item.where.includes('provenance') && item.text.includes('원본: @arman._.uiux')), 'footer credit');
+    assert((await page.locator('.provenance').innerText()).includes('이 페이지는 @arman._.uiux의 디자인을 재현한 데모입니다'), 'provenance sentence');
+    assert.equal(await page.locator('a[data-back]').getAttribute('href'), '../../');
+
+    // Navigation: desktop links scroll to their section; below 1040px they live in the hamburger menu.
+    const burger = page.locator('#burger'), menu = page.locator('#menu');
+    if (mobile) {
+      assert(await burger.isVisible() && !(await menu.isVisible()), 'mobile: menu closed, hamburger shown');
+      assert(await burger.evaluate(element => element.offsetWidth >= 44 && element.offsetHeight >= 44), 'burger touch target');
+      await burger.click();
+      assert.equal(await burger.getAttribute('aria-expanded'), 'true'); await sleep(350);
+      assert(await menu.isVisible()); assert.equal(await page.evaluate(() => document.documentElement.classList.contains('menu-open')), true);
+      await page.screenshot({ path: `${output}/ordi-${width}-${colorScheme}-menu.png` });
+      await page.keyboard.press('Escape');
+      assert.equal(await burger.getAttribute('aria-expanded'), 'false'); assert.equal(await burger.evaluate(element => element === document.activeElement), true, 'Esc returns focus to the burger');
+      await sleep(350); assert(!(await menu.isVisible()));
+      await burger.click(); await sleep(350);
+      await menu.getByRole('link', { name: '요금제' }).click();
+    } else {
+      assert(!(await burger.isVisible()), 'desktop: no hamburger'); assert(await menu.isVisible());
+      await menu.getByRole('link', { name: '요금제' }).click();
+    }
+    await page.waitForFunction(() => location.hash === '#pricing'); await settle();
+    assert(Math.abs(await sectionTop('pricing') - 64) <= 3, `${tag}: smooth anchor lands under the sticky header (${await sectionTop('pricing')})`);
+    assert.equal(await page.evaluate(() => document.documentElement.classList.contains('menu-open')), false, 'menu closed after choosing a link');
+    assert.equal(await page.locator('a.nav[aria-current="true"]').evaluateAll(links => links.map(link => link.textContent.trim())).then(list => list.join()), '요금제', 'current section is marked in the nav');
+    const headerBox = await page.locator('#header').boundingBox();
+    assert(headerBox.y <= 1 && headerBox.height >= 60, 'header sticks to the top');
+    await page.locator('a.logo').first().click(); await settle();
+    assert(await scrollTop() < 5, 'logo returns to the top');
+
+    // Hero: live timer.
+    const time = () => page.locator('#time').innerText();
+    assert.equal(await time(), '25:00');
+    await page.locator('#start').click();
+    assert.equal(await page.locator('#start').innerText(), '일시정지');
+    await sleep(1400);
+    const running = await time(); assert(running !== '25:00' && /^24:5\d$/.test(running), `timer counts down (${running})`);
+    assert.equal(await page.locator('#chip-time').innerText(), running, 'headline chip mirrors the timer');
+    await page.locator('#start').click(); const frozen = await time();
+    assert.equal(await page.locator('#start').innerText(), '이어서 시작'); await sleep(700);
+    assert.equal(await time(), frozen, 'timer stays paused');
+    await page.locator('#reset').click(); assert.equal(await time(), '25:00');
+    await page.getByRole('button', { name: '휴식 5분' }).click(); assert.equal(await time(), '05:00');
+    assert.equal(await page.getByRole('button', { name: '휴식 5분' }).getAttribute('aria-pressed'), 'true');
+    await page.getByRole('button', { name: '집중 25분' }).click(); assert.equal(await time(), '25:00');
+    const tasks = page.locator('.task');
+    for (let i = 0; i < 3; i++) await tasks.nth(i).click();
+    assert.equal(await page.locator('#task-count').innerText(), '모두 끝냈어요 ✓');
+    await tasks.nth(1).click(); assert.equal(await page.locator('#task-count').innerText(), '2 / 3 완료');
+    assert.equal(await tasks.nth(0).locator('input').isChecked(), true);
+
+    // Scroll reveal: below-the-fold blocks start hidden and appear when scrolled in.
+    const revealed = selector => page.locator(selector).first().evaluate(element => element.classList.contains('is-in'));
+    assert.equal(await revealed('#faq-list'), false, 'far section is not revealed before it is scrolled to');
+    assert.equal(await page.locator('#faq-list').evaluate(element => getComputedStyle(element).opacity), '0');
+    await page.locator('#faq-list').evaluate(element => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await page.waitForFunction(() => document.querySelector('#faq-list').classList.contains('is-in'));
+    await sleep(800); assert.equal(await page.locator('#faq-list').evaluate(element => getComputedStyle(element).opacity), '1');
+
+    // Features: hover state.
+    const feature = page.locator('.feature').first();
+    await feature.evaluate(element => element.scrollIntoView({ block: 'center', behavior: 'instant' })); await sleep(900);
+    const before = await feature.evaluate(element => getComputedStyle(element).backgroundColor);
+    if (!mobile) { await feature.hover(); await sleep(350); assert.equal(await feature.evaluate(element => getComputedStyle(element).backgroundColor), 'rgb(216, 242, 74)', 'feature hover turns accent'); await page.mouse.move(2, 2); await sleep(350); assert.equal(await feature.evaluate(element => getComputedStyle(element).backgroundColor), before); }
+    assert.equal(await page.locator('.feature').count(), 6);
+
+    // How it works: tabs (click + arrow keys).
+    await page.locator('#how').evaluate(element => element.scrollIntoView({ behavior: 'instant' })); await sleep(300);
+    assert(await page.locator('#panel-1').isVisible() && !(await page.locator('#panel-2').isVisible()));
+    await page.locator('#tab-2').click();
+    assert(await page.locator('#panel-2').isVisible() && !(await page.locator('#panel-1').isVisible()), 'tab click switches panel');
+    await page.keyboard.press('ArrowDown');
+    assert.equal(await page.locator('#tab-3').getAttribute('aria-selected'), 'true'); assert(await page.locator('#panel-3').isVisible());
+    await page.keyboard.press('ArrowDown'); assert.equal(await page.locator('#tab-1').getAttribute('aria-selected'), 'true', 'tabs wrap');
+    await page.keyboard.press('End'); assert.equal(await page.locator('#tab-3').getAttribute('aria-selected'), 'true');
+
+    // Weekly report.
+    await page.locator('#report').evaluate(element => element.scrollIntoView({ behavior: 'instant' })); await sleep(300);
+    await page.waitForFunction(() => document.querySelector('#chart').classList.contains('is-in')); await sleep(1100);
+    const sums = () => page.evaluate(() => ['#sum-total', '#sum-avg', '#sum-best'].map(id => document.querySelector(id).textContent));
+    assert.deepEqual(await sums(), ['21.0', '3.0', '목']); assert.equal(await page.locator('#chart .col').count(), 7);
+    const heights = await page.locator('#chart .col i').evaluateAll(list => list.map(element => Math.round(element.getBoundingClientRect().height)));
+    assert(heights.every(height => height > 0) && heights[3] > heights[6], `bars have grown to their values (${heights})`);
+    await page.getByRole('button', { name: '지난 주' }).click(); assert.deepEqual(await sums(), ['19.0', '2.7', '금']);
+    assert.equal(await page.getByRole('button', { name: '지난 주' }).getAttribute('aria-pressed'), 'true');
+    await page.getByRole('button', { name: '이번 주' }).click(); assert.deepEqual(await sums(), ['21.0', '3.0', '목']);
+
+    // Pricing: monthly ⇄ yearly.
+    const billing = page.getByRole('switch');
+    await page.locator('#pricing').evaluate(element => element.scrollIntoView({ behavior: 'instant' })); await sleep(300);
+    const prices = () => page.locator('.price b').allInnerTexts();
+    assert.deepEqual(await prices(), ['0', '6,900', '12,000']);
+    await billing.click(); assert.equal(await billing.getAttribute('aria-checked'), 'true');
+    assert.deepEqual(await prices(), ['0', '5,500', '9,600']);
+    assert((await page.locator('.price-sub').allInnerTexts()).join('|').includes('66,000'), 'yearly total shown');
+    await billing.focus(); await page.keyboard.press('Space'); assert.deepEqual(await prices(), ['0', '6,900', '12,000'], 'switch works from the keyboard');
+
+    // FAQ accordion.
+    await page.locator('#faq').evaluate(element => element.scrollIntoView({ behavior: 'instant' })); await sleep(300);
+    const faqOpen = () => page.locator('.faq-q').evaluateAll(list => list.map(button => button.getAttribute('aria-expanded') === 'true'));
+    assert.deepEqual(await faqOpen(), [true, false, false, false, false, false]);
+    assert(await page.locator('#a1').isVisible() && !(await page.locator('#a3').isVisible()));
+    await page.locator('#q3').click(); await sleep(500);
+    assert.deepEqual(await faqOpen(), [false, false, true, false, false, false], 'opening one closes the others');
+    assert(await page.locator('#a3').isVisible() && !(await page.locator('#a1').isVisible()), 'answer shows/hides');
+    await page.locator('#q3').click(); await sleep(500);
+    assert.deepEqual(await faqOpen(), [false, false, false, false, false, false]); assert(!(await page.locator('#a3').isVisible()));
+    await page.locator('#q5').focus(); await page.keyboard.press('Enter'); await sleep(500);
+    assert(await page.locator('#a5').isVisible(), 'keyboard opens an answer');
+
+    // Signup: plan buttons preselect, validation, success, retry.
+    await page.locator('#pricing').evaluate(element => element.scrollIntoView({ behavior: 'instant' })); await sleep(300);
+    await page.getByRole('link', { name: '프로로 시작' }).click(); await page.waitForFunction(() => location.hash === '#cta'); await settle();
+    assert.equal(await page.locator('#plan-note').innerText(), '선택한 요금제: 프로');
+    await page.getByRole('button', { name: /무료로 시작하기/ }).last().click();
+    assert.match(await page.locator('#email-msg').innerText(), /이메일 주소를 입력/); assert.equal(await page.locator('#email').getAttribute('aria-invalid'), 'true');
+    assert.equal(await page.locator('#email').evaluate(element => element === document.activeElement), true, 'focus moves to the invalid field');
+    await page.locator('#email').fill('abc'); assert.equal(await page.locator('#email').getAttribute('aria-invalid'), null, 'typing clears the error');
+    await page.locator('#email').press('Enter'); assert.match(await page.locator('#email-msg').innerText(), /형식이 올바르지/);
+    await page.locator('#email').fill('hello@mail.com'); await page.locator('#email').press('Enter');
+    assert(await page.locator('#done').isVisible() && !(await page.locator('#signup').isVisible())); assert.match(await page.locator('#done-text').innerText(), /hello@mail\.com.*프로/);
+    await page.getByRole('button', { name: '다른 주소로 다시 입력' }).click();
+    assert(await page.locator('#signup').isVisible()); assert.equal(await page.locator('#email').inputValue(), '');
+
+    // Footer credit is reachable and visible; theme toggle flips and persists.
+    await page.locator('.provenance').evaluate(element => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
+    assert(await page.locator('.provenance a[data-source]').isVisible(), 'footer source link visible');
+    const bgBefore = (await geometry()).bg;
+    await page.locator('#theme-btn').click();
+    const bgAfter = (await geometry()).bg;
+    assert.equal(bgAfter, colorScheme === 'light' ? 'rgb(15, 15, 13)' : 'rgb(239, 236, 228)', `${tag}: theme toggle flips the palette`);
+    assert.notEqual(bgBefore, bgAfter); assert.equal(await page.evaluate(() => localStorage.getItem('acl-theme')), colorScheme === 'light' ? 'dark' : 'light');
+    await page.reload(); await page.waitForSelector('#hero-title');
+    assert.equal((await geometry()).bg, bgAfter, 'saved theme survives a reload');
+    await page.locator('#theme-btn').click();
+
+    // Full scroll-through: everything revealed, still no overflow, then screenshots.
+    for (let y = 0; y <= (await page.evaluate(() => document.documentElement.scrollHeight)); y += 500) { await page.evaluate(top => scrollTo({ top, behavior: 'instant' }), y); await sleep(60); }
+    await sleep(900);
+    assert.equal(await page.evaluate(() => document.querySelectorAll('.reveal:not(.is-in)').length), 0, `${tag}: every .reveal block shows once scrolled past`);
+    g = await geometry();
+    assert.equal(g.scroll, width, `${tag}: horizontal overflow after scrolling`); assert.deepEqual(g.clipped, [], `${tag}: content overflows its box after scrolling`);
+    await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' })); await sleep(200);
+    await page.screenshot({ path: `${output}/ordi-${width}-${colorScheme}.png`, fullPage: true });
+    await page.screenshot({ path: `${output}/ordi-${width}-${colorScheme}-viewport.png` });
+
+    // Reduced motion: no scroll-in hiding, no looping animation.
+    await page.emulateMedia({ reducedMotion: 'reduce' }); await page.reload(); await page.waitForSelector('#hero-title');
+    assert.equal(await page.locator('#faq-list').evaluate(element => getComputedStyle(element).opacity), '1', 'reduced motion shows content immediately');
+    assert.equal(await page.locator('.marquee .track').evaluate(element => getComputedStyle(element).animationName), 'none');
+    assert.equal(await page.evaluate(() => document.getAnimations().filter(animation => animation.playState === 'running').length), 0, `${tag}: nothing animates under reduced motion`);
+
+    assert.deepEqual(watch.errors, [], `${tag}: browser errors`);
+    assert.deepEqual(watch.external, [], `${tag}: external requests`);
+    assert.deepEqual(watch.broken, [], `${tag}: failed responses`);
+    reports.push({ path: SITE, width, height: width === 390 ? 844 : 1000, colorScheme, errors: 0, externalRequests: 0, overflow: false, sourceLinks: credit.length, interactions: 'passed', reducedMotion: 'passed' });
+    process.stderr.write(`Verified ${SITE} ${width}px ${colorScheme}\n`);
+    await page.close();
+  }
+  for (const width of (process.env.QA_WIDTHS || '390,1440').split(',').map(Number)) {
+    for (const colorScheme of (process.env.QA_COLOR_SCHEMES || 'light,dark').split(',')) await exerciseSite(width, colorScheme);
+  }
+
   // Relative assets and links must also work below a GitHub Pages project prefix.
   const page = await browser.newPage();
   await page.route('**/agentic-coding-lab/**', async route => {
@@ -599,7 +879,7 @@ try {
   assert(page.url().includes('/agentic-coding-lab/experiments/exp-001/'));
   await page.locator('.brand').click();
   await page.locator('.experiment-card').first().waitFor();
-  assert.equal(await page.locator('.experiment-card').count(), 3);
+  assert.equal(await page.locator('.experiment-card').count(), 4);
   await page.close();
   const contentReady = !data.copyPending && Boolean(data.intro) && data.experiments.every(item => item.description && item.demos.every(demo => demo.description));
   console.log(JSON.stringify({ passed: reports.length, projectPrefix: 'passed', contentReady, reports, screenshots: output }, null, 2));
