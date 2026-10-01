@@ -6,7 +6,7 @@ window.LAB = {
   experiments: [
     {
       id: 'EXP-001', slug: 'exp-001', title: '모션 용어', category: '모션',
-      description: "EXP-001: motion terms (10)", source: '@glitter_ai_factory',
+      description: "이징부터 마스크 리빌까지, 10개의 CSS 모션 실험", source: '@glitter_ai_factory',
       sourceUrl: 'https://www.threads.net/@glitter_ai_factory',
       demos: [
         ['easing', '이징', 'Easing', "부드러운 가감속. 파란색 공은 출발과 도착이 부드럽고, 회색 공은 일정한 속도라 끝에서 갑자기 방향을 바꿉니다."], ['anticipation', '예비동작', 'Anticipation', "큰 동작 전 준비. 점프하기 전에 몸을 웅크리는 것처럼, 반대 방향의 작은 움직임이 큰 동작을 예고합니다."],
@@ -18,7 +18,7 @@ window.LAB = {
     },
     {
       id: 'EXP-002', slug: 'exp-002', title: '카메라 움직임', category: '카메라',
-      description: "EXP-002: camera moves (8)", source: '@juuouse', sourceUrl: 'https://www.threads.net/@juuouse',
+      description: "팬부터 오빗까지, 8개의 카메라 움직임 실험", source: '@juuouse', sourceUrl: 'https://www.threads.net/@juuouse',
       demos: [
         ['pan', '팬', 'Pan', "카메라 위치는 그대로 두고 몸통만 좌우로 돌립니다. 화면 속 장면이 옆으로 훑고 지나갑니다."], ['tilt', '틸트', 'Tilt', "제자리에서 고개를 들거나 숙이듯 위아래로 돌립니다. 높은 건물이나 제품의 아래위를 훑을 때 씁니다."], ['roll', '롤', 'Roll', "렌즈가 향한 방향은 그대로 두고 카메라를 기울입니다. 수평선이 비스듬해져 불안하거나 긴장된 느낌을 줍니다."],
         ['truck', '트럭', 'Truck', "카메라 몸체가 옆으로 평행 이동합니다. 가까운 물체는 빨리, 먼 물체는 느리게 스쳐 가 깊이가 생깁니다."], ['pedestal', '페데스탈', 'Pedestal', "카메라를 수직으로 올리거나 내립니다. 렌즈 각도는 그대로 두고 높이만 바뀌므로 고개를 드는 틸트와 구분됩니다."],
