@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#f2f2f0">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F5F1F0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>실험 카탈로그 | agentic-coding-lab</title>
 <meta name="description" content="인스타그램·Threads에서 발견한 Agentic Coding 데모를 직접 구현하고 기록합니다. 실험별 데모, 원본 출처, 재현 방법을 모은 카탈로그.">
 <link rel="canonical" href="https://lollolha97.github.io/agentic-coding-lab/">
@@ -17,100 +18,77 @@
 <meta property="og:image" content="https://lollolha97.github.io/agentic-coding-lab/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="측정 신호 로고와 모션 실험 도형이 담긴 agentic-coding-lab 실험 카탈로그">
+<meta property="og:image:alt" content="블록 격자와 agentic-coding-lab 실험 카탈로그 표제">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f2f2f0'/%3E%3Cpath d='M2 24h8V8h12v16h8' fill='none' stroke='%23161616' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add('js');</script>
 <link rel="stylesheet" href="assets/lab.css">
 </head>
 <body>
 <a class="skip-link" href="#main">본문으로 건너뛰기</a>
-<header class="site-header">
-  <div class="container site-header__inner">
+<header class="bar">
+  <div class="wrap bar__in">
     <a class="brand" href="./" aria-label="agentic-coding-lab 홈">
-      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M2 24h8V8h12v16h8" fill="none" stroke="currentColor" stroke-width="4"/></svg>
-      <span class="brand__name"><span>agentic</span><span>coding lab</span></span>
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 3h26v26H3zM16 3v26M3 16h26" fill="none" stroke="currentColor" stroke-width="2"/><rect x="16" y="16" width="13" height="13" fill="currentColor"/></svg>
+      <span>agentic-coding-lab</span>
     </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="메뉴 열기"><span class="menu-toggle__dots" aria-hidden="true"></span></button>
-    <nav class="site-nav" id="site-nav" aria-label="주요 메뉴">
+    <nav class="bar__nav" aria-label="주요 메뉴">
       <a href="#experiments" aria-current="page">실험 목록</a>
       <a href="#about">기록 방식</a>
-      <a href="https://github.com/lollolha97/agentic-coding-lab">GitHub ↗</a>
+      <a class="gh" href="https://github.com/lollolha97/agentic-coding-lab">GitHub ↗</a>
     </nav>
   </div>
 </header>
 <main id="main" tabindex="-1">
-  <section class="catalog-intro container" aria-labelledby="intro-title">
-    <p class="catalog-intro__meta meta"><span>ACL / Experiment catalog</span><span>Est. 2026.09.30</span><span>Independent experiment archive</span></p>
-    <div class="catalog-intro__body">
-      <h1 id="intro-title"><span>Agentic</span> <span>Coding</span> <span>Lab</span><span class="hero__sub"> 실험 카탈로그</span></h1>
-      <p class="catalog-intro__copy">인스타그램·Threads에서 발견한 데모를 Agentic Coding으로 직접 구현합니다. 실행 결과와 원본 출처, 재현 방법을 함께 기록합니다.</p>
+  <section class="intro wrap" aria-labelledby="intro-title">
+    <div>
+      <h1 id="intro-title">Agentic Coding Lab<span class="sub">실험 카탈로그</span></h1>
+      <p class="intro__copy">인스타그램·Threads에서 발견한 데모를 Agentic Coding으로 직접 구현합니다. 실행 결과와 원본 출처, 재현 방법을 함께 기록합니다.</p>
+    </div>
+    <div class="facts" aria-label="카탈로그 정보">
+      <p>ACL / Experiment catalog</p>
+      <p>Est. 2026.09.30</p>
+      <p>Independent experiment archive</p>
     </div>
   </section>
 
-  <section class="catalog container" id="experiments" aria-labelledby="catalog-title">
-    <div class="section-heading">
-      <h2 id="catalog-title"><span class="section-heading__en" lang="en">explore experiments</span> <span class="section-heading__ko">실험 목록<span class="section-heading__count" id="exp-count" aria-label="실험 수">2</span></span></h2>
+  <section class="wrap" id="experiments" aria-labelledby="catalog-title">
+    <div class="sec-head">
+      <h2 id="catalog-title"><span class="en" lang="en">explore experiments</span> 실험 목록<span class="count" id="exp-count" aria-label="실험 수">2</span></h2>
       <p class="meta">Index / 최신순</p>
     </div>
-    <ol class="exp-list" id="list" role="list"></ol>
+    <div class="xhead" aria-hidden="true"><span>ID</span><span>Preview</span><span>Experiment</span><span>Date / 날짜 · Source / 출처</span></div>
+    <ol id="list" role="list"></ol>
     <noscript>
-      <article class="experiment">
-        <div class="experiment__media">
-          <div class="experiment__tag"><p class="experiment__id meta">EXP-002</p><h3 class="experiment__name"><a href="experiments/2026-10-01-camera-terms-demo/">카메라 무브 도감</a></h3></div>
-          <a class="experiment__image" href="experiments/2026-10-01-camera-terms-demo/" aria-label="카메라 무브 도감 데모 열기"><img src="experiments/2026-10-01-camera-terms-demo/thumb.png" width="1000" height="800" alt="카메라 무브 8개를 카메라 아이콘과 이동 화살표로 그린 기술 도해"></a>
-        </div>
-        <div class="experiment__body">
-          <p class="experiment__desc">카메라 무브 용어 8개를 순수 CSS 애니메이션으로 재현했습니다.</p>
-          <dl class="specs">
-            <div><dt>Date / 날짜</dt><dd><time datetime="2026-10-01">2026.10.01</time></dd></div>
-            <div><dt>Source / 출처</dt><dd><a href="https://www.threads.com/@juuouse/post/Dd5os3Pkjl-">Threads / @juuouse ↗</a></dd></div>
-            <div><dt>Status / 상태</dt><dd>재현 완료</dd></div>
-          </dl>
-          <a class="experiment__open" href="experiments/2026-10-01-camera-terms-demo/">데모 열기 <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
-      <article class="experiment">
-        <div class="experiment__media">
-          <div class="experiment__tag"><p class="experiment__id meta">EXP-001</p><h3 class="experiment__name"><a href="experiments/2026-09-30-motion-terms-demo/">모션 용어 도감</a></h3></div>
-          <a class="experiment__image" href="experiments/2026-09-30-motion-terms-demo/" aria-label="모션 용어 도감 데모 열기"><img src="experiments/2026-09-30-motion-terms-demo/thumb.png" width="1000" height="800" alt="모션 용어 10개의 궤적과 형태를 배치한 기술 도해"></a>
-        </div>
-        <div class="experiment__body">
-          <p class="experiment__desc">모션 디자인 용어 10개를 순수 CSS 애니메이션으로 재현했습니다.</p>
-          <dl class="specs">
-            <div><dt>Date / 날짜</dt><dd><time datetime="2026-09-30">2026.09.30</time></dd></div>
-            <div><dt>Source / 출처</dt><dd><a href="https://www.threads.com/@glitter_ai_factory/post/Dd5WG3AE0Bi">Threads / @glitter_ai_factory ↗</a></dd></div>
-            <div><dt>Status / 상태</dt><dd>재현 완료</dd></div>
-          </dl>
-          <a class="experiment__open" href="experiments/2026-09-30-motion-terms-demo/">데모 열기 <span aria-hidden="true">↗</span></a>
-        </div>
-      </article>
+      <ul>
+        <li><a href="experiments/2026-10-01-camera-terms-demo/">EXP-002 · 카메라 무브 도감</a> — 2026.10.01</li>
+        <li><a href="experiments/2026-09-30-motion-terms-demo/">EXP-001 · 모션 용어 도감</a> — 2026.09.30</li>
+      </ul>
     </noscript>
-    <p class="catalog__note meta"><span>브라우저에서 바로 실행됩니다.</span><span>출처 · 재현 방법 · 결과 → 각 실험의 README</span></p>
+    <p class="note meta"><span>브라우저에서 바로 실행됩니다.</span><span>출처 · 재현 방법 · 결과 → 각 실험의 README</span></p>
   </section>
 
-  <section class="about container" id="about" aria-labelledby="about-title">
+  <section class="about wrap" id="about" aria-labelledby="about-title">
     <div>
       <p class="meta">Protocol / 01–03</p>
       <h2 id="about-title">기록 방식</h2>
       <p class="about__intro">원본에서 본 동작을 직접 구현하고, 확인한 결과를 남깁니다. 잘된 부분과 재현되지 않은 부분을 함께 적습니다.</p>
-      </div>
+    </div>
     <ol class="method" role="list">
-      <li><span class="method__num meta" aria-hidden="true">01</span><h3>수집</h3><p>다시 만들어 볼 데모를 고르고 원본 링크를 기록합니다.</p></li>
-      <li><span class="method__num meta" aria-hidden="true">02</span><h3>구현</h3><p>Agentic Coding으로 구현하고 실제 동작을 확인합니다.</p></li>
-      <li><span class="method__num meta" aria-hidden="true">03</span><h3>기록</h3><p>재현 방법, 결과, 원본과의 차이를 README에 남깁니다.</p></li>
+      <li><span class="meta" aria-hidden="true">01</span><h3>수집</h3><p>다시 만들어 볼 데모를 고르고 원본 링크를 기록합니다.</p></li>
+      <li><span class="meta" aria-hidden="true">02</span><h3>구현</h3><p>Agentic Coding으로 구현하고 실제 동작을 확인합니다.</p></li>
+      <li><span class="meta" aria-hidden="true">03</span><h3>기록</h3><p>재현 방법, 결과, 원본과의 차이를 README에 남깁니다.</p></li>
     </ol>
-    <a class="btn-wide" href="https://github.com/lollolha97/agentic-coding-lab/tree/main/experiments">코드와 실험 노트 <span aria-hidden="true">↗</span></a>
+    <a class="btn" href="https://github.com/lollolha97/agentic-coding-lab/tree/main/experiments">코드와 실험 노트 <span aria-hidden="true">↗</span></a>
   </section>
 </main>
-<footer class="site-footer">
-  <div class="container">
-    <div class="site-footer__head"><p class="site-footer__title">agentic-coding-lab</p><p class="site-footer__note">개인 실험 기록 · 운영: lollolha97</p></div>
-    <nav class="site-footer__links" aria-label="푸터 메뉴"><a href="#experiments">실험 목록</a><a href="#about">기록 방식</a><a href="https://github.com/lollolha97/agentic-coding-lab">GitHub 저장소</a><a href="https://github.com/lollolha97/agentic-coding-lab/tree/main/experiments">코드와 실험 노트</a></nav>
-    <div class="site-footer__base meta"><p>© 2026 lollolha97</p><p>Hosted on GitHub Pages</p></div>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__row"><strong>agentic-coding-lab</strong><span>개인 실험 기록 · 운영: lollolha97</span></div>
+    <div class="foot__row"><nav aria-label="푸터 메뉴"><a href="#experiments">실험 목록</a><a href="#about">기록 방식</a><a href="https://github.com/lollolha97/agentic-coding-lab">GitHub 저장소</a><a href="https://github.com/lollolha97/agentic-coding-lab/tree/main/experiments">코드와 실험 노트</a></nav></div>
+    <div class="foot__row meta"><span>© 2026 lollolha97</span><span>Hosted on GitHub Pages</span></div>
   </div>
 </footer>
-<script src="assets/menu.js"></script>
 <script>
 'use strict';
 // 새 실험은 이 배열에 한 항목만 추가합니다. id는 고정 카탈로그 번호입니다.
@@ -125,7 +103,7 @@ const experiments = [
     desc: '이징, 탄성, 시간차, 장면 전환. 모션 디자인 용어 10개를 순수 CSS 애니메이션으로 재현했습니다.',
     path: 'experiments/2026-09-30-motion-terms-demo/',
     thumbnail: 'experiments/2026-09-30-motion-terms-demo/thumb.png',
-    thumbnailAlt: '모션 용어 10개의 궤적과 형태를 배치한 기술 도해',
+    thumbnailAlt: '모션 용어 10개를 블록 격자로 배치한 도해',
     source: 'Threads / @glitter_ai_factory',
     sourceUrl: 'https://www.threads.com/@glitter_ai_factory/post/Dd5WG3AE0Bi',
     status: '재현 완료',
@@ -140,7 +118,7 @@ const experiments = [
     desc: '팬, 틸트, 롤, 트럭, 페데스탈, 달리, 줌, 오빗. 카메라 무브 용어 8개를 뷰파인더 안의 CSS 애니메이션으로 재현했습니다.',
     path: 'experiments/2026-10-01-camera-terms-demo/',
     thumbnail: 'experiments/2026-10-01-camera-terms-demo/thumb.png',
-    thumbnailAlt: '카메라 무브 8개를 카메라 아이콘과 이동 화살표로 그린 기술 도해',
+    thumbnailAlt: '카메라 무브 8개를 뷰파인더 프레임과 이동 화살표로 그린 블록 격자 도해',
     source: 'Threads / @juuouse',
     sourceUrl: 'https://www.threads.com/@juuouse/post/Dd5os3Pkjl-',
     status: '재현 완료',
@@ -158,13 +136,16 @@ const experiments = [
   const sorted = experiments.slice().sort((a, b) => b.date.localeCompare(a.date));
   const list = document.getElementById('list');
   sorted.forEach((experiment, index) => {
-    const item = el('li');
-    const article = el('article', 'experiment');
+    const row = el('li', 'xrow');
+    row.style.setProperty('--i', String(index));
     const headingId = 'experiment-' + experiment.id.toLowerCase();
-    article.setAttribute('aria-labelledby', headingId);
-    const imageLink = el('a', 'experiment__image');
-    imageLink.href = experiment.path;
-    imageLink.setAttribute('aria-label', experiment.title + ' 데모 열기');
+    row.setAttribute('aria-labelledby', headingId);
+
+    const id = el('p', 'xid', experiment.id);
+
+    const thumb = el('a', 'xthumb');
+    thumb.href = experiment.path;
+    thumb.setAttribute('aria-label', experiment.title + ' 데모 열기');
     const image = el('img');
     image.src = experiment.thumbnail;
     image.alt = experiment.thumbnailAlt;
@@ -172,48 +153,42 @@ const experiments = [
     image.height = 800;
     image.decoding = 'async';
     if (index > 0) image.loading = 'lazy';
-    imageLink.append(image);
+    thumb.append(image);
 
-    const title = el('h3', 'experiment__name');
+    const body = el('div', 'xbody');
+    const title = el('h3');
     title.id = headingId;
     const titleLink = el('a', '', experiment.title);
     titleLink.href = experiment.path;
     title.append(titleLink);
-    const tag = el('div', 'experiment__tag');
-    tag.append(el('p', 'experiment__id meta', experiment.id), title);
-    const media = el('div', 'experiment__media');
-    media.append(tag, imageLink);
+    const tags = el('ul', 'tags');
+    experiment.tags.concat(experiment.specimens + '개').forEach(tag => tags.append(el('li', '', tag)));
+    const open = el('a', 'open', '데모 열기 ');
+    open.href = experiment.path;
+    open.setAttribute('aria-label', experiment.title + ' 데모 열기');
+    const arrow = el('span', '', '↗');
+    arrow.setAttribute('aria-hidden', 'true');
+    open.append(arrow);
+    body.append(title, el('p', 'sub', experiment.subtitle), el('p', 'desc', experiment.desc), tags, open);
 
-    const body = el('div', 'experiment__body');
-    body.append(el('p', 'experiment__en meta', experiment.subtitle),
-      el('p', 'experiment__desc', experiment.desc));
-
-    const specs = el('dl', 'specs');
+    const meta = el('dl', 'xmeta');
     function spec(label, content) {
-      const row = el('div');
+      const wrap = el('div');
       const value = el('dd');
       value.append(content);
-      row.append(el('dt', '', label), value);
-      specs.append(row);
+      wrap.append(el('dt', '', label), value);
+      meta.append(wrap);
     }
-    const date = el('time', 'meta', experiment.date.replaceAll('-', '.'));
+    const date = el('time', '', experiment.date.replaceAll('-', '.'));
     date.dateTime = experiment.date;
     spec('Date / 날짜', date);
     const source = el('a', '', experiment.source + ' ↗');
     source.href = experiment.sourceUrl;
     spec('Source / 출처', source);
-    spec('Format / 형식', experiment.tags.join(' / ') + ' · ' + experiment.specimens + '개');
     spec('Status / 상태', el('span', 'status', experiment.status));
-    const open = el('a', 'experiment__open', '데모 열기');
-    open.href = experiment.path;
-    open.setAttribute('aria-label', experiment.title + ' 데모 열기');
-    const arrow = el('span', '', '↗');
-    arrow.setAttribute('aria-hidden', 'true');
-    open.append(' ', arrow);
-    body.append(specs, open);
-    article.append(media, body);
-    item.append(article);
-    list.append(item);
+
+    row.append(id, thumb, body, meta);
+    list.append(row);
   });
   document.getElementById('exp-count').textContent = String(sorted.length);
 })();
