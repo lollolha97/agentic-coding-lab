@@ -107,6 +107,7 @@ h1, h2, h3 { font-weight: 400; }
 .site-footer > .tiny { display: none; color: var(--gray-6); }
 .breadcrumbs { display: flex; gap: 12px; font-size: 14px; color: var(--gray-6); padding-top: 28px; }
 .experiment-heading { padding: 32px 0 36px; display: grid; gap: 28px; }
+.provenance { grid-column: 1 / -1; text-align: right; font-size: 14px; line-height: 1.5; letter-spacing: .02em; color: var(--gray-6); }
 .experiment-heading h1 { font-size: clamp(32px, 4vw, 52px); letter-spacing: -.05em; line-height: 1.2; margin: 10px 0 14px; }
 .experiment-heading p { font-size: 16px; max-width: 600px; word-break: keep-all; }
 .source-note { border-left: 1px solid var(--gray-3); padding-left: 17px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; font-size: 14px; }
@@ -114,7 +115,7 @@ h1, h2, h3 { font-weight: 400; }
 .source-note a { color: var(--blue-3); text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
 .source-note small { color: var(--gray-6); font-size: 14px; margin-top: 7px; }
 .demo-toolbar { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid var(--fg); padding: 20px 0; }
-.demo-toolbar h2 { font-size: 18px; line-height: 1.4; }
+.demo-toolbar h2 { font-size: 20px; font-weight: 600; line-height: 1.4; }
 .toolbar-buttons { display: flex; gap: 8px; }
 .toolbar-buttons button { font-size: 16px; padding: 8px 10px; border: 1px solid var(--gray-3); min-height: 44px; }
 .toolbar-buttons button:hover { border-color: var(--blue-3); }
@@ -131,7 +132,7 @@ h1, h2, h3 { font-weight: 400; }
 .stage-footer { position: absolute; left: 15px; right: 15px; bottom: 12px; display: flex; justify-content: space-between; font-size: 14px; color: var(--gray-6); z-index: 1; }
 .demo-info { padding: 24px 20px 16px; }
 .demo-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-.demo-heading h3 { font-size: 20px; line-height: 1.4; letter-spacing: -.03em; }
+.demo-heading h3 { font-size: 22px; font-weight: 600; line-height: 1.4; letter-spacing: -.03em; }
 .demo-heading > span { color: var(--gray-6); font-size: 14px; }
 .demo-description { font-size: 16px; margin: 16px 0 24px; min-height: 84px; color: var(--gray-6); word-break: keep-all; }
 .demo-controls { border-top: 1px solid var(--gray-2); display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; }
