@@ -1,0 +1,120 @@
+{
+  "verifiedOn": "2026-10-01",
+  "browser": "Chromium 152 via Playwright",
+  "requireContent": true,
+  "passed": 12,
+  "projectPrefix": "passed",
+  "contentReady": true,
+  "reports": [
+    {
+      "path": "/",
+      "width": 390,
+      "colorScheme": "light",
+      "demos": 0,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-001/",
+      "width": 390,
+      "colorScheme": "light",
+      "demos": 10,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-002/",
+      "width": 390,
+      "colorScheme": "light",
+      "demos": 8,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "colorScheme": "dark",
+      "demos": 0,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-001/",
+      "width": 390,
+      "colorScheme": "dark",
+      "demos": 10,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-002/",
+      "width": 390,
+      "colorScheme": "dark",
+      "demos": 8,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "colorScheme": "light",
+      "demos": 0,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-001/",
+      "width": 1440,
+      "colorScheme": "light",
+      "demos": 10,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-002/",
+      "width": 1440,
+      "colorScheme": "light",
+      "demos": 8,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "colorScheme": "dark",
+      "demos": 0,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-001/",
+      "width": 1440,
+      "colorScheme": "dark",
+      "demos": 10,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    },
+    {
+      "path": "/experiments/exp-002/",
+      "width": 1440,
+      "colorScheme": "dark",
+      "demos": 8,
+      "errors": 0,
+      "externalRequests": 0,
+      "overflow": false
+    }
+  ],
+  "screenshots": "/tmp/agentic-coding-lab-screenshots",
+  "caveat": "The source brief provides the site concept and experiment section headings only in English; those are preserved verbatim. All 18 Korean descriptions are integrated verbatim. Design and application code are unchanged."
+}
