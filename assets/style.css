@@ -313,45 +313,145 @@ h1, h2, h3 { font-weight: 400; }
   64%  { left: 0; opacity: 0; } 65% { left: 0; opacity: 1; }
   95%  { left: calc(100% - 4px); opacity: 1; } 97%, 100% { left: calc(100% - 4px); opacity: 0; }
 }
-/* Camera studies: rotation, translation, depth and lens scale are distinct. */
-.camera-window { width: 78%; max-width: 290px; height: 148px; border: 1px solid var(--blue-2); overflow: hidden; position: relative; perspective: 500px; }
-.camera-window::after { content: ''; position: absolute; width: 14px; height: 14px; top: calc(50% - 7px); left: calc(50% - 7px); border: 1px solid var(--blue-3); pointer-events: none; }
-.camera-window svg { width: 100%; height: 100%; }
-.scene-pivot { transform-origin: 150px 90px; }
-.camera-pan { animation-name: pan; transform-origin: 150px 200px; }
-.camera-tilt { animation-name: tilt; transform-origin: 150px 90px; }
-.camera-roll { animation-name: roll; transform-origin: 150px 90px; }
-.camera-truck-back { animation-name: truck-back; }
-.camera-truck-front { animation-name: truck-front; }
-.camera-pedestal-back { animation-name: pedestal-back; }
-.camera-pedestal-front { animation-name: pedestal-front; }
-.camera-dolly-back { animation-name: dolly-back; transform-origin: 150px 90px; }
-.camera-dolly-front { animation-name: dolly-front; transform-origin: 150px 90px; }
-.camera-zoom { animation-name: zoom; transform-origin: 150px 90px; }
-.orbit-room { position: relative; width: 100%; height: 100%; display: grid; place-items: center; perspective: 500px; }
-.orbit-grid { width: 220px; height: 180px; position: absolute; border: 1px solid var(--gray-3); transform: rotateX(70deg) translateZ(-35px); }
-.orbit-grid::before, .orbit-grid::after { content: ''; position: absolute; background: var(--gray-3); }
-.orbit-grid::before { width: 100%; height: 1px; top: 50%; }
-.orbit-grid::after { width: 1px; height: 100%; left: 50%; }
-.orbit-camera { width: 65px; height: 65px; transform-style: preserve-3d; transform: rotateX(-15deg) rotateY(-30deg); animation-name: orbit; }
-.cube-face { position: absolute; width: 65px; height: 65px; border: 1px solid var(--blue-3); background: var(--blue-1); backface-visibility: hidden; }
-.cube-front { transform: translateZ(32.5px); background: var(--blue-2); }
-.cube-back { transform: rotateY(180deg) translateZ(32.5px); }
-.cube-right { transform: rotateY(90deg) translateZ(32.5px); }
-.cube-left { transform: rotateY(-90deg) translateZ(32.5px); }
-.cube-top { transform: rotateX(90deg) translateZ(32.5px); }
-.cube-bottom { transform: rotateX(-90deg) translateZ(32.5px); }
-@keyframes pan { 0%, 12% { transform: perspective(320px) rotateY(-12deg) translateX(32px); } 86%, 100% { transform: perspective(320px) rotateY(12deg) translateX(-32px); } }
-@keyframes tilt { 0%, 12% { transform: perspective(320px) rotateX(-15deg) translateY(24px); } 86%, 100% { transform: perspective(320px) rotateX(15deg) translateY(-24px); } }
-@keyframes roll { 0%, 12% { transform: rotate(-18deg) scale(1.2); } 86%, 100% { transform: rotate(18deg) scale(1.2); } }
-@keyframes truck-back { 0%, 12% { transform: translateX(10px); } 86%, 100% { transform: translateX(-10px); } }
-@keyframes truck-front { 0%, 12% { transform: translateX(42px); } 86%, 100% { transform: translateX(-42px); } }
-@keyframes pedestal-back { 0%, 12% { transform: translateY(-8px); } 86%, 100% { transform: translateY(8px); } }
-@keyframes pedestal-front { 0%, 12% { transform: translateY(-30px); } 86%, 100% { transform: translateY(30px); } }
-@keyframes dolly-back { 0%, 12% { transform: scale(.96); } 86%, 100% { transform: scale(1.08); } }
-@keyframes dolly-front { 0%, 12% { transform: scale(.75); } 86%, 100% { transform: scale(1.5); } }
-@keyframes zoom { 0%, 12% { transform: scale(.85); } 86%, 100% { transform: scale(1.4); } }
-@keyframes orbit { 0%, 12% { transform: rotateX(-15deg) rotateY(-30deg); } 86%, 100% { transform: rotateX(-15deg) rotateY(140deg); } }
+/* Camera scenes (EXP-002): DOM stages on the motion-scene chassis, looping forever. One registered custom property per scene
+   is animated on .cm (--s swing -1…1, --t turn 0…1, --mm lens readout); the camera glyph, gauge and viewfinder all read it, so they stay in sync. */
+@property --s { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --t { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --mm { syntax: "<integer>"; inherits: true; initial-value: 24; }
+@keyframes cmSwing { 0%, 12% { --s: -1; } 50%, 62% { --s: 1; } 100% { --s: -1; } }
+@keyframes cmZoom { 0%, 12% { --s: -1; --mm: 24; } 50%, 62% { --s: 1; --mm: 70; } 100% { --s: -1; --mm: 24; } }
+@keyframes cmTurn { from { --t: 0; } to { --t: 1; } }
+.scene .cm { position: absolute; top: 0; left: 50%; width: 260px; height: 190px; margin-left: -130px; animation: cmSwing 6s cubic-bezier(.45, 0, .55, 1) infinite; }
+.scene .cm-zoom { animation-name: cmZoom; }
+.scene .cm-orbit { animation: cmTurn 10s linear infinite; }
+.scene .cm > * { position: absolute; }
+.scene .cm-vf { overflow: hidden; background: var(--bg); border: 2px solid var(--ink); }
+.scene .cm-world, .scene .cm-layer, .scene .cm-fixed, .scene .cm-zw, .scene .cm-pano { position: absolute; }
+.scene .cm-corners { position: absolute; inset: 5px; z-index: 2; }
+.scene .cm-corners b { position: absolute; width: 9px; height: 9px; border: 0 solid var(--ink); }
+.scene .cm-corners b:nth-child(1) { top: 0; left: 0; border-width: 2px 0 0 2px; }
+.scene .cm-corners b:nth-child(2) { top: 0; right: 0; border-width: 2px 2px 0 0; }
+.scene .cm-corners b:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+.scene .cm-corners b:nth-child(4) { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+.scene .cm-flat { position: absolute; left: 0; right: 0; bottom: 0; background: var(--gray-2); border-top: 2px solid var(--guide); }
+/* artwork: far = gray, mid = pale blue with violet edge, near = ink, subject = --subject; --accent only on the small lens / pointer mark */
+.scene .cm-far { fill: var(--gray-3); }
+.scene .cm-mid { fill: var(--blue-1); stroke: var(--blue-2); stroke-width: 1.5; }
+.scene .cm-near { fill: var(--ink); }
+.scene .cm-floor { fill: var(--gray-2); }
+.scene .cm-ground, .scene .cm-tick, .scene .cm-persp { fill: none; stroke: var(--guide); }
+.scene .cm-ground { stroke-width: 2; }
+.scene .cm-tick { stroke-width: 1.5; }
+.scene .cm-persp { stroke-width: 1; }
+.scene .cm-horizon { fill: none; stroke: var(--ink); stroke-width: 2; }
+.scene .cm-sun { fill: none; stroke: var(--blue-2); stroke-width: 2; }
+.scene .cm-win { fill: var(--gray-3); }
+.scene .cm-sub { fill: var(--subject); }
+.scene .cm-eye { fill: var(--on-subject); }
+.scene .cm-t { font: 11px ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; fill: var(--gray-6); }
+/* camera marker: a zero-size anchor holds a glyph whose lens faces up; modifiers turn it */
+.scene .cm-rig { width: 0; height: 0; }
+.scene .cm-glyph { position: absolute; left: -30px; top: -50px; overflow: visible; }
+.scene .cm-glyph.cm-front { left: -32px; top: -26px; }
+.scene .cm-glyph.is-right { transform: rotate(90deg); transform-origin: 30px 50px; }
+.scene .cm-glyph.is-in { transform: rotate(180deg) scale(.7); transform-origin: 30px 50px; }
+.scene .cm-fov { fill: var(--ink); fill-opacity: .12; stroke: var(--ink); stroke-opacity: .55; stroke-width: 1; stroke-dasharray: 3 3; }
+.scene .cm-body { fill: var(--ink); }
+.scene .cm-lens { fill: var(--accent); }
+.scene .cm-outline { fill: var(--gray-1); stroke: var(--ink); stroke-width: 2; }
+.scene .cm-arc, .scene .cm-ring { border: 1px dashed var(--guide); border-radius: 50%; }
+.scene .cm-stand { background: var(--gray-5); }
+.scene .cm-track { fill: none; stroke: var(--guide); stroke-width: 2; }
+.scene .cm-tie { fill: none; stroke: var(--guide); stroke-width: 1; }
+.scene .cm-stop { fill: none; stroke: var(--ink); stroke-width: 3; }
+.scene .cm-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--subject); }
+/* 01 pan: the world sweeps flat (no parallax) while the head turns on a fixed pivot */
+.scene .cm-pan-vf { left: 20px; top: 6px; width: 220px; height: 106px; }
+.scene .cm-pan-world { left: -112px; top: 0; width: 440px; height: 102px; transform: translateX(calc(var(--s) * -96px)); }
+.scene .cm-pan-arc { left: 78px; top: 116px; width: 104px; height: 104px; clip-path: inset(0 0 50% 0); }
+.scene .cm-pan-stand { left: 129px; top: 177px; width: 2px; height: 11px; }
+.scene .cm-pan-rig { left: 130px; top: 170px; transform: rotate(calc(var(--s) * 30deg)); }
+/* 02 tilt: the world sweeps up and down while the head pitches */
+.scene .cm-tilt-vf { left: 10px; top: 37px; width: 144px; height: 116px; }
+.scene .cm-tilt-world { left: 0; top: -104px; width: 140px; height: 320px; transform: translateY(calc(var(--s) * 84px)); }
+.scene .cm-tilt-arc { left: 146px; top: 41px; width: 108px; height: 108px; clip-path: inset(0 0 0 50%); }
+.scene .cm-tilt-stand { left: 199px; top: 102px; width: 2px; height: 58px; }
+.scene .cm-tilt-rig { left: 200px; top: 95px; transform: rotate(calc(var(--s) * -28deg)); }
+/* 03 roll: the horizon tilts against fixed level marks while the body rotates about the lens axis */
+.scene .cm-roll-vf { left: 8px; top: 37px; width: 148px; height: 116px; }
+.scene .cm-roll-world { left: -78px; top: -94px; width: 300px; height: 300px; transform: rotate(calc(var(--s) * -16deg)); }
+.scene .cm-level { position: absolute; inset: 0; z-index: 2; }
+.scene .cm-level::before, .scene .cm-level::after { content: ""; position: absolute; top: calc(50% - 1px); width: 14px; height: 2px; background: var(--ink); }
+.scene .cm-level::before { left: 0; }
+.scene .cm-level::after { right: 0; }
+.scene .cm-roll-ring { left: 164px; top: 53px; width: 84px; height: 84px; }
+.scene .cm-roll-ring::before { content: ""; position: absolute; top: -6px; left: calc(50% - 1px); width: 2px; height: 10px; background: var(--ink); }
+.scene .cm-roll-rig { left: 206px; top: 95px; transform: rotate(calc(var(--s) * 16deg)); }
+/* 04 truck: the marker slides along a rail; far / mid / near layers slide opposite at different rates */
+.scene .cm-truck-vf { left: 20px; top: 6px; width: 220px; height: 94px; }
+.scene .cm-truck-vf .cm-flat { top: 68px; }
+.scene .cm-t-far { --w: 420px; --amp: 12px; }
+.scene .cm-t-mid { --w: 420px; --amp: 44px; }
+.scene .cm-t-near { --w: 520px; --amp: 104px; }
+.scene .cm-truck-vf .cm-layer { top: 0; left: 50%; width: var(--w); height: 90px; margin-left: calc(var(--w) / -2); transform: translateX(calc(var(--s) * var(--amp) * -1)); }
+.scene .cm-truck-rail { left: 28px; top: 144px; }
+.scene .cm-truck-dot { left: 125px; top: 112px; }
+.scene .cm-truck-rig { left: 130px; top: 152px; transform: translateX(calc(var(--s) * 72px)); }
+/* 05 pedestal: the marker rides a graduated column with its lens level; layers slide vertically at different rates */
+.scene .cm-ped-col { left: 0; top: 0; }
+.scene .cm-ped-vf { left: 104px; top: 37px; width: 148px; height: 116px; }
+.scene .cm-ped-vf .cm-flat { top: 70px; }
+.scene .cm-p-far { --h: 112px; --amp: 0px; }
+.scene .cm-p-mid { --h: 164px; --amp: 26px; }
+.scene .cm-p-near { --h: 212px; --amp: 50px; }
+.scene .cm-ped-vf .cm-layer { left: 0; width: 144px; top: 50%; height: var(--h); margin-top: calc(var(--h) / -2); transform: translateY(calc(var(--s) * var(--amp))); }
+.scene .cm-ped-rig { left: 46px; top: 95px; transform: translateY(calc(var(--s) * -42px)); }
+/* 06 dolly: the marker drives toward the subject; layers scale about the vanishing point by 1 / distance, so near grows fastest */
+.scene .cm-dolly-vf { left: 20px; top: 6px; width: 220px; height: 94px; }
+.scene .cm-dolly-vf .cm-fixed, .scene .cm-dolly-vf .cm-layer { left: 0; top: 0; width: 216px; height: 90px; }
+.scene .cm-dolly-vf .cm-layer { transform-origin: 108px 48px; transform: scale(calc(var(--d) / (var(--d) - 27.5 - 27.5 * var(--s)))); }
+.scene .cm-d-far { --d: 500; }
+.scene .cm-d-mid { --d: 120; }
+.scene .cm-d-near { --d: 80; }
+.scene .cm-dolly-rail { left: 28px; top: 142px; }
+.scene .cm-dolly-dot { left: 208px; top: 145px; width: 12px; height: 12px; }
+.scene .cm-dolly-rig { left: 100px; top: 150px; transform: translateX(calc(var(--s) * 50px)); }
+/* 07 zoom: the camera stays put; the field of view tightens (left) and the whole picture scales flat (right) */
+.scene .cm-zoom-l { left: 8px; top: 24px; width: 94px; height: 70px; border-color: var(--guide); }
+.scene .cm-zw { left: 0; top: 0; width: 128px; height: 94px; }
+.scene .cm-zw-s { transform: scale(.703); transform-origin: 0 0; }
+.scene .cm-zoom-r .cm-zw { transform: scale(calc(1.96 + .96 * var(--s))); }
+.scene .cm-fovbox { inset: calc(50% * (1 - 1 / (1.96 + .96 * var(--s)))); }
+.scene .cm-zoom-arrow { left: 105px; top: 52px; }
+.scene .cm-arrow { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.scene .cm-zoom-r { left: 124px; top: 10px; width: 132px; height: 98px; }
+.scene .cm-mm { left: 8px; top: 100px; width: 94px; text-align: center; color: var(--fg); font: 700 16px/20px ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; counter-reset: mm var(--mm); }
+.scene .cm-mm::after { content: counter(mm) "mm"; }
+.scene .cm-ruler { left: 30px; top: 128px; }
+.scene .cm-ptr { left: 35px; top: 133px; width: 0; height: 0; border: solid transparent; border-width: 7px 5px 0; border-top-color: var(--accent); transform: translateX(calc((var(--s) + 1) * 90px)); }
+/* 08 orbit: the subject stays fixed; the marker circles a ring and the cube's face and backdrop turn with it */
+.scene .cm-orb-ring { left: 20px; top: 53px; width: 84px; height: 84px; }
+.scene .cm-orb-sub { left: 52px; top: 85px; width: 20px; height: 20px; border: 4px solid; border-color: var(--subject) var(--blue-2) var(--gray-5) var(--gray-3); background: var(--bg); }
+.scene .cm-orb-letters { inset: 0; }
+.scene .cm-orb-letters b { position: absolute; width: 12px; height: 12px; color: var(--gray-6); font: 700 10px/12px ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; text-align: center; }
+.scene .cm-orb-letters b:nth-child(1) { left: 56px; top: 67px; }
+.scene .cm-orb-letters b:nth-child(2) { left: 78px; top: 89px; }
+.scene .cm-orb-letters b:nth-child(3) { left: 56px; top: 111px; }
+.scene .cm-orb-letters b:nth-child(4) { left: 34px; top: 89px; }
+.scene .cm-orb-arm { left: 62px; top: 95px; transform: rotate(calc(var(--t) * 360deg)); }
+.scene .cm-orb-cam { position: absolute; left: 0; top: -42px; width: 0; height: 0; }
+.scene .cm-orb-vf { left: 124px; top: 41px; width: 128px; height: 108px; }
+.scene .cm-orb-vf .cm-flat { top: 76px; }
+.scene .cm-pano { left: 0; top: 0; transform: translateX(calc(var(--t) * -280px)); }
+.scene .cm-shadow { position: absolute; left: 36px; top: 72px; width: 52px; height: 8px; border-radius: 50%; background: var(--ink); opacity: .2; }
+.scene .cm-orb-wrap { position: absolute; left: 40px; top: 30px; width: 44px; height: 44px; perspective: 320px; }
+.scene .cm-cube { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(-16deg) rotateY(calc(var(--t) * 360deg)); }
+.scene .cm-face { position: absolute; inset: 0; display: grid; place-items: center; border: 2px solid var(--ink); font: 700 18px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-style: normal; backface-visibility: hidden; }
+.scene .cm-fn { transform: translateZ(22px); background: var(--subject); color: var(--on-subject); }
+.scene .cm-fe { transform: rotateY(-90deg) translateZ(22px); background: var(--blue-2); color: var(--fg); }
+.scene .cm-fs { transform: rotateY(180deg) translateZ(22px); background: var(--gray-5); color: var(--bg); }
+.scene .cm-fw { transform: rotateY(90deg) translateZ(22px); background: var(--gray-3); color: var(--fg); }
+.scene .cm-ft { transform: rotateX(90deg) translateZ(22px); background: var(--bg); }
 @media (min-width: 600px) {
   .search { width: 235px; }
   .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -385,15 +485,11 @@ h1, h2, h3 { font-weight: 400; }
   .demo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   .stage { height: 258px; }
   .stage svg { height: 208px; }
-  .camera-window { height: 160px; }
-  .camera-window svg { height: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .animated { animation: none !important; }
   .preview-ball { transform: translateX(150px); }
-  .camera-zoom { transform: scale(1.2); }
-  .orbit-camera { transform: rotateX(-15deg) rotateY(35deg); }
   .scene *, .scene *::before, .scene *::after { animation: none !important; }
   .scene .ball { left: calc(100% - 46px); }
   .scene .arc-ball, .scene .arc-ghost { left: calc(50% - 10px); }
@@ -403,4 +499,11 @@ h1, h2, h3 { font-weight: 400; }
   .scene .mc-a { opacity: 0; }
   .scene .mc-b { opacity: 1; }
   .scene .mc-bg { background: var(--gray-2); }
+  /* camera scenes: a still mid-move pose each */
+  .scene .cm-pan, .scene .cm-tilt, .scene .cm-pedestal { --s: .5; }
+  .scene .cm-roll { --s: .6; }
+  .scene .cm-truck { --s: .4; }
+  .scene .cm-dolly { --s: .3; }
+  .scene .cm-zoom { --s: .3; --mm: 54; }
+  .scene .cm-orbit { --t: .1; }
 }
