@@ -1,5 +1,5 @@
 {
-  "passed": 20,
+  "passed": 16,
   "projectPrefix": "passed",
   "contentReady": true,
   "reports": [
@@ -11,7 +11,7 @@
       "demos": 0,
       "firstContentY": 490,
       "firstStageY": 573,
-      "pageHeight": 2502,
+      "pageHeight": 2030,
       "screenshotAnimationTime": null,
       "contrast": {
         "lineOnStage": 3.4864431631763817,
@@ -24,6 +24,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "n/a",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -47,6 +48,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -70,6 +72,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -77,10 +80,10 @@
       "width": 390,
       "height": 844,
       "colorScheme": "light",
-      "demos": 18,
-      "firstContentY": 497,
-      "firstStageY": 561,
-      "pageHeight": 10199,
+      "demos": 13,
+      "firstContentY": 491,
+      "firstStageY": 555,
+      "pageHeight": 7874,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 3.4864431631763817,
@@ -92,30 +95,8 @@
       "externalRequests": 0,
       "overflow": false,
       "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
-      "reducedMotion": "passed"
-    },
-    {
-      "path": "/experiments/exp-004/",
-      "width": 390,
-      "height": 844,
-      "colorScheme": "light",
-      "demos": 5,
-      "firstContentY": 910,
-      "firstStageY": 1186,
-      "pageHeight": 5845,
-      "screenshotAnimationTime": 1200,
-      "contrast": {
-        "lineOnStage": 3.4864431631763817,
-        "lineOnPage": 3.851413382778797,
-        "lineOnFloor": 3.150281435347296,
-        "blueOnPale": 4.162086202300654
-      },
-      "errors": 0,
-      "externalRequests": 0,
-      "overflow": false,
-      "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
+      "pauseReplay": "n/a",
+      "interactions": "passed",
       "reducedMotion": "passed"
     },
     {
@@ -126,7 +107,7 @@
       "demos": 0,
       "firstContentY": 490,
       "firstStageY": 573,
-      "pageHeight": 2502,
+      "pageHeight": 2030,
       "screenshotAnimationTime": null,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -139,6 +120,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "n/a",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -162,6 +144,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -185,6 +168,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -192,10 +176,10 @@
       "width": 390,
       "height": 844,
       "colorScheme": "dark",
-      "demos": 18,
-      "firstContentY": 497,
-      "firstStageY": 561,
-      "pageHeight": 10199,
+      "demos": 13,
+      "firstContentY": 491,
+      "firstStageY": 555,
+      "pageHeight": 7874,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -207,30 +191,8 @@
       "externalRequests": 0,
       "overflow": false,
       "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
-      "reducedMotion": "passed"
-    },
-    {
-      "path": "/experiments/exp-004/",
-      "width": 390,
-      "height": 844,
-      "colorScheme": "dark",
-      "demos": 5,
-      "firstContentY": 910,
-      "firstStageY": 1186,
-      "pageHeight": 5845,
-      "screenshotAnimationTime": 1200,
-      "contrast": {
-        "lineOnStage": 4.716582411012002,
-        "lineOnPage": 5.6910116432201034,
-        "lineOnFloor": 3.4239983324938996,
-        "blueOnPale": 5.28960539963237
-      },
-      "errors": 0,
-      "externalRequests": 0,
-      "overflow": false,
-      "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
+      "pauseReplay": "n/a",
+      "interactions": "passed",
       "reducedMotion": "passed"
     },
     {
@@ -254,6 +216,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "n/a",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -277,6 +240,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -300,6 +264,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -307,10 +272,10 @@
       "width": 1440,
       "height": 1000,
       "colorScheme": "light",
-      "demos": 18,
-      "firstContentY": 478,
-      "firstStageY": 542,
-      "pageHeight": 3885,
+      "demos": 13,
+      "firstContentY": 492,
+      "firstStageY": 556,
+      "pageHeight": 3580,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 3.4864431631763817,
@@ -322,30 +287,8 @@
       "externalRequests": 0,
       "overflow": false,
       "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
-      "reducedMotion": "passed"
-    },
-    {
-      "path": "/experiments/exp-004/",
-      "width": 1440,
-      "height": 1000,
-      "colorScheme": "light",
-      "demos": 5,
-      "firstContentY": 649,
-      "firstStageY": 686,
-      "pageHeight": 3757,
-      "screenshotAnimationTime": 1200,
-      "contrast": {
-        "lineOnStage": 3.4864431631763817,
-        "lineOnPage": 3.851413382778797,
-        "lineOnFloor": 3.150281435347296,
-        "blueOnPale": 4.162086202300654
-      },
-      "errors": 0,
-      "externalRequests": 0,
-      "overflow": false,
-      "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
+      "pauseReplay": "n/a",
+      "interactions": "passed",
       "reducedMotion": "passed"
     },
     {
@@ -369,6 +312,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "n/a",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -392,6 +336,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -415,6 +360,7 @@
       "overflow": false,
       "themeTouchTargets": "passed",
       "pauseReplay": "passed",
+      "interactions": "n/a",
       "reducedMotion": "passed"
     },
     {
@@ -422,10 +368,10 @@
       "width": 1440,
       "height": 1000,
       "colorScheme": "dark",
-      "demos": 18,
-      "firstContentY": 478,
-      "firstStageY": 542,
-      "pageHeight": 3885,
+      "demos": 13,
+      "firstContentY": 492,
+      "firstStageY": 556,
+      "pageHeight": 3580,
       "screenshotAnimationTime": 1200,
       "contrast": {
         "lineOnStage": 4.716582411012002,
@@ -437,36 +383,10 @@
       "externalRequests": 0,
       "overflow": false,
       "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
-      "reducedMotion": "passed"
-    },
-    {
-      "path": "/experiments/exp-004/",
-      "width": 1440,
-      "height": 1000,
-      "colorScheme": "dark",
-      "demos": 5,
-      "firstContentY": 649,
-      "firstStageY": 686,
-      "pageHeight": 3757,
-      "screenshotAnimationTime": 1200,
-      "contrast": {
-        "lineOnStage": 4.716582411012002,
-        "lineOnPage": 5.6910116432201034,
-        "lineOnFloor": 3.4239983324938996,
-        "blueOnPale": 5.28960539963237
-      },
-      "errors": 0,
-      "externalRequests": 0,
-      "overflow": false,
-      "themeTouchTargets": "passed",
-      "pauseReplay": "passed",
+      "pauseReplay": "n/a",
+      "interactions": "passed",
       "reducedMotion": "passed"
     }
   ],
-  "screenshots": "/tmp/agentic-coding-lab-screenshots",
-  "motionScenePreservation": {
-    "markup": "unchanged",
-    "keyframesUnchanged": 18
-  }
+  "screenshots": "/tmp/agentic-coding-lab-screenshots"
 }

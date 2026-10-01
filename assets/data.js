@@ -5,21 +5,19 @@
      (leave them out when the whole page shares the page-level `sources`).
    - groups: optional section headers on the experiment page, shown in demo order; also summarised on the landing card.
    - scenes: demos listed here are drawn by app.js. If a page registers scene HTML in window.LAB_SCENES[slug][key]
-     (experiments/exp-00N/scenes.js) app.js uses it; `selfRendered` pages draw everything themselves and app.js leaves them alone. */
+     (experiments/exp-00N/scenes.js) app.js uses it.
+   - interactive: the page's scenes are working UI patterns ({ label, hint, html, init(root) } in LAB_SCENES). app.js renders them as live
+     controls instead of looping animations: the play/pause toolbar is replaced by reset buttons, and init() may return a cleanup function. */
 (() => {
 const IG = 'https://www.instagram.com/';
 const toDemo = ([key, name, english, description, group, account, url]) => ({ key, name, english, description, group, sources: account ? [{ account, url }] : [] });
-const shared = (list, rows) => rows.map(([key, name, english, description, group]) => ({ key, name, english, description, group, sources: list.map(([account, url]) => ({ account, url })) }));
-const TREND_SOURCES = [['@adobeexpress', IG + 'p/Dd6pUUdjkTZ/'], ['@uxbrainy', IG + 'p/DdORF23iBpe/']];
-const REF_SOURCES = [['@orbix_marketing', IG + 'p/DduRMxvGYVr/'], ['@asmin_creates2', IG + 'p/DdtS0FFjAiy/']];
-const DOTS_SOURCES = [['@dotsystemsdevs', IG + 'p/DdRvGhlgvME/']];
 
 window.LAB = {
   copyPending: false,
   title: 'Agentic Coding Lab',
-  intro: "소셜 미디어에서 발견한 모션, 카메라, 웹 디자인, AI 아이디어를 코드로 재현합니다.",
+  intro: "소셜 미디어에서 발견한 모션, 카메라, 웹 디자인 아이디어를 코드로 재현합니다.",
   credit: '제작 Claude Sonnet 5.5 · 2026-10-01',
-  categories: ['모션', '카메라', '웹 디자인', 'AI'],
+  categories: ['모션', '카메라', '웹 디자인'],
   experiments: [
     {
       id: 'EXP-001', slug: 'exp-001', title: '모션 용어', category: '모션', unit: '데모',
@@ -76,52 +74,31 @@ window.LAB = {
       ].map(([key, name, english, description]) => toDemo([key, name, english, description]))
     },
     {
-      id: 'EXP-003', slug: 'exp-003', title: '웹 디자인 패턴', category: '웹 디자인', unit: '데모',
-      description: "랜딩 패턴 6종, 죽어가는 트렌드 6쌍, 디자인 레퍼런스 6장을 CSS로 재현한 웹 디자인 실험",
+      id: 'EXP-003', slug: 'exp-003', title: '웹 디자인 패턴', category: '웹 디자인', unit: '패턴', interactive: true,
+      description: "탭, 드롭다운, 모달, 폼 검증까지 직접 눌러 보며 동작을 확인하는 13개의 웹 UI 패턴",
       sources: [],
       provenance: '제작 Claude Sonnet 5.5 · 2026-10-01',
-      sourceNote: '출처는 카드마다 표기합니다.',
+      sourceNote: '출처가 있는 패턴에만 카드마다 표기합니다.',
       groups: {
-        landing: ['랜딩 패턴', '히어로부터 소셜 프루프까지, 랜딩 페이지를 이루는 여섯 구간.'],
-        trend: ['죽어가는 트렌드 vs 대체재', '왼쪽이 사라지는 중인 표현, 오른쪽이 그 자리를 대신하는 표현입니다.'],
-        ref: ['디자인 레퍼런스 디렉토리', '분류 구조만 재현한 카드입니다. 개별 사이트 링크는 출처 게시물에서 확인하세요.']
+        nav: ['탐색·이동', '화면 안에서 위치를 바꾸고 이동하는 다섯 가지 패턴.'],
+        content: ['콘텐츠 펼침·전환', '같은 자리에서 내용을 펼치고 넘기고 걸러 내는 세 가지 패턴.'],
+        feedback: ['오버레이·입력·피드백', '위에 겹쳐 뜨거나, 입력을 받고, 결과를 알려 주는 다섯 가지 패턴.']
       },
       demos: [
-        toDemo(['hero', '히어로', 'Hero', "내비게이션 아래에서 라벨, 두 줄 헤드라인, 설명, 버튼이 시간차를 두고 올라오고 오른쪽 제품 카드의 막대가 자랍니다. 첫 화면에서 읽는 순서대로 요소를 등장시키는 패턴입니다.", 'landing', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/']),
-        toDemo(['path', '애니메이티드 패스', 'Animated Path', "점선 경로 위로 굵은 선이 그려지며 점이 네 지점을 차례로 지나가고, 지나간 지점은 채워집니다. 경로 길이를 100으로 맞춘 뒤 stroke-dashoffset만 움직여 그립니다.", 'landing', '@janm_ux', IG + 'reel/Dd4B9zdOiRU/'])
-      ].concat(shared(DOTS_SOURCES, [
-        ['marquee', '로고 마퀴', 'Logo Marquee', "가상 브랜드 로고 두 줄이 서로 반대 방향으로 끊기지 않고 흐르며 양끝은 옅어집니다. 같은 묶음을 두 번 이어 붙이고 절반 거리만 이동해 이음매를 숨깁니다.", 'landing'],
-        ['feature', '기능 카드', 'Feature Cards', "세 장의 기능 카드가 차례로 올라온 뒤 한 장씩 위로 들리며 윤곽과 아이콘이 진해집니다. 카드마다 아이콘, 제목, 두 줄 설명으로 같은 틀을 반복합니다.", 'landing'],
-        ['cta', 'CTA 버튼', 'Call to Action', "어두운 띠 위에서 커서가 버튼에 올라가면 화살표가 밀려나고, 잠시 벗어났다 돌아와 버튼을 누릅니다. 가장 중요한 행동 하나만 크게 두는 마무리 구간입니다.", 'landing'],
-        ['proof', '소셜 프루프', 'Social Proof', "아바타 묶음과 별점 아래에서 후기 세 개가 차례로 바뀌고 아래 점이 현재 후기를 가리킵니다. 숫자와 실제 사람의 말로 신뢰를 보여 줍니다.", 'landing']
-      ])).concat(shared(TREND_SOURCES, [
-        ['trend-gradient', '그라디언트 vs 단색', 'Gradient vs Flat', "그라디언트 배경과 알약 버튼 대신, 단색 배경에 주황 밑줄 하나와 각진 버튼을 둔 예입니다. 포인트 색을 하나로 줄여 시선을 모읍니다.", 'trend'],
-        ['trend-glass', '글래스모피즘 vs 불투명 서피스', 'Glassmorphism vs Solid', "뒤의 도형이 움직일 때 반투명 카드는 글자 뒤로 도형이 비치고, 불투명 카드는 1px 선으로 가려 글자가 또렷합니다.", 'trend'],
-        ['trend-glow', '글로우 vs 선명한 윤곽', 'Glow vs Crisp Outline', "겹겹의 고리가 번지듯 맥동하는 버튼과, 또렷한 외곽선이 잠깐 벌어졌다 돌아오는 포커스 표시를 비교합니다.", 'trend'],
-        ['trend-blob', '3D 블롭 vs 실제 화면', 'Blob vs Real UI', "떠다니는 추상 원 장식 대신, 지표 숫자와 막대 차트가 있는 실제 제품 화면을 보여 줍니다.", 'trend'],
-        ['trend-card', '둥근 카드 vs 그리드', 'Rounded Cards vs Grid', "그림자가 있는 둥근 카드가 둥둥 뜨는 구성 대신, 가는 구분선이 차례로 그어지는 표로 정보를 정렬합니다.", 'trend'],
-        ['trend-center', '중앙 정렬 vs 좌측 위계', 'Centered vs Left Hierarchy', "같은 크기의 가운데 줄과 색 점 불릿 대신, 제목·설명·링크를 왼쪽 기준선에 크기 순서대로 놓습니다.", 'trend']
-      ])).concat(shared(REF_SOURCES, [
-        ['ref-typography', '타이포그래피 레퍼런스', 'Typography reference', "큰 Aa, 한글 제목, 작은 설명 세 단계 글자 크기를 차례로 짚는 카드. 서체 고르기, 조합 사례, 자간·행간 점검으로 나뉩니다.", 'ref'],
-        ['ref-color', '컬러 레퍼런스', 'Color reference', "높이가 다른 다섯 색 막대가 차례로 올라오는 카드. 팔레트 만들기, 명도 대비 검사, 다크 모드 대응으로 나뉩니다.", 'ref'],
-        ['ref-motion', '모션 레퍼런스', 'Motion reference', "이징 곡선 위를 주황 점이 시간에 따라 오가는 카드. 이징 곡선, 전환 길이, 마이크로 인터랙션으로 나뉩니다.", 'ref'],
-        ['ref-layout', '레이아웃 레퍼런스', 'Layout reference', "세 블록이 두 열에서 한 열로 바뀌었다 돌아오는 카드. 그리드 시스템, 간격 규칙, 반응형 흐름으로 나뉩니다.", 'ref'],
-        ['ref-mockup', '목업 레퍼런스', 'Mockup reference', "브라우저 창 앞에서 휴대폰 프레임이 기울고 화면이 위로 스크롤되는 카드. 기기 프레임, 배경 장면, 내보내기로 나뉩니다.", 'ref'],
-        ['ref-inspire', '영감 레퍼런스', 'Inspiration reference', "높이가 다른 여섯 타일이 올라오고 한 타일에 북마크 표시가 달랑거리는 카드. 작업물 갤러리, 수상작 아카이브, 무드보드로 나뉩니다.", 'ref']
-      ]))
-    },
-    {
-      id: 'EXP-004', slug: 'exp-004', title: 'GPU 없이 AI 모델 테스트하기', category: 'AI', unit: '단계', selfRendered: true,
-      description: "호스팅 추론으로 GPU 없이 AI 모델을 시험해 보는 5단계 인터랙티브 가이드",
-      sources: [{ platform: 'Instagram', account: '@leninbuilds.ai', url: IG + 'reel/DdyS12HzJVj/' }, { platform: 'Instagram', account: '@that_ai_insider', url: IG + 'reel/Ddx6APdTOyk/' }],
-      provenance: '제작 Claude Sonnet 5.5 · 2026-10-01',
-      demos: [
-        ["why", "호스팅된 모델에 묻기", "Hosted inference", "큰 모델은 GPU 없는 내 컴퓨터의 메모리에 올리기 어렵습니다. 모델이 이미 올라가 있는 서버에 요청만 보내고 답만 받으면 내 컴퓨터 사양과 상관없이 테스트할 수 있습니다."],
-        ["browse", "카탈로그에서 모델 고르기", "Browse the catalog", "NVIDIA Build 같은 호스팅 카탈로그에는 용도별로 모델이 모여 있습니다. 용도로 좁히고 카드를 눌러 써 볼 모델 하나를 정합니다. 아래 카드는 설명용 가상 모델입니다."],
-        ["try", "브라우저에서 프롬프트 시험", "Try in the playground", "코드를 쓰기 전에 웹 화면에서 프롬프트를 넣고 답을 확인합니다. 모델의 성격을 가볍게 가늠하는 단계입니다. 응답은 시연용 문장이며 실제 모델의 출력이 아닙니다."],
-        ["call", "API 키로 코드에서 호출", "Call it from code", "마음에 들면 같은 모델을 코드에서 부릅니다. 키를 만들고, 환경변수에 두고, 예제에서 주소와 모델 이름을 가져와, 요청에 실어 보냅니다. 구체적인 주소와 문법은 모델 페이지 예제를 기준으로 하세요."],
-        ["decide", "결과 보고 다음 길 정하기", "Decide what is next", "시험해 본 결과를 점검하고 호스팅으로 계속 갈지, 다른 모델로 돌아갈지, 직접 배포를 알아볼지 정합니다. 항목을 눌러 흐름이 어떻게 바뀌는지 보세요."]
-      ].map(([key, name, english, description]) => toDemo([key, name, english, description]))
+        toDemo(['tabs', '탭', 'Tabs', "탭을 누르면 아래 패널이 바뀝니다. 방향키와 Home·End로도 옮길 수 있고, 선택된 탭 하나만 Tab 키 순서에 들어갑니다.", 'nav', '@dotsystemsdevs', IG + 'p/DdRvGhlgvME/']),
+        toDemo(['dropdown', '드롭다운', 'Dropdown', "버튼을 누르면 메뉴가 열리고, 항목을 고르면 아래 목록이 그 기준으로 정렬됩니다. 방향키로 이동하고 Esc나 바깥 클릭으로 닫습니다.", 'nav']),
+        toDemo(['pagination', '페이지네이션', 'Pagination', "이전·다음 버튼과 번호로 스무 개 목록을 다섯 개씩 넘겨 봅니다. 첫 쪽과 끝 쪽에서는 해당 버튼이 꺼지고 현재 쪽은 aria-current로 표시됩니다.", 'nav']),
+        toDemo(['sticky', '스티키 헤더', 'Sticky Header', "안쪽을 스크롤하면 헤더가 위에 붙으며 낮아지고, 지금 보는 구간의 링크가 강조됩니다. 링크를 누르면 그 구간으로 이동합니다.", 'nav', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/']),
+        toDemo(['scrollpath', '스크롤 경로', 'Scroll Path', "스크롤한 만큼 점선 경로 위로 굵은 선이 그려지고, 지나간 지점이 차례로 채워집니다. 스크롤 진행률을 stroke-dashoffset에 그대로 연결했습니다.", 'nav', '@janm_ux', IG + 'reel/Dd4B9zdOiRU/']),
+        toDemo(['accordion', '아코디언', 'Accordion', "제목을 누르면 내용이 펼쳐지고 다시 누르면 접힙니다. '하나만 열기'를 켜면 새 항목을 열 때 나머지가 자동으로 닫힙니다.", 'content']),
+        toDemo(['carousel', '캐러셀', 'Carousel', "이전·다음 버튼, 점, 방향키, 좌우 스와이프로 후기를 넘깁니다. 자동 재생은 직접 켜고 끌 수 있고 마우스를 올리면 멈춥니다.", 'content', '@dotsystemsdevs', IG + 'p/DdRvGhlgvME/']),
+        toDemo(['filter', '검색·필터', 'Search & Filter', "글자를 입력하거나 분류 칩을 누르면 목록이 바로 걸러지고 결과 개수가 갱신됩니다. 결과가 없으면 안내 문구를 보여 줍니다.", 'content', '@orbix_marketing', IG + 'p/DduRMxvGYVr/']),
+        toDemo(['modal', '모달', 'Modal', "삭제 버튼을 누르면 확인 창이 뜨고 뒤쪽 화면은 조작할 수 없습니다. Tab은 창 안에서만 돌고, Esc나 바깥 클릭으로 닫으면 포커스가 버튼으로 돌아옵니다.", 'feedback']),
+        toDemo(['tooltip', '툴팁', 'Tooltip', "마우스를 올리거나 키보드로 포커스하면 짧은 설명이 뜹니다. 아이콘만 있는 버튼의 의미를 알려 주며 Esc로 닫을 수 있습니다.", 'feedback']),
+        toDemo(['toast', '토스트', 'Toast', "버튼을 누르면 화면 아래에 알림이 쌓이고 몇 초 뒤 사라집니다. 마우스를 올리면 타이머가 멈추고 ✕로 바로 닫을 수 있으며 최대 세 개만 보입니다.", 'feedback']),
+        toDemo(['toggle', '토글 스위치', 'Toggle Switch', "스위치를 켜고 끄면 옆 미리보기가 바로 바뀝니다. role=switch와 aria-checked로 상태를 전달하고 Space·Enter로도 조작합니다.", 'feedback']),
+        toDemo(['form', '폼 검증', 'Form Validation', "입력칸을 벗어나면 이메일 형식과 비밀번호 규칙을 검사해 오류를 알려 주고, 제출하면 첫 오류 칸으로 포커스를 옮깁니다. 모두 맞으면 완료 화면으로 바뀝니다.", 'feedback'])
+      ]
     }
   ]
 };

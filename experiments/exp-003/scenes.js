@@ -1,132 +1,483 @@
-/* EXP-003 · 웹 디자인 — 제작 Claude Sonnet 5.5 · 2026-10-01
-   장면 HTML은 CSS/SVG/DOM만 씁니다. 출처 링크와 그룹 제목은 카드가 그려진 뒤 맨 아래 보강 코드가 붙입니다. */
+/* EXP-003 · 웹 디자인 패턴 — 제작 Claude Sonnet 5.5 · 2026-10-01
+   13개 장면은 모두 실제로 동작하는 UI 패턴입니다. 등록 형식: window.LAB_SCENES['exp-003'][key] = { label, hint, html, init(root) }.
+   html 은 초기 상태 마크업, init(root) 는 그 안에 이벤트를 붙이고 정리 함수(타이머·document 리스너 해제)를 돌려줍니다.
+   "초기화" 는 html 을 다시 그리고 init 을 다시 부르므로 init 은 root 바깥 상태를 바꾸지 않습니다. 스타일은 scenes.css(.exp003- 접두). */
 window.LAB_SCENES = window.LAB_SCENES || {};
 (() => {
-  const ln = w => `<i class="exp003-ln" style="--w:${w}"></i>`;
-  const lns = (...w) => `<div class="exp003-lns">${w.map(x => ln(x)).join('')}</div>`;
-  const star = '<svg viewBox="0 0 12 12"><path d="M6 .8l1.6 3.4 3.7.5-2.7 2.6.7 3.7L6 9.2 2.7 11l.7-3.7L.7 4.7l3.7-.5z"/></svg>';
-  const logoSet = marks => marks.map(([n, name]) => `<span class="exp003-lg"><i class="exp003-mk exp003-m${n}"></i>${name}</span>`).join('');
-  const SET_A = logoSet([[1, 'Plinth'], [2, 'Orrery'], [3, 'Kelp'], [4, 'Tandem'], [5, 'Quill'], [6, 'Vesper']]);
-  const SET_B = logoSet([[6, 'Ledger'], [4, 'Harbor'], [2, 'Moss'], [5, 'Fathom'], [1, 'Atlas'], [3, 'Birch']]);
-  const marquee = (set, rev = '') => `<div class="exp003-row${rev}"><div class="exp003-trk">${set}${set}</div></div>`;
-  const icon = path => `<span class="exp003-ic"><svg viewBox="0 0 24 24">${path}</svg></span>`;
-  const feature = (i, path, title) => `<div class="exp003-fc exp003-in" style="--i:${i}"><div class="exp003-fi" style="--i:${i}">${icon(path)}<b>${title}</b>${lns('100%', '72%')}</div></div>`;
-  const quote = (n, text, who) => `<div class="exp003-q exp003-q${n}"><b>“${text}”</b><small>${who}</small></div>`;
-  // 트렌드 비교: 왼쪽 "사라지는 중", 오른쪽 "대체". 패널 안쪽은 장면마다 다릅니다.
-  const pair = (bad, badCap, good, goodCap) => `<div class="exp003 exp003-tr"><div class="exp003-pair"><div class="exp003-sd exp003-bad"><span class="exp003-tg">사라지는 중</span><div class="exp003-pn ${bad[0]}">${bad[1]}</div><small>${badCap}</small></div><div class="exp003-sd exp003-good"><span class="exp003-tg">대체</span><div class="exp003-pn ${good[0]}">${good[1]}</div><small>${goodCap}</small></div></div></div>`;
-  const bars = (cls, hs, colors = []) => `<div class="${cls}">${hs.map((h, i) => `<i style="--h:${h}%;--i:${i}${colors[i] ? `;--c:${colors[i]}` : ''}"></i>`).join('')}</div>`;
-  const rows = (items) => `<div class="exp003-rows">${items.map((t, i) => `<span class="exp003-rw" style="--i:${i}"><i>0${i + 1}</i>${t}<em>→</em></span>`).join('')}</div>`;
-  const ref = (cap, title, spec, items) => `<div class="exp003 exp003-ref"><div class="exp003-rh"><b>${title}</b><small>${cap}</small></div><div class="exp003-rb"><div class="exp003-sp">${spec}</div>${rows(items)}</div></div>`;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const $ = (root, selector) => root.querySelector(selector);
+  const $$ = (root, selector) => [...root.querySelectorAll(selector)];
+  const uid = (key, name) => `x3-${key}-${name}`;
+  const icon = path => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${path}</svg>`;
+  const wrap = (cls, body) => `<div class="exp003 ${cls}">${body}</div>`;
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-  window.LAB_SCENES['exp-003'] = {
-    hero: {
-      label: '히어로: 내비게이션 아래에서 두 줄 헤드라인과 시작하기 버튼이 차례로 올라오고, 오른쪽 제품 카드의 막대가 자라납니다',
-      html: `<div class="exp003 exp003-hero"><div class="exp003-pg"><div class="exp003-nav"><i class="exp003-logo"></i>${ln('22px')}${ln('22px')}${ln('22px')}</div><div class="exp003-hb"><div class="exp003-copy"><span class="exp003-eb exp003-in" style="--i:0">NEW · 베타 공개</span><div class="exp003-h"><span class="exp003-in" style="--i:1">아이디어를</span><span class="exp003-in" style="--i:2">화면으로</span></div><div class="exp003-in" style="--i:3">${lns('92%', '64%')}</div><div class="exp003-btns exp003-in" style="--i:4"><span class="exp003-btn">시작하기 →</span><span class="exp003-btn exp003-ghost">데모 보기</span></div></div><div class="exp003-vis"><div class="exp003-card">${ln('46%')}${bars('exp003-bars', [38, 66, 52, 88])}</div><span class="exp003-badge">+24%</span></div></div></div></div>`
-    },
-    path: {
-      label: '애니메이티드 패스: 점선 경로 위로 굵은 선이 그려지며 주황 점이 네 개의 지점을 차례로 지나고, 지나간 지점이 채워집니다',
-      html: `<div class="exp003 exp003-pth"><div class="exp003-box"><svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="exp003-guide" d="M24 118C64 118 72 40 112 40S170 100 208 100S256 36 296 36"/><path class="exp003-draw" pathLength="100" d="M24 118C64 118 72 40 112 40S170 100 208 100S256 36 296 36"/><path class="exp003-head" pathLength="100" d="M24 118C64 118 72 40 112 40S170 100 208 100S256 36 296 36"/><circle class="exp003-nd exp003-nd1" cx="24" cy="118" r="7"/><circle class="exp003-nd exp003-nd2" cx="112" cy="40" r="7"/><circle class="exp003-nd exp003-nd3" cx="208" cy="100" r="7"/><circle class="exp003-nd exp003-nd4" cx="296" cy="36" r="7"/><text class="exp003-pt" x="30" y="143">01 가입</text><text class="exp003-pt" x="112" y="22">02 연결</text><text class="exp003-pt" x="208" y="126">03 공유</text><text class="exp003-pt" x="288" y="18">04 완료</text></svg></div><small class="exp003-cap">스크롤하면 경로가 이어서 그려집니다</small></div>`
-    },
-    marquee: {
-      label: '로고 마퀴: 가상 브랜드 로고 두 줄이 서로 반대 방향으로 끊기지 않고 흘러가며 양끝이 옅어집니다',
-      html: `<div class="exp003 exp003-mq"><div class="exp003-mqh"><b>함께 만드는 팀</b><small>1,200+ 팀이 사용 중</small></div>${marquee(SET_A)}${marquee(SET_B, ' exp003-rev')}</div>`
-    },
-    feature: {
-      label: '기능 카드: 세 장의 기능 카드가 차례로 올라온 뒤, 한 장씩 위로 들리며 윤곽과 아이콘이 진해집니다',
-      html: `<div class="exp003 exp003-feat"><div class="exp003-fhd"><b>필요한 기능만 골라 쓰세요</b><small>핵심 기능 3가지</small></div><div class="exp003-fg">${feature(0, '<path d="M13 3 5 13h6l-1 8 8-10h-6z"/>', '빠른 시작')}${feature(1, '<path d="M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6"/>', '자동 저장')}${feature(2, '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c3 .2 5 2.4 5 5.8"/>', '팀 공유')}</div></div>`
-    },
-    cta: {
-      label: 'CTA: 어두운 띠 위에 커서가 버튼에 올라가 화살표를 밀어내고, 잠시 벗어났다가 돌아와 버튼을 누릅니다',
-      html: `<div class="exp003 exp003-cta"><div class="exp003-band"><small>14일 무료 체험</small><div class="exp003-ch">지금 시작해 보세요</div><span class="exp003-bw"><span class="exp003-cb">무료로 시작하기<em>→</em></span><svg class="exp003-cur" viewBox="0 0 14 18" aria-hidden="true"><path d="M1 1v14l4-3.4 2.6 5.4 2.4-1.2-2.6-5.2H13z"/></svg></span><small>카드 등록 없이 · 언제든 해지</small></div></div>`
-    },
-    proof: {
-      label: '소셜 프루프: 아바타 묶음과 별점 아래에서 후기 세 개가 차례로 바뀌고 아래 점이 현재 후기를 가리킵니다',
-      html: `<div class="exp003 exp003-px"><div class="exp003-pg" style="padding:10px;gap:9px"><div class="exp003-prow"><div class="exp003-av"><i style="--c:var(--ink)"></i><i style="--c:var(--accent)"></i><i style="--c:var(--gray-6)"></i><i style="--c:var(--blue-2)"></i></div><div class="exp003-rate"><div class="exp003-stars">${star.repeat(5)}</div><b>4.9 · 2,400+ 팀</b></div></div><div class="exp003-qs">${quote(1, '설정 10분 만에 팀 작업 방식이 바뀌었어요.', '김서연 · 디자인 리드')}${quote(2, '핸드오프 질문이 눈에 띄게 줄었습니다.', '박도윤 · 프론트엔드 개발')}${quote(3, '처음 쓰는 팀원도 바로 따라 했어요.', '이하린 · 프로덕트 매니저')}</div><div class="exp003-dots"><i></i><i></i><i></i></div></div></div>`
-    },
-    'trend-gradient': {
-      label: '그라디언트 배경 대 단색: 왼쪽은 회색 그라디언트 위의 알약 버튼, 오른쪽은 단색 배경에 주황 밑줄과 각진 버튼입니다',
-      html: pair(['exp003-g1', '<span class="exp003-pill">AI 기반</span><b>더 빠른<br>내일</b><span class="exp003-pill">시작하기</span>'], '그라디언트 + 알약', ['exp003-flat', '<small>AI 기반</small><b>더 빠른<br>내일</b><i class="exp003-ul"></i><span class="exp003-btn" style="align-self:flex-start;height:24px">시작하기</span>'], '단색 + 포인트 하나')
-    },
-    'trend-glass': {
-      label: '글래스모피즘 대 불투명 서피스: 두 패널 모두 뒤의 도형이 좌우로 움직이고, 왼쪽 반투명 카드는 글자 뒤로 도형이 비치며 오른쪽 불투명 카드는 가립니다',
-      html: pair(['', '<i class="exp003-shp exp003-s1"></i><i class="exp003-shp exp003-s2"></i><div class="exp003-glass"><b>결제 완료</b>' + ln('70%') + '</div>'], '반투명 카드', ['', '<i class="exp003-shp exp003-s1"></i><i class="exp003-shp exp003-s2"></i><div class="exp003-solid"><b>결제 완료</b>' + ln('70%') + '</div>'], '불투명 + 1px 선')
-    },
-    'trend-glow': {
-      label: '글로우 대 선명한 윤곽: 왼쪽 버튼은 겹겹의 주황 고리가 번지듯 맥동하고, 오른쪽 버튼은 또렷한 외곽선이 잠깐 벌어졌다 돌아옵니다',
-      html: pair(['', '<b>알림 켜기</b>' + ln('80%') + '<span class="exp003-ringbtn">켜기</span>'], '고리 번짐', ['', '<b>알림 켜기</b>' + ln('80%') + '<span class="exp003-crisp">켜기</span>'], '또렷한 포커스 윤곽')
-    },
-    'trend-blob': {
-      label: '3D 블롭 대 실제 화면: 왼쪽은 떠다니는 회색 원 장식과 문구, 오른쪽은 지표 숫자와 막대 차트가 있는 제품 화면입니다',
-      html: pair(['', '<div class="exp003-blobs"><i class="exp003-bl exp003-bl1"></i><i class="exp003-bl exp003-bl2"></i><i class="exp003-bl exp003-bl3"></i></div><b>미래를 만나다</b>'], '추상 장식', ['', '<div class="exp003-kpi"><b>128</b><small>활성 사용자</small></div>' + bars('exp003-mini', [34, 52, 44, 70, 62, 90])], '실제 제품 화면')
-    },
-    'trend-card': {
-      label: '둥근 카드 대 그리드: 왼쪽은 그림자가 있는 둥근 카드 셋이 둥둥 뜨고, 오른쪽은 가는 구분선이 차례로 그어지는 표입니다',
-      html: pair(['', '<div class="exp003-fl">' + [0, 1, 2].map(i => `<div class="exp003-rc" style="--i:${i}"><i></i>${ln(['70%', '55%', '64%'][i])}</div>`).join('') + '</div>'], '둥근 + 그림자', ['', '<div class="exp003-tbl">' + [['속도', '빠름'], ['가격', '무료'], ['지원', '24시간']].map(([k, v], i) => `<div class="exp003-tr" style="--i:${i}"><span>${k}</span><b>${v}</b></div>`).join('') + '</div>'], '구분선 + 정렬')
-    },
-    'trend-center': {
-      label: '중앙 정렬 대 좌측 위계: 왼쪽은 같은 크기의 가운데 줄과 색 점 불릿이 통통 튀고, 오른쪽은 제목·설명·링크가 왼쪽 기준선에 차례로 놓입니다',
-      html: pair(['exp003-ctr', '<b>혁신적인 서비스</b>' + [['var(--accent)', '빠르고 쉬운'], ['var(--gray-5)', '강력하고 안전한'], ['var(--ink)', '모두를 위한']].map(([c, t], i) => `<span class="exp003-bu"><i style="--c:${c};--i:${i}"></i>${t}</span>`).join('')], '가운데 + 장식 불릿', ['exp003-left', '<span class="exp003-eb exp003-in" style="--i:0">정산</span><b class="exp003-in" style="--i:1">한 번에 끝내는<br>정산</b><div class="exp003-in" style="--i:2">' + lns('92%', '60%') + '</div><span class="exp003-lk exp003-in" style="--i:3">자세히 보기 →</span>'], '좌측 정렬 + 위계')
-    },
-    'ref-typography': {
-      label: '타이포 카드: 큰 Aa, 한글 제목, 작은 설명 세 단계 글자 크기를 주황 표시가 차례로 가리키고, 오른쪽 세 항목이 차례로 강조됩니다',
-      html: ref('레퍼런스 01', '타이포그래피', '<div class="exp003-ty"><b class="exp003-aa">Aa</b><span class="exp003-ko1">가나다라</span><span class="exp003-ko2">서체 위계 점검</span></div>', ['서체 고르기', '조합 사례 보기', '자간·행간 점검'])
-    },
-    'ref-color': {
-      label: '컬러 카드: 높이가 다른 다섯 색 막대가 차례로 위로 들리고, 오른쪽 세 항목이 차례로 강조됩니다',
-      html: ref('레퍼런스 02', '컬러', bars('exp003-sw', [100, 74, 88, 58, 70], ['var(--ink)', 'var(--accent)', 'var(--blue-2)', 'var(--gray-5)', 'var(--gray-3)']), ['팔레트 만들기', '명도 대비 검사', '다크 모드 대응'])
-    },
-    'ref-motion': {
-      label: '모션 카드: 이징 곡선 위를 주황 점이 시간에 따라 오가고, 오른쪽 세 항목이 차례로 강조됩니다',
-      html: ref('레퍼런스 03', '모션', '<div class="exp003-plot"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100C65 100 35 0 100 0"/></svg><div class="exp003-dx"><i class="exp003-dy"></i></div></div>', ['이징 곡선', '전환 길이', '마이크로 인터랙션'])
-    },
-    'ref-layout': {
-      label: '레이아웃 카드: 세 블록이 두 열 배치에서 한 열 배치로 바뀌었다가 돌아오고, 오른쪽 세 항목이 차례로 강조됩니다',
-      html: ref('레퍼런스 04', '레이아웃', '<div class="exp003-lo"><i class="exp003-la"></i><i class="exp003-lb"></i><i class="exp003-lc"></i></div>', ['그리드 시스템', '간격 규칙', '반응형 흐름'])
-    },
-    'ref-mockup': {
-      label: '목업 카드: 브라우저 창 앞에서 휴대폰 프레임이 살짝 기울고 화면 안의 내용이 위로 스크롤되며, 오른쪽 세 항목이 차례로 강조됩니다',
-      html: ref('레퍼런스 05', '목업', '<i class="exp003-win"></i><div class="exp003-ph"><div class="exp003-scr"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>', ['기기 프레임', '배경 장면', '내보내기'])
-    },
-    'ref-inspire': {
-      label: '영감 카드: 높이가 다른 여섯 장의 타일이 차례로 올라오고 한 타일에 북마크 표시가 달랑거리며, 오른쪽 세 항목이 차례로 강조됩니다',
-      html: ref('레퍼런스 06', '영감', '<div class="exp003-mas"><div><i style="--c:var(--gray-3);--f:3;--i:0"></i><i style="--c:var(--ink);--f:2;--i:3"></i></div><div><i class="exp003-sv" style="--c:var(--gray-4);--f:2;--i:1"></i><i style="--c:var(--gray-2);--f:3;--i:4"></i></div><div><i style="--c:var(--gray-5);--f:2;--i:2"></i><i style="--c:var(--blue-2);--f:2;--i:5"></i></div></div>', ['작업물 갤러리', '수상작 아카이브', '무드보드'])
+  /* ───────── 탭 ───────── */
+  const TABS = [
+    ['빠른 시작', '설치 없이 브라우저에서 바로 시작합니다. 템플릿을 고르면 첫 화면이 만들어집니다.'],
+    ['자동 저장', '입력할 때마다 저장합니다. 연결이 끊겨도 마지막 상태가 남아 있습니다.'],
+    ['팀 공유', '링크 하나로 팀원을 초대하고 보기·편집 권한을 나눕니다.']
+  ];
+  const tabs = {
+    label: '탭: 탭을 누르면 아래 패널이 바뀝니다',
+    hint: '탭을 누르거나 ← → 키를 눌러 보세요',
+    html: wrap('exp003-tabs', `<div class="exp003-tablist" role="tablist" aria-label="기능 선택">${TABS.map(([name], i) => `<button type="button" role="tab" id="${uid('tabs', 't' + i)}" aria-selected="${i === 0}" aria-controls="${uid('tabs', 'p' + i)}" tabindex="${i === 0 ? 0 : -1}">${name}</button>`).join('')}</div>
+      ${TABS.map(([name, text], i) => `<div class="exp003-panel" role="tabpanel" id="${uid('tabs', 'p' + i)}" aria-labelledby="${uid('tabs', 't' + i)}" tabindex="0"${i ? ' hidden' : ''}><b>${name}</b><p>${text}</p><span class="exp003-tabs-no">${i + 1} / ${TABS.length}</span></div>`).join('')}`),
+    init(root) {
+      const buttons = $$(root, '[role=tab]');
+      const panels = $$(root, '[role=tabpanel]');
+      const select = (index, focus) => {
+        buttons.forEach((button, i) => { button.setAttribute('aria-selected', String(i === index)); button.tabIndex = i === index ? 0 : -1; panels[i].hidden = i !== index; });
+        if (focus) buttons[index].focus();
+      };
+      buttons.forEach((button, i) => button.addEventListener('click', () => select(i)));
+      $(root, '[role=tablist]').addEventListener('keydown', event => {
+        const current = buttons.indexOf(event.target.closest('[role=tab]'));
+        const next = { ArrowRight: (current + 1) % buttons.length, ArrowLeft: (current - 1 + buttons.length) % buttons.length, Home: 0, End: buttons.length - 1 }[event.key];
+        if (next === undefined) return;
+        event.preventDefault();
+        select(next, true);
+      });
     }
   };
 
-  // 카드가 그려진 뒤 그룹 제목과 출처 줄을 붙입니다. 이미 붙어 있거나 카드에 같은 표기가 있으면 건너뜁니다.
-  const PROVENANCE = '제작 Claude Sonnet 5.5 · 2026-10-01';
-  const IG = 'https://www.instagram.com/';
-  const SRC = {
-    hero: [['@arman._.uiux', IG + 'p/DdySvZ4m8Zh/']],
-    path: [['@janm_ux', IG + 'reel/Dd4B9zdOiRU/']],
-    trend: [['@adobeexpress', IG + 'p/Dd6pUUdjkTZ/'], ['@uxbrainy', IG + 'p/DdORF23iBpe/']],
-    ref: [['@orbix_marketing', IG + 'p/DduRMxvGYVr/'], ['@asmin_creates2', IG + 'p/DdtS0FFjAiy/']],
-    dots: [['@dotsystemsdevs', IG + 'p/DdRvGhlgvME/']]
+  /* ───────── 드롭다운 ───────── */
+  const SORTS = [['latest', '최신순'], ['low', '낮은 가격순'], ['high', '높은 가격순'], ['name', '이름순']];
+  const GOODS = [['목재 트레이', 32000, 3], ['세라믹 컵', 18000, 4], ['린넨 앞치마', 45000, 1], ['유리 병', 12000, 2]];
+  const SORT_FN = { latest: (a, b) => b[2] - a[2], low: (a, b) => a[1] - b[1], high: (a, b) => b[1] - a[1], name: (a, b) => a[0].localeCompare(b[0], 'ko') };
+  const won = value => `${value.toLocaleString('ko-KR')}원`;
+  const goodsRows = key => [...GOODS].sort(SORT_FN[key]).map(([name, price]) => `<li><span>${name}</span><b>${won(price)}</b></li>`).join('');
+  const dropdown = {
+    label: '드롭다운: 버튼을 누르면 정렬 메뉴가 열리고 고른 기준으로 아래 목록이 정렬됩니다',
+    hint: '정렬 버튼을 눌러 기준을 바꿔 보세요',
+    html: wrap('exp003-dd-root', `<div class="exp003-dd"><button type="button" class="exp003-dd-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="${uid('dd', 'menu')}"><span>정렬: <b data-label>최신순</b></span><span aria-hidden="true">▾</span></button>
+      <div class="exp003-dd-menu" role="menu" id="${uid('dd', 'menu')}" aria-label="정렬 기준" hidden>${SORTS.map(([key, name], i) => `<button type="button" role="menuitemradio" data-sort="${key}" aria-checked="${i === 0}" tabindex="-1"><span>${name}</span></button>`).join('')}</div></div>
+      <ol class="exp003-dd-list" data-list>${goodsRows('latest')}</ol>`),
+    init(root) {
+      const trigger = $(root, '.exp003-dd-btn');
+      const menu = $(root, '.exp003-dd-menu');
+      const items = $$(root, '[role=menuitemradio]');
+      const isOpen = () => !menu.hidden;
+      const open = focusIndex => {
+        menu.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        const checked = items.findIndex(item => item.getAttribute('aria-checked') === 'true');
+        items[focusIndex ?? checked].focus();
+      };
+      const close = refocus => {
+        menu.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        if (refocus) trigger.focus();
+      };
+      const choose = item => {
+        items.forEach(other => other.setAttribute('aria-checked', String(other === item)));
+        $(root, '[data-label]').textContent = item.textContent;
+        $(root, '[data-list]').innerHTML = goodsRows(item.dataset.sort);
+        close(true);
+      };
+      trigger.addEventListener('click', () => (isOpen() ? close(false) : open()));
+      trigger.addEventListener('keydown', event => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); open(event.key === 'ArrowUp' ? items.length - 1 : undefined); }
+      });
+      items.forEach(item => item.addEventListener('click', () => choose(item)));
+      menu.addEventListener('keydown', event => {
+        const index = items.indexOf(document.activeElement);
+        const next = { ArrowDown: (index + 1) % items.length, ArrowUp: (index - 1 + items.length) % items.length, Home: 0, End: items.length - 1 }[event.key];
+        if (next !== undefined) { event.preventDefault(); items[next].focus(); }
+        else if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(true); }
+        else if (event.key === 'Tab') close(false);
+      });
+      const outside = event => { if (isOpen() && !root.querySelector('.exp003-dd').contains(event.target)) close(false); };
+      document.addEventListener('pointerdown', outside);
+      return () => document.removeEventListener('pointerdown', outside);
+    }
   };
-  const sourceOf = key => key === 'hero' || key === 'path' ? SRC[key] : key.startsWith('trend-') ? SRC.trend : key.startsWith('ref-') ? SRC.ref : SRC.dots;
-  const GROUPS = {
-    hero: ['랜딩 패턴', '히어로부터 소셜 프루프까지, 랜딩 페이지를 이루는 여섯 구간.'],
-    'trend-gradient': ['죽어가는 트렌드 vs 대체재', '왼쪽이 사라지는 중인 표현, 오른쪽이 그 자리를 대신하는 표현입니다.'],
-    'ref-typography': ['디자인 레퍼런스 디렉토리', '분류 구조만 재현한 카드입니다. 개별 사이트 링크는 출처 게시물에서 확인하세요.']
+
+  /* ───────── 페이지네이션 ───────── */
+  const NOTES = Array.from({ length: 20 }, (_, i) => `디자인 노트 ${String(i + 1).padStart(2, '0')}`);
+  const PER_PAGE = 5;
+  const PAGES = NOTES.length / PER_PAGE;
+  const pagination = {
+    label: '페이지네이션: 스무 개 목록을 다섯 개씩 나누어 이전·다음 버튼과 번호로 넘깁니다',
+    hint: '번호나 이전·다음을 눌러 보세요',
+    html: wrap('exp003-pg-root', `<ol class="exp003-pg-list" data-list start="1"></ol>
+      <div class="exp003-pg-foot"><span data-range role="status" aria-live="polite"></span>
+      <nav class="exp003-pg-nav" aria-label="페이지"><button type="button" data-step="-1" aria-label="이전 페이지">‹</button>${Array.from({ length: PAGES }, (_, i) => `<button type="button" data-page="${i + 1}" aria-label="${i + 1}페이지">${i + 1}</button>`).join('')}<button type="button" data-step="1" aria-label="다음 페이지">›</button></nav></div>`),
+    init(root) {
+      let page = 1;
+      const render = () => {
+        const from = (page - 1) * PER_PAGE;
+        const list = $(root, '[data-list]');
+        list.start = from + 1;
+        list.innerHTML = NOTES.slice(from, from + PER_PAGE).map(note => `<li>${note}</li>`).join('');
+        $(root, '[data-range]').textContent = `${from + 1}–${from + PER_PAGE} / ${NOTES.length}`;
+        $$(root, '[data-page]').forEach(button => { const current = Number(button.dataset.page) === page; if (current) button.setAttribute('aria-current', 'page'); else button.removeAttribute('aria-current'); });
+        $(root, '[data-step="-1"]').disabled = page === 1;
+        $(root, '[data-step="1"]').disabled = page === PAGES;
+      };
+      root.addEventListener('click', event => {
+        const button = event.target.closest('button');
+        if (!button || button.disabled) return;
+        const target = button.dataset.page ? Number(button.dataset.page) : page + Number(button.dataset.step);
+        const refocus = button.dataset.step && (target <= 1 || target >= PAGES);
+        page = clamp(target, 1, PAGES);
+        render();
+        if (refocus) $(root, `[data-page="${page}"]`).focus();
+      });
+      render();
+    }
   };
-  const esc = value => String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-  function enhance() {
-    const list = document.querySelector('#demo-list');
-    if (!list || document.body.dataset.page !== 'exp-003') return false;
-    const cards = list.querySelectorAll('.demo-card');
-    cards.forEach(card => {
-      const info = card.querySelector('.demo-info');
-      if (!info || info.querySelector('.exp003-source') || card.textContent.includes(PROVENANCE)) return;
-      const links = sourceOf(card.id).map(([name, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(name)} ↗<span class="sr-only"> (새 탭)</span></a>`).join('');
-      info.insertAdjacentHTML('beforeend', `<p class="exp003-source"><span>출처 Instagram</span>${links}<span>${PROVENANCE}</span></p>`);
-    });
-    cards.forEach(card => {
-      const group = GROUPS[card.id];
-      if (group && !card.previousElementSibling?.classList.contains('exp003-group')) card.insertAdjacentHTML('beforebegin', `<div class="exp003-group"><h2>${esc(group[0])}</h2><p>${esc(group[1])}</p></div>`);
-    });
-    return cards.length > 0;
-  }
-  document.addEventListener('DOMContentLoaded', () => {
-    if (!enhance()) new MutationObserver((records, observer) => { if (enhance()) observer.disconnect(); }).observe(document.body, { childList: true, subtree: true });
-  });
+
+  /* ───────── 스티키 헤더 ───────── */
+  const SECTIONS = [['소개', '작은 팀이 쓰는 가벼운 도구입니다. 복잡한 설정 없이 첫날부터 쓸 수 있습니다.'], ['기능', '문서, 일정, 댓글을 한 화면에 모았습니다. 필요한 것만 켜고 나머지는 숨깁니다.'], ['가격', '개인은 무료, 팀은 월 구독입니다. 쓰지 않는 달에는 요금이 나가지 않습니다.']];
+  const sticky = {
+    label: '스티키 헤더: 안쪽을 스크롤하면 헤더가 위에 붙어 낮아지고 현재 구간의 링크가 강조됩니다',
+    hint: '안쪽을 스크롤하거나 링크를 눌러 보세요',
+    html: wrap('exp003-st', `<div class="exp003-st-sc" tabindex="0" role="region" aria-label="스크롤 영역">
+      <header class="exp003-st-hd"><b>Plinth</b><nav aria-label="구간">${SECTIONS.map(([name], i) => `<button type="button" data-go="${i}"${i === 0 ? ' aria-current="true"' : ''}>${name}</button>`).join('')}</nav></header>
+      ${SECTIONS.map(([name, text]) => `<section class="exp003-st-s"><b>${name}</b><p>${text}</p></section>`).join('')}</div>`),
+    init(root) {
+      const scroller = $(root, '.exp003-st-sc');
+      const header = $(root, '.exp003-st-hd');
+      const sections = $$(root, '.exp003-st-s');
+      const links = $$(root, '[data-go]');
+      const update = () => {
+        header.classList.toggle('is-stuck', scroller.scrollTop > 4);
+        const line = scroller.scrollTop + header.offsetHeight + 8;
+        const atEnd = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
+        let current = sections.findLastIndex(section => section.offsetTop <= line);
+        if (atEnd) current = sections.length - 1;
+        links.forEach((link, i) => { if (i === Math.max(current, 0)) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current'); });
+      };
+      scroller.addEventListener('scroll', update, { passive: true });
+      links.forEach(link => link.addEventListener('click', () => {
+        scroller.scrollTo({ top: sections[Number(link.dataset.go)].offsetTop - header.offsetHeight + 1, behavior: reduced.matches ? 'auto' : 'smooth' });
+      }));
+      update();
+    }
+  };
+
+  /* ───────── 스크롤 경로 ───────── */
+  const PATH_D = 'M24 118C64 118 72 40 112 40S170 100 208 100S256 36 296 36';
+  const PATH_NODES = [[24, 118, '01 가입', 143, 'start'], [112, 40, '02 연결', 22, 'middle'], [208, 100, '03 공유', 128, 'middle'], [296, 36, '04 완료', 18, 'end']];
+  const scrollpath = {
+    label: '스크롤 경로: 안쪽을 스크롤하면 점선 경로 위로 굵은 선이 그려지고 지나간 지점이 채워집니다',
+    hint: '안쪽을 아래로 스크롤해 보세요',
+    html: wrap('exp003-sp', `<i class="exp003-sp-bar" data-bar></i><p class="exp003-sp-pct">진행 <b data-pct>0%</b></p>
+      <svg class="exp003-sp-svg" viewBox="0 0 320 150" aria-hidden="true" focusable="false"><path class="exp003-sp-guide" d="${PATH_D}"/><path class="exp003-sp-draw" data-draw pathLength="100" d="${PATH_D}"/>
+        ${PATH_NODES.map(([x, y, label, ty, anchor], i) => `<circle class="exp003-sp-nd" data-node="${i}" cx="${x}" cy="${y}" r="7"/><text class="exp003-sp-tx" x="${i === 0 ? 14 : i === 3 ? 306 : x}" y="${ty}" text-anchor="${anchor}">${label}</text>`).join('')}</svg>
+      <div class="exp003-sp-sc" tabindex="0" role="region" aria-label="스크롤 영역"><div class="exp003-sp-tall"></div></div>`),
+    init(root) {
+      const scroller = $(root, '.exp003-sp-sc');
+      const draw = $(root, '[data-draw]');
+      const nodes = $$(root, '[data-node]');
+      const guide = $(root, '.exp003-sp-guide');
+      const total = guide.getTotalLength();
+      // 각 점이 경로의 몇 % 지점인지 미리 구해 둡니다.
+      const fractions = nodes.map(node => {
+        const x = Number(node.getAttribute('cx')), y = Number(node.getAttribute('cy'));
+        let best = 0, bestDistance = Infinity;
+        for (let step = 0; step <= 300; step++) {
+          const point = guide.getPointAtLength(total * step / 300);
+          const distance = (point.x - x) ** 2 + (point.y - y) ** 2;
+          if (distance < bestDistance) { bestDistance = distance; best = step / 300; }
+        }
+        return best;
+      });
+      const update = () => {
+        const max = scroller.scrollHeight - scroller.clientHeight;
+        const progress = max > 0 ? clamp(scroller.scrollTop / max, 0, 1) : 0;
+        draw.style.strokeDashoffset = String(100 * (1 - progress));
+        nodes.forEach((node, i) => node.classList.toggle('is-on', progress >= fractions[i] - .001));
+        $(root, '[data-pct]').textContent = `${Math.round(progress * 100)}%`;
+        $(root, '[data-bar]').style.transform = `scaleX(${progress})`;
+      };
+      scroller.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+  };
+
+  /* ───────── 아코디언 ───────── */
+  const FAQ = [['무료로 쓸 수 있나요?', '기본 기능은 무료입니다. 팀 기능은 유료 요금제에서 열립니다.'], ['데이터는 어디에 저장되나요?', '내 계정에 연결된 서버에 저장되며 언제든 파일로 내려받을 수 있습니다.'], ['언제든 해지할 수 있나요?', '설정에서 한 번에 해지합니다. 남은 기간은 그대로 쓸 수 있습니다.']];
+  const accordion = {
+    label: '아코디언: 제목을 누르면 내용이 펼쳐지고 다시 누르면 접힙니다',
+    hint: '제목을 눌러 펼치고 접어 보세요',
+    html: wrap('exp003-ac', `<div class="exp003-acc">${FAQ.map(([q, a], i) => `<div><h4 class="exp003-ah"><button type="button" id="${uid('acc', 'b' + i)}" aria-expanded="${i === 0}" aria-controls="${uid('acc', 'p' + i)}">${q}</button></h4>
+        <div class="exp003-ap${i === 0 ? ' is-open' : ''}" id="${uid('acc', 'p' + i)}" role="region" aria-labelledby="${uid('acc', 'b' + i)}"><div><p>${a}</p></div></div></div>`).join('')}</div>
+      <div class="exp003-row"><span id="${uid('acc', 'one')}">하나만 열기</span><span class="exp003-sw-wrap"><button type="button" class="exp003-sw" role="switch" aria-checked="false" aria-labelledby="${uid('acc', 'one')}"></button></span></div>`),
+    init(root) {
+      const heads = $$(root, '.exp003-ah button');
+      const bodies = $$(root, '.exp003-ap');
+      const single = $(root, '[role=switch]');
+      const set = (i, open) => { heads[i].setAttribute('aria-expanded', String(open)); bodies[i].classList.toggle('is-open', open); };
+      heads.forEach((head, i) => head.addEventListener('click', () => {
+        const open = head.getAttribute('aria-expanded') !== 'true';
+        if (open && single.getAttribute('aria-checked') === 'true') heads.forEach((_, j) => set(j, false));
+        set(i, open);
+      }));
+      single.addEventListener('click', () => {
+        const on = single.getAttribute('aria-checked') !== 'true';
+        single.setAttribute('aria-checked', String(on));
+        if (on) { const first = heads.findIndex(head => head.getAttribute('aria-expanded') === 'true'); heads.forEach((_, j) => set(j, j === first)); }
+      });
+    }
+  };
+
+  /* ───────── 캐러셀 ───────── */
+  const QUOTES = [['설정 10분 만에 팀 작업 방식이 바뀌었어요.', '김서연 · 디자인 리드'], ['핸드오프 질문이 눈에 띄게 줄었습니다.', '박도윤 · 프론트엔드 개발'], ['처음 쓰는 팀원도 바로 따라 했어요.', '이하린 · 프로덕트 매니저']];
+  const carousel = {
+    label: '캐러셀: 이전·다음 버튼, 점, 방향키, 스와이프로 후기 슬라이드를 넘깁니다',
+    hint: '버튼, ← → 키, 좌우 스와이프를 써 보세요',
+    html: wrap('exp003-cs', `<div class="exp003-cs-vp" tabindex="0" role="group" aria-roledescription="캐러셀" aria-label="사용자 후기"><div class="exp003-cs-tr" data-track>
+        ${QUOTES.map(([text, who], i) => `<div class="exp003-cs-sl" role="group" aria-roledescription="슬라이드" aria-label="${i + 1} / ${QUOTES.length}"><b>“${text}”</b><small>${who}</small></div>`).join('')}</div><span class="exp003-cs-no" data-no aria-hidden="true">1 / ${QUOTES.length}</span></div>
+      <div class="exp003-cs-ct"><button type="button" data-step="-1" aria-label="이전 슬라이드">‹</button><div class="exp003-cs-dots">${QUOTES.map((_, i) => `<button type="button" data-dot="${i}" aria-label="${i + 1}번 슬라이드"></button>`).join('')}</div><button type="button" data-step="1" aria-label="다음 슬라이드">›</button>
+      <button type="button" class="exp003-cs-auto" aria-pressed="false" aria-label="자동 재생">자동 ▶</button></div>`),
+    init(root) {
+      const viewport = $(root, '.exp003-cs-vp');
+      const slides = $$(root, '.exp003-cs-sl');
+      const dots = $$(root, '[data-dot]');
+      const auto = $(root, '.exp003-cs-auto');
+      let index = 0, timer = null, hovering = false;
+      const go = next => {
+        index = (next + slides.length) % slides.length;
+        $(root, '[data-track]').style.transform = `translateX(${-100 * index}%)`;
+        slides.forEach((slide, i) => { slide.inert = i !== index; });
+        dots.forEach((dot, i) => { if (i === index) dot.setAttribute('aria-current', 'true'); else dot.removeAttribute('aria-current'); });
+        $(root, '[data-no]').textContent = `${index + 1} / ${slides.length}`;
+      };
+      const stop = () => { clearInterval(timer); timer = null; };
+      const play = () => { stop(); if (auto.getAttribute('aria-pressed') === 'true' && !hovering) timer = setInterval(() => go(index + 1), 3000); };
+      root.addEventListener('click', event => {
+        const button = event.target.closest('button');
+        if (!button) return;
+        if (button.dataset.step) go(index + Number(button.dataset.step));
+        else if (button.dataset.dot) go(Number(button.dataset.dot));
+        else if (button === auto) { const on = auto.getAttribute('aria-pressed') !== 'true'; auto.setAttribute('aria-pressed', String(on)); auto.textContent = on ? '자동 ❚❚' : '자동 ▶'; }
+        play();
+      });
+      viewport.addEventListener('keydown', event => {
+        if (event.key === 'ArrowRight') { event.preventDefault(); go(index + 1); } else if (event.key === 'ArrowLeft') { event.preventDefault(); go(index - 1); }
+      });
+      let startX = null;
+      viewport.addEventListener('pointerdown', event => { startX = event.clientX; });
+      viewport.addEventListener('pointerup', event => {
+        if (startX !== null && Math.abs(event.clientX - startX) > 40) go(index + (event.clientX < startX ? 1 : -1));
+        startX = null;
+      });
+      viewport.addEventListener('pointercancel', () => { startX = null; });
+      root.addEventListener('mouseenter', () => { hovering = true; play(); });
+      root.addEventListener('mouseleave', () => { hovering = false; play(); });
+      go(0);
+      return stop;
+    }
+  };
+
+  /* ───────── 검색·필터 ───────── */
+  const REFS = [['서체 고르기', '타이포'], ['조합 사례 보기', '타이포'], ['자간·행간 점검', '타이포'], ['팔레트 만들기', '컬러'], ['명도 대비 검사', '컬러'], ['다크 모드 대응', '컬러'], ['이징 곡선', '모션'], ['전환 길이', '모션'], ['마이크로 인터랙션', '모션'], ['그리드 시스템', '레이아웃'], ['간격 규칙', '레이아웃'], ['반응형 흐름', '레이아웃']];
+  const CHIPS = ['전체', '타이포', '컬러', '모션', '레이아웃'];
+  const filter = {
+    label: '검색·필터: 글자를 입력하거나 분류 칩을 누르면 목록이 걸러지고 결과 개수가 갱신됩니다',
+    hint: '"검사"를 입력하거나 칩을 눌러 보세요',
+    html: wrap('exp003-fl', `<div class="exp003-fl-top"><input type="search" class="exp003-in" placeholder="검색" aria-label="레퍼런스 검색" autocomplete="off" spellcheck="false"><span class="exp003-fl-n" role="status" data-count></span></div>
+      <div class="exp003-fl-chips" role="group" aria-label="분류">${CHIPS.map((name, i) => `<button type="button" aria-pressed="${i === 0}">${name}</button>`).join('')}</div>
+      <div class="exp003-fl-box" tabindex="0" role="region" aria-label="결과 목록"><ul class="exp003-fl-list" data-list></ul></div>`),
+    init(root) {
+      const input = $(root, 'input');
+      const chips = $$(root, '.exp003-fl-chips button');
+      let category = '전체';
+      const render = () => {
+        const query = input.value.trim().toLocaleLowerCase();
+        const rows = REFS.filter(([name, tag]) => (category === '전체' || tag === category) && (!query || `${name} ${tag}`.toLocaleLowerCase().includes(query)));
+        $(root, '[data-list]').innerHTML = rows.length ? rows.map(([name, tag]) => `<li><span>${name}</span><small>${tag}</small></li>`).join('') : '<li class="exp003-fl-empty">조건에 맞는 항목이 없습니다.</li>';
+        $(root, '[data-count]').textContent = `${rows.length}개`;
+      };
+      input.addEventListener('input', render);
+      chips.forEach(chip => chip.addEventListener('click', () => {
+        category = chip.textContent;
+        chips.forEach(other => other.setAttribute('aria-pressed', String(other === chip)));
+        render();
+      }));
+      render();
+    }
+  };
+
+  /* ───────── 모달 ───────── */
+  const modal = {
+    label: '모달: 삭제 버튼을 누르면 확인 창이 뜨고 뒤쪽 화면은 조작할 수 없으며 Esc로 닫으면 포커스가 버튼으로 돌아옵니다',
+    hint: '삭제를 눌러 창을 열고 Tab·Esc를 써 보세요',
+    html: wrap('exp003-mo', `<div class="exp003-mo-base" data-base><div class="exp003-mo-card"><div><b data-name>봄 캠페인 시안</b><small>마지막 수정 어제</small></div><span class="exp003-mo-tag" data-tag>사용 중</span></div>
+        <div class="exp003-mo-acts"><button type="button" data-open aria-haspopup="dialog">삭제…</button><button type="button" data-undo hidden>되돌리기</button></div><p class="exp003-mo-out" role="status" data-out>아직 아무것도 삭제하지 않았습니다.</p></div>
+      <div class="exp003-mo-ov" data-overlay hidden><div class="exp003-mo-dlg" role="dialog" aria-modal="true" aria-labelledby="${uid('mo', 'title')}" aria-describedby="${uid('mo', 'desc')}">
+        <b id="${uid('mo', 'title')}">시안을 삭제할까요?</b><p id="${uid('mo', 'desc')}">삭제한 시안은 이 화면에서 되돌릴 수 있습니다.</p>
+        <div class="exp003-mo-acts"><button type="button" data-cancel>취소</button><button type="button" class="exp003-pri" data-confirm>삭제</button></div></div></div>`),
+    init(root) {
+      const base = $(root, '[data-base]');
+      const overlay = $(root, '[data-overlay]');
+      const dialog = $(root, '[role=dialog]');
+      const opener = $(root, '[data-open]');
+      const undo = $(root, '[data-undo]');
+      const out = $(root, '[data-out]');
+      let returnTo = opener;
+      const focusables = () => $$(dialog, 'button:not(:disabled)');
+      const open = () => { overlay.hidden = false; base.inert = true; returnTo = opener; focusables()[0].focus(); };
+      const close = () => { overlay.hidden = true; base.inert = false; (opener.hidden ? undo : returnTo).focus(); };
+      const setDeleted = deleted => {
+        $(root, '[data-tag]').textContent = deleted ? '삭제됨' : '사용 중';
+        $(root, '.exp003-mo-card').classList.toggle('is-gone', deleted);
+        opener.hidden = deleted; undo.hidden = !deleted;
+        out.textContent = deleted ? '삭제했습니다.' : '되돌렸습니다.';
+      };
+      opener.addEventListener('click', open);
+      $(root, '[data-cancel]').addEventListener('click', () => { out.textContent = '취소했습니다.'; close(); });
+      $(root, '[data-confirm]').addEventListener('click', () => { setDeleted(true); close(); });
+      undo.addEventListener('click', () => { setDeleted(false); opener.focus(); });
+      overlay.addEventListener('pointerdown', event => { if (event.target === overlay) { out.textContent = '바깥을 눌러 닫았습니다.'; close(); } });
+      root.addEventListener('keydown', event => {
+        if (overlay.hidden) return;
+        if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); out.textContent = 'Esc로 닫았습니다.'; close(); }
+        else if (event.key === 'Tab') {
+          const list = focusables();
+          const first = list[0], last = list[list.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      });
+    }
+  };
+
+  /* ───────── 툴팁 ───────── */
+  const TIPS = [['저장', '변경 사항을 저장합니다 · Ctrl+S', '<path d="M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6"/>', '저장했습니다.'], ['공유', '링크를 만들어 공유합니다', '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8 15.8 7.2M8.2 13.2l7.6 3.6"/>', '공유 링크를 만들었습니다.'], ['삭제', '되돌릴 수 없습니다', '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>', '삭제했습니다.']];
+  const tooltip = {
+    label: '툴팁: 버튼에 마우스를 올리거나 포커스하면 짧은 설명이 뜨고 Esc로 닫을 수 있습니다',
+    hint: '버튼에 마우스를 올리거나 Tab으로 이동해 보세요',
+    html: wrap('exp003-tt-root', `<div class="exp003-tt-row">${TIPS.map(([name, tip, path], i) => `<span class="exp003-tt"><button type="button" class="exp003-tt-btn" aria-label="${name}" aria-describedby="${uid('tt', 't' + i)}" data-msg="${TIPS[i][3]}">${icon(path)}</button><span class="exp003-tt-tip" role="tooltip" id="${uid('tt', 't' + i)}"><span>${tip}</span></span></span>`).join('')}</div>
+      <p class="exp003-tt-out" role="status" data-out>아이콘 버튼을 눌러 보세요.</p>
+      <p class="exp003-tt-lab"><span>API 키</span><span class="exp003-tt" data-pos="below"><button type="button" class="exp003-tt-q" aria-label="API 키 도움말" aria-describedby="${uid('tt', 'q')}">?</button><span class="exp003-tt-tip" role="tooltip" id="${uid('tt', 'q')}"><span>계정 설정의 개발자 메뉴에서 만들 수 있습니다.</span></span></span></p>`),
+    init(root) {
+      const wrappers = $$(root, '.exp003-tt');
+      const show = wrapper => wrapper.classList.add('is-open');
+      const hide = wrapper => wrapper.classList.remove('is-open');
+      wrappers.forEach(wrapper => {
+        wrapper.addEventListener('mouseenter', () => show(wrapper));
+        wrapper.addEventListener('mouseleave', () => { if (!wrapper.matches(':focus-within')) hide(wrapper); });
+        wrapper.addEventListener('focusin', () => show(wrapper));
+        wrapper.addEventListener('focusout', () => hide(wrapper));
+      });
+      root.addEventListener('keydown', event => { if (event.key === 'Escape') wrappers.forEach(hide); });
+      $$(root, '.exp003-tt-btn').forEach(button => button.addEventListener('click', () => { $(root, '[data-out]').textContent = button.dataset.msg; }));
+    }
+  };
+
+  /* ───────── 토스트 ───────── */
+  const TOASTS = { ok: ['✓', '저장했습니다.'], error: ['!', '연결이 끊겼습니다. 다시 시도해 주세요.'], info: ['i', '새 댓글 1개가 달렸습니다.'] };
+  const toast = {
+    label: '토스트: 버튼을 누르면 화면 아래에 알림이 쌓이고 몇 초 뒤 사라지며 ✕로 바로 닫을 수 있습니다',
+    hint: '버튼을 여러 번 눌러 알림을 쌓아 보세요',
+    html: wrap('exp003-ts-root', `<div class="exp003-ts-btns"><button type="button" data-kind="ok">저장하기</button><button type="button" data-kind="error">오류 내기</button><button type="button" data-kind="info">댓글 알림</button></div>
+      <div class="exp003-ts-box" role="region" aria-label="알림" aria-live="polite" data-box></div>`),
+    init(root) {
+      const box = $(root, '[data-box]');
+      const timers = new Set();
+      const later = (fn, ms) => { const id = setTimeout(() => { timers.delete(id); fn(); }, ms); timers.add(id); return id; };
+      const remove = item => { if (!item.isConnected) return; item.classList.remove('is-in'); later(() => item.remove(), reduced.matches ? 0 : 200); };
+      const add = kind => {
+        const [mark, text] = TOASTS[kind];
+        while (box.children.length >= 3) box.firstElementChild.remove();
+        const item = document.createElement('div');
+        item.className = `exp003-ts is-${kind}`;
+        item.innerHTML = `<span class="exp003-ts-mk" aria-hidden="true">${mark}</span><span class="exp003-ts-tx">${text}</span><button type="button" aria-label="알림 닫기">✕</button>`;
+        box.append(item);
+        requestAnimationFrame(() => requestAnimationFrame(() => item.classList.add('is-in')));
+        let timer = later(() => remove(item), 4000);
+        item.addEventListener('mouseenter', () => { clearTimeout(timer); timers.delete(timer); });
+        item.addEventListener('mouseleave', () => { timer = later(() => remove(item), 2000); });
+        $(item, 'button').addEventListener('click', () => { clearTimeout(timer); remove(item); });
+      };
+      $$(root, '[data-kind]').forEach(button => button.addEventListener('click', () => add(button.dataset.kind)));
+      return () => timers.forEach(clearTimeout);
+    }
+  };
+
+  /* ───────── 토글 스위치 ───────── */
+  const SWITCHES = [['dark', '다크 미리보기'], ['bell', '알림 받기'], ['auto', '자동 저장']];
+  const toggle = {
+    label: '토글 스위치: 스위치를 켜고 끄면 옆 미리보기의 모습이 바로 바뀝니다',
+    hint: '스위치를 눌러 미리보기를 바꿔 보세요',
+    html: wrap('exp003-tg', `<div class="exp003-tg-list">${SWITCHES.map(([key, name]) => `<div class="exp003-row"><span id="${uid('tg', key)}">${name}</span><span class="exp003-sw-wrap"><span class="exp003-sw-st" data-st="${key}" aria-hidden="true">끔</span><button type="button" class="exp003-sw" role="switch" aria-checked="false" data-key="${key}" aria-labelledby="${uid('tg', key)}"></button></span></div>`).join('')}</div>
+      <div class="exp003-tg-pv" data-pv><b>미리보기</b><span class="exp003-tg-chip" data-bell>알림 꺼짐</span><span class="exp003-tg-chip" data-save>수동 저장 · <u>저장 필요</u></span></div>`),
+    init(root) {
+      const preview = $(root, '[data-pv]');
+      const apply = {
+        dark: on => { preview.classList.toggle('is-dark', on); },
+        bell: on => { $(root, '[data-bell]').textContent = on ? '알림 켜짐' : '알림 꺼짐'; },
+        auto: on => { $(root, '[data-save]').innerHTML = on ? '자동 저장 · <u>저장됨</u>' : '수동 저장 · <u>저장 필요</u>'; }
+      };
+      $$(root, '[role=switch]').forEach(button => button.addEventListener('click', () => {
+        const on = button.getAttribute('aria-checked') !== 'true';
+        button.setAttribute('aria-checked', String(on));
+        $(root, `[data-st="${button.dataset.key}"]`).textContent = on ? '켬' : '끔';
+        apply[button.dataset.key](on);
+      }));
+    }
+  };
+
+  /* ───────── 폼 검증 ───────── */
+  const checkEmail = value => !value ? '이메일을 입력해 주세요.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) ? '' : '이메일 형식이 아닙니다. 예: name@mail.com';
+  const checkPassword = value => !value ? '비밀번호를 입력해 주세요.' : value.length < 8 ? `8자 이상이어야 합니다. (${value.length}/8)` : !/\d/.test(value) ? '숫자를 한 개 이상 넣어 주세요.' : '';
+  const form = {
+    label: '폼 검증: 입력칸을 벗어나면 이메일 형식과 비밀번호 규칙을 검사해 오류를 알려 주고 제출하면 첫 오류 칸으로 포커스가 이동합니다',
+    hint: '일부러 틀리게 입력하고 제출해 보세요',
+    html: wrap('exp003-fm', `<form novalidate data-form>
+        <div class="exp003-fm-f"><label for="${uid('fm', 'email')}">이메일</label><input class="exp003-in" id="${uid('fm', 'email')}" name="email" type="email" autocomplete="off" aria-describedby="${uid('fm', 'email-m')}"><p class="exp003-fm-m" id="${uid('fm', 'email-m')}" data-msg="email"></p></div>
+        <div class="exp003-fm-f"><label for="${uid('fm', 'pw')}">비밀번호</label><div class="exp003-fm-pw"><input class="exp003-in" id="${uid('fm', 'pw')}" name="pw" type="password" autocomplete="new-password" aria-describedby="${uid('fm', 'pw-m')}"><button type="button" data-show aria-pressed="false">보기</button></div><p class="exp003-fm-m" id="${uid('fm', 'pw-m')}" data-msg="pw">8자 이상, 숫자 포함</p></div>
+        <button type="submit" class="exp003-pri">가입하기</button></form>
+      <div class="exp003-fm-done" data-done role="status" hidden><b>✓ 가입 완료</b><p>입력한 내용이 모두 규칙에 맞습니다. 실제로 전송하지는 않습니다.</p><button type="button" data-again>다시 입력</button></div>`),
+    init(root) {
+      const formEl = $(root, '[data-form]');
+      const fields = { email: [$(root, '[name=email]'), checkEmail, ''], pw: [$(root, '[name=pw]'), checkPassword, '8자 이상, 숫자 포함'] };
+      const touched = { email: false, pw: false };
+      const show = name => {
+        const [input, check, idle] = fields[name];
+        const message = $(root, `[data-msg="${name}"]`);
+        const error = touched[name] ? check(input.value) : '';
+        if (error) { input.setAttribute('aria-invalid', 'true'); message.textContent = `! ${error}`; message.className = 'exp003-fm-m is-error'; }
+        else {
+          input.removeAttribute('aria-invalid');
+          const good = touched[name] && input.value;
+          message.textContent = good ? '✓ 사용할 수 있어요.' : idle;
+          message.className = `exp003-fm-m${good ? ' is-ok' : ''}`;
+        }
+        return error;
+      };
+      Object.entries(fields).forEach(([name, [input]]) => {
+        input.addEventListener('blur', () => { touched[name] = true; show(name); });
+        input.addEventListener('input', () => { if (touched[name]) show(name); });
+      });
+      const pw = fields.pw[0];
+      $(root, '[data-show]').addEventListener('click', event => {
+        const on = pw.type === 'password';
+        pw.type = on ? 'text' : 'password';
+        event.currentTarget.setAttribute('aria-pressed', String(on));
+        event.currentTarget.textContent = on ? '숨기기' : '보기';
+      });
+      formEl.addEventListener('submit', event => {
+        event.preventDefault();
+        Object.keys(touched).forEach(name => { touched[name] = true; });
+        const invalid = Object.keys(fields).filter(name => show(name));
+        if (invalid.length) { fields[invalid[0]][0].focus(); return; }
+        formEl.hidden = true;
+        $(root, '[data-done]').hidden = false;
+        $(root, '[data-again]').focus();
+      });
+      $(root, '[data-again]').addEventListener('click', () => {
+        formEl.reset();
+        Object.keys(touched).forEach(name => { touched[name] = false; show(name); });
+        $(root, '[data-done]').hidden = true;
+        formEl.hidden = false;
+        fields.email[0].focus();
+      });
+    }
+  };
+
+  window.LAB_SCENES['exp-003'] = { tabs, dropdown, pagination, sticky, scrollpath, accordion, carousel, filter, modal, tooltip, toast, toggle, form };
 })();

@@ -19,16 +19,10 @@
       <path class="ink" d="m114 70 36-18 36 18-36 18Z"/><path class="violet" d="M114 70v38l36 18V88Z"/><path class="gray-fill" d="M150 88v38l36-18V70Z"/>
       <path class="ink-line" d="M31 137c-12-21 2-47 35-54M243 108c21 22 9 43-22 49m4-7-4 7 8 2"/>
       <text x="24" y="178" class="svg-label">CAMERA</text><text x="221" y="178" class="svg-label">SUBJECT</text>`,
-    'exp-003': () => `<rect class="line" x="38" y="16" width="224" height="140"/><path class="line" d="M38 38H262"/><rect class="ink" x="48" y="23" width="8" height="8"/><path class="line" d="M200 27h14M224 27h14M248 27h6"/>
-      <rect class="gray-fill" x="52" y="56" width="96" height="10"/><rect class="gray-fill" x="52" y="72" width="70" height="10"/><path class="line" d="M52 94h88M52 102h60"/>
-      <rect class="ink" x="52" y="116" width="48" height="16"/><rect class="line" x="108" y="116" width="40" height="16"/>
-      <rect class="line" x="168" y="54" width="82" height="90"/><rect class="gray-fill" x="178" y="104" width="12" height="30"/><rect class="gray-fill" x="196" y="86" width="12" height="48"/><rect class="gray-fill" x="214" y="96" width="12" height="38"/><rect class="ink" x="232" y="72" width="12" height="62"/>
-      <text x="38" y="178" class="svg-label">LANDING · TREND · REFERENCE</text>`,
-    'exp-004': () => `<rect class="line" x="26" y="52" width="92" height="62"/><path class="line" d="M16 126H128l-10-12H26Z"/><rect class="gray-fill" x="36" y="62" width="48" height="6"/><rect class="gray-fill" x="36" y="74" width="62" height="6"/><rect class="gray-fill" x="36" y="86" width="40" height="6"/>
-      <path class="ink-line" d="M136 78h34m-6-5 6 5-6 5M170 98h-34m6-5-6 5 6 5"/>
-      <rect class="line" x="186" y="38" width="88" height="28"/><rect class="line" x="186" y="72" width="88" height="28"/><rect class="line" x="186" y="106" width="88" height="28"/>
-      <circle class="ink" cx="200" cy="52" r="4"/><circle class="ink" cx="200" cy="86" r="4"/><circle class="ink" cx="200" cy="120" r="4"/><path class="line" d="M214 52h46M214 86h46M214 120h46"/>
-      <text x="26" y="156" class="svg-label">MY PC</text><text x="186" y="156" class="svg-label">HOSTED MODEL</text>`
+    'exp-003': () => `<rect class="line" x="30" y="18" width="240" height="30"/><rect class="ink" x="30" y="18" width="74" height="30"/><path class="line" d="M118 33h40M172 33h40M226 33h30"/>
+      <rect class="line" x="30" y="62" width="112" height="86"/><rect class="gray-fill" x="42" y="76" width="64" height="8"/><path class="line" d="M42 96h86M42 106h70"/><rect class="ink" x="42" y="122" width="40" height="16"/>
+      <rect class="line" x="158" y="62" width="112" height="22"/><rect class="line" x="158" y="90" width="112" height="22"/><rect class="line" x="158" y="118" width="112" height="30"/><path class="ink-line" d="M258 70v6m-4-3 4 4 4-4"/><rect class="ink" x="238" y="97" width="22" height="8"/><rect class="gray-fill" x="170" y="130" width="52" height="6"/>
+      <text x="30" y="172" class="svg-label">TABS · MODAL · FORM</text>`
   };
   function preview(experiment) {
     if (previews[experiment.slug]) return svg(previews[experiment.slug]());
@@ -169,29 +163,49 @@
   };
   const cameraDiagram = key => `<div class="scene scene-cm" aria-hidden="true"><div class="cm cm-${key}">${cmScenes[key]}</div></div>`;
 
-  // Scene source per demo: scenes a page registers in window.LAB_SCENES[page][key] ({ label, html }) win; the built-in
+  // Scene source per demo: scenes a page registers in window.LAB_SCENES[page][key] ({ label, html, hint, init }) win; the built-in
   // EXP-001 / EXP-002 stages above are the fallback; anything else gets an empty labelled stage instead of throwing.
+  // A scene with init() is a live UI pattern: it is not hidden from assistive tech and is wired up by interactiveScenes().
   const registered = (window.LAB_SCENES || {})[page] || {};
   function stageFor(experiment, demo) {
     const own = registered[demo.key];
+    if (own && own.html && own.init) return { label: own.label || `${demo.name} 시연`, hint: own.hint || '', live: true, html: `<div class="scene scene-ext">${own.html}</div>` };
     if (own && own.html) return { label: own.label || `${demo.name} 시연`, html: `<div class="scene scene-ext" aria-hidden="true">${own.html}</div>` };
     if (experiment.slug === 'exp-001' && scenes[demo.key]) return { label: scenes[demo.key].label, html: motionDiagram(demo.key) };
     if (experiment.slug === 'exp-002' && cmScenes[demo.key]) return { label: `${demo.name} 움직임 시연`, html: cameraDiagram(demo.key) };
     return { label: `${demo.name} 시연`, html: '<div class="scene scene-ext" aria-hidden="true"></div>' };
   }
   const sourceLinks = sources => sources.map(source => `<a href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(source.account)} ↗<span class="sr-only"> (새 탭)</span></a>`).join('');
-  // EXP-003's scenes.js adds its own group headings to cards that lack one, keyed on this class; using it here keeps it from adding a second copy.
-  const groupClass = { 'exp-003': ' exp003-group' }[page] || '';
+
+  // Interactive pages: every card's scene is a working control set. init(root) wires it and may return a cleanup (timers, document listeners);
+  // 초기화 rebuilds the scene from its registered HTML, so a demo can always be put back to its first state.
+  function interactiveScenes(cards) {
+    const cleanups = new Map();
+    function mount(card, fresh) {
+      const own = registered[card.id];
+      const root = card.querySelector('.scene');
+      if (cleanups.get(card)) cleanups.get(card)();
+      if (fresh) root.innerHTML = own.html;
+      const cleanup = own.init(root);
+      cleanups.set(card, typeof cleanup === 'function' ? cleanup : null);
+    }
+    cards.forEach(card => {
+      card.classList.add('playing');
+      mount(card, false);
+      card.querySelector('.replay').addEventListener('click', () => mount(card, true));
+    });
+    document.querySelector('#reset-all').addEventListener('click', () => cards.forEach(card => mount(card, true)));
+  }
 
   function experimentPage() {
     const experiment = experiments.find(item => item.slug === page);
-    // Pages whose scenes.js draws the whole page itself (EXP-004) are left alone, so cards and controls are never rendered twice.
-    if (!experiment || experiment.selfRendered || document.querySelector('#demo-list .demo-card')) return;
+    if (!experiment || document.querySelector('#demo-list .demo-card')) return;
+    const interactive = Boolean(experiment.interactive);
     const groups = experiment.groups || {};
     const credit = window.LAB.credit;
     const heading = (experiment.sources || []).map(source => `<a href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">출처 ${escapeHTML(source.platform)} ${escapeHTML(source.account)} ↗<span class="sr-only"> (새 탭)</span></a>`).join('');
     document.querySelector('#experiment-heading').innerHTML = `<section class="experiment-heading" aria-labelledby="experiment-title"><h1 id="experiment-title">${escapeHTML(experiment.title)}</h1><div class="experiment-meta">${heading}${experiment.sourceNote ? `<span>${escapeHTML(experiment.sourceNote)}</span>` : ''}<span>${escapeHTML(experiment.provenance)}</span></div></section>`;
-    document.querySelector('#demo-toolbar').innerHTML = `<div class="demo-toolbar"><h2>${escapeHTML(experiment.unit)} <span class="count">${number(experiment.demos.length)}</span></h2><div class="toolbar-buttons"><button type="button" id="pause-all" aria-pressed="false">전체 정지</button><button type="button" id="replay-all">전체 다시 재생</button></div><p class="motion-notice" id="motion-notice" role="status" hidden>동작 줄이기 설정으로 정지 화면을 표시합니다.</p></div>`;
+    document.querySelector('#demo-toolbar').innerHTML = interactive ? `<div class="demo-toolbar"><h2>${escapeHTML(experiment.unit)} <span class="count">${number(experiment.demos.length)}</span></h2><div class="toolbar-buttons"><button type="button" id="reset-all">전체 초기화</button></div></div>` : `<div class="demo-toolbar"><h2>${escapeHTML(experiment.unit)} <span class="count">${number(experiment.demos.length)}</span></h2><div class="toolbar-buttons"><button type="button" id="pause-all" aria-pressed="false">전체 정지</button><button type="button" id="replay-all">전체 다시 재생</button></div><p class="motion-notice" id="motion-notice" role="status" hidden>동작 줄이기 설정으로 정지 화면을 표시합니다.</p></div>`;
     const startsGroup = (demo, index) => demo.group && groups[demo.group] && demo.group !== experiment.demos[index - 1]?.group;
     document.querySelector('#demo-index').innerHTML = experiment.demos.map((demo, index) => `${startsGroup(demo, index) ? `<span class="demo-index-group">${escapeHTML(groups[demo.group][0])}</span>` : ''}<a href="#${demo.key}"><span>${number(index + 1)}</span>${escapeHTML(demo.name)} ↓</a>`).join('');
     document.querySelector('#demo-index').addEventListener('click', event => {
@@ -199,12 +213,13 @@
     });
     document.querySelector('#demo-list').innerHTML = experiment.demos.map((demo, index) => {
       const stage = stageFor(experiment, demo);
-      const groupHead = startsGroup(demo, index) ? `<div class="demo-group${groupClass}" id="group-${demo.group}"><h2>${escapeHTML(groups[demo.group][0])} <span class="count">${number(experiment.demos.filter(item => item.group === demo.group).length)}</span></h2><p>${escapeHTML(groups[demo.group][1])}</p></div>` : '';
+      const groupHead = startsGroup(demo, index) ? `<div class="demo-group" id="group-${demo.group}"><h2>${escapeHTML(groups[demo.group][0])} <span class="count">${number(experiment.demos.filter(item => item.group === demo.group).length)}</span></h2><p>${escapeHTML(groups[demo.group][1])}</p></div>` : '';
       const source = demo.sources && demo.sources.length ? `<p class="demo-credit"><span>출처 Instagram</span>${sourceLinks(demo.sources)}<span>${escapeHTML(credit)}</span></p>` : '';
-      return `${groupHead}<article class="demo-card" id="${demo.key}" aria-labelledby="title-${demo.key}"><div class="demo-heading"><h3 id="title-${demo.key}"><span class="demo-number">${number(index + 1)}</span>${escapeHTML(demo.name)}</h3><span>${escapeHTML(demo.english)}</span></div><div class="stage stage-scene" role="img" aria-label="${escapeHTML(stage.label)}">${stage.html}</div><div class="demo-controls"><span class="tiny" data-play-status role="status">대기</span><button class="replay" type="button" aria-label="${escapeHTML(demo.name)} 다시 재생"><span aria-hidden="true">↻</span>다시 재생</button></div><div class="demo-info"><p class="demo-description">${escapeHTML(demo.description)}</p>${source}</div></article>`;
+      return `${groupHead}<article class="demo-card" id="${demo.key}" aria-labelledby="title-${demo.key}"><div class="demo-heading"><h3 id="title-${demo.key}"><span class="demo-number">${number(index + 1)}</span>${escapeHTML(demo.name)}</h3><span>${escapeHTML(demo.english)}</span></div><div class="stage stage-scene" role="${stage.live ? 'group' : 'img'}" aria-label="${escapeHTML(stage.label)}">${stage.html}</div><div class="demo-controls">${stage.live ? `<span class="tiny">${escapeHTML(stage.hint)}</span>` : '<span class="tiny" data-play-status role="status">대기</span>'}<button class="replay" type="button" aria-label="${escapeHTML(demo.name)} ${stage.live ? '초기화' : '다시 재생'}"><span aria-hidden="true">↻</span>${stage.live ? '초기화' : '다시 재생'}</button></div><div class="demo-info"><p class="demo-description">${escapeHTML(demo.description)}</p>${source}</div></article>`;
     }).join('');
 
     const cards = [...document.querySelectorAll('.demo-card')];
+    if (interactive) return interactiveScenes(cards);
     let started = new WeakSet();
     const pause = document.querySelector('#pause-all');
     const replayAll = document.querySelector('#replay-all');
