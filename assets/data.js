@@ -109,8 +109,7 @@ window.LAB = {
       provenance: '제작 Claude Sonnet 5.5 · 2026-10-01',
       sourceNote: '사이트마다 원본 출처를 카드와 사이트 안에 표기합니다.',
       demos: [
-        toDemo(['ordi', 'ORDI', 'Focus Your Time', "굵은 타이포와 겹쳐 쌓은 레이어가 돋보이는 생산성 서비스 사이트. 작동하는 집중 타이머, 모바일 메뉴, 요금제 전환, FAQ 아코디언, 스크롤 리빌까지 실제 사이트처럼 둘러볼 수 있습니다.", '', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/']),
-        toDemo(['scroll-story', 'SCROLL STORYTELLING', '이어폰 제품 페이지 · 스크롤 장면 전환', "거대한 타이포가 스크롤에 맞춰 장면을 갈아 끼우는 제품 소개 페이지. 노이즈 캔슬링 모드 전환, 머리 돌리기 슬라이더, 언어 선택 번역 카드, 청력 보조 토글, 배터리 슬라이더, 상세 목록까지 직접 만져 볼 수 있습니다.", '', '@uxbrainy', IG + 'p/DdORF23iBpe/'])
+        toDemo(['ordi', 'ORDI', 'Focus Your Time', "굵은 타이포와 겹쳐 쌓은 레이어가 돋보이는 생산성 서비스 사이트. 작동하는 집중 타이머, 모바일 메뉴, 요금제 전환, FAQ 아코디언, 스크롤 리빌까지 실제 사이트처럼 둘러볼 수 있습니다.", '', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/'])
       ]
     }
   ]

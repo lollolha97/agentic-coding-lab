@@ -38,7 +38,7 @@ const reports = [];
 const source = await fs.readFile(new URL('../assets/data.js', import.meta.url), 'utf8');
 const data = new Function('window', `${source}; return window.LAB;`)({});
 // Four categories, one page each; demo counts are asserted against both data.js and the rendered DOM.
-const EXPECTED = { 'exp-001': 21, 'exp-002': 8, 'exp-003': 13, 'exp-004': 2 };
+const EXPECTED = { 'exp-001': 21, 'exp-002': 8, 'exp-003': 13, 'exp-004': 1 };
 const ORDER = Object.keys(EXPECTED);
 assert.deepEqual(data.experiments.map(item => item.slug), ORDER, 'data.js must list the four categories in order');
 assert.deepEqual(data.categories, ['모션', '카메라', '웹 디자인', '웹사이트']);
