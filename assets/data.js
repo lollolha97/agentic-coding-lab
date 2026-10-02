@@ -109,7 +109,8 @@ window.LAB = {
       provenance: '제작 Claude Sonnet 5.5 · 2026-10-01',
       sourceNote: '사이트마다 원본 출처를 카드와 사이트 안에 표기합니다.',
       demos: [
-        toDemo(['ordi', 'ORDI', 'Focus Your Time', "굵은 타이포와 겹쳐 쌓은 레이어가 돋보이는 생산성 서비스 사이트. 작동하는 집중 타이머, 모바일 메뉴, 요금제 전환, FAQ 아코디언, 스크롤 리빌까지 실제 사이트처럼 둘러볼 수 있습니다.", '', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/'])
+        toDemo(['ordi', 'ORDI', 'Focus Your Time', "굵은 타이포와 겹쳐 쌓은 레이어가 돋보이는 생산성 서비스 사이트. 작동하는 집중 타이머, 모바일 메뉴, 요금제 전환, FAQ 아코디언, 스크롤 리빌까지 실제 사이트처럼 둘러볼 수 있습니다.", '', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/']),
+        toDemo(['scroll-story', 'SCROLL STORYTELLING', 'AirPods Pro 3 · 스크롤 장면 전환', "검은 배경과 대형 타이포로 무선 이어폰 제품 페이지를 스크롤하며 장면을 넘기는 사이트. 원본 영상 순서대로 인트로, 실시간 번역, 기능 칩, 노이즈 캔슬링 네 장면을 옮겼고 장면 이동 내비게이션과 기능 칩 선택이 실제로 동작합니다.", '', '@uxbrainy', IG + 'p/DdORF23iBpe/'])
       ]
     }
   ]
