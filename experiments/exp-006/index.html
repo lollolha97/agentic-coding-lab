@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
+  <meta name="description" content="EXP-006 — 비 오는 밤의 홍대입구를 3D로. 3D 모델·이미지·소리 파일 없이 지오메트리, 텍스처, 빗소리까지 전부 코드로 만들었습니다.">
+  <title>EXP-006 — 홍대입구, 비 오는 밤 · Agentic Coding Lab</title>
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../assets/style.css"><link rel="stylesheet" href="hongdae.css"><script src="../../assets/theme.js"></script>
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+  <script type="module" src="scene/main.js"></script>
+</head>
+<body data-page="exp-006">
+  <a class="skip-link" href="#main">본문으로 이동</a>
+  <header class="site-header"><a class="brand" href="../../" aria-label="Agentic Coding Lab 홈">Agentic<br>Coding Lab</a><nav aria-label="주 메뉴"><a href="../../#catalog">실험 목록 →</a></nav><details class="theme-switch" hidden><summary aria-label="화면 테마 선택">테마</summary><div role="group" aria-label="화면 테마"><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button><button type="button" data-theme-choice="system" aria-pressed="true">System</button></div></details></header>
+  <main id="main" class="container experiment-main"><nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">아카이브</a><span aria-hidden="true">/</span><span>EXP-006</span></nav>
+    <section class="experiment-heading" aria-labelledby="experiment-title"><h1 id="experiment-title">홍대입구, 비 오는 밤</h1><div class="experiment-meta"><span>모델·이미지·소리 파일이 하나도 없는 3D 장면입니다. 네온 간판의 한글, 젖은 도로의 반사, 우산 쓴 사람들, 빗소리까지 실행할 때 코드가 만들어 냅니다.</span><a href="https://gall.dcinside.com/mgallery/board/view/?id=thesingularity&amp;no=1458333" target="_blank" rel="noopener noreferrer">영감: 디시인사이드 특이점이 온다 갤러리 #1458333 “오오푸스 미친놈” ↗<span class="sr-only"> (새 탭)</span></a><span>제작 Claude Sonnet 5.5 · 2026-10-03</span></div></section>
+
+    <section class="demo-card exp6" aria-labelledby="exp6-title">
+      <div class="demo-heading"><h3 id="exp6-title"><span class="demo-number">01</span>Hongdae Entrance · Rainy Night</h3><span>자동 투어로 거리를 훑어보거나, 직접 걸어 다녀 보세요. 장면을 클릭하거나 Tab으로 선택한 뒤 WASD·방향키로 움직입니다.</span></div>
+
+      <div class="exp6-stage" id="exp6-stage" tabindex="0" role="group" aria-label="3D 장면: 비 오는 밤의 홍대입구 거리" aria-describedby="exp6-keys">
+        <canvas id="exp6-canvas" role="img" aria-label="네온 간판이 켜진 비 오는 밤의 홍대입구 거리. 젖은 도로에 불빛이 번지고, 우산을 쓴 사람들이 걷고 있습니다."></canvas>
+
+        <div class="exp6-top">
+          <div class="exp6-title"><strong>홍대입구 · 비 오는 밤</strong><span>에셋 파일 0개 — 전부 코드로 생성</span></div>
+          <details class="exp6-made"><summary>만든 방법</summary>
+            <div class="exp6-made-body">
+              <p>이 장면에는 3D 모델, 텍스처 이미지, 오디오 파일이 없습니다.</p>
+              <ul>
+                <li>건물·사람·자동차: 상자·원기둥으로 만든 지오메트리</li>
+                <li>창문·한글 간판·도로: Canvas 2D로 그린 텍스처</li>
+                <li>빗소리·천둥·클럽 베이스: Web Audio 합성</li>
+                <li>반사·번짐: 셰이더로 계산한 가짜 반사</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div class="exp6-loading" id="exp6-loading" role="status"><span class="exp6-spinner" aria-hidden="true"></span><p id="exp6-loading-text">도시를 짓는 중…</p></div>
+        <noscript><p class="exp6-noscript">이 장면은 JavaScript와 WebGL이 필요합니다.</p></noscript>
+
+        <div class="exp6-pad" aria-label="화면 이동 버튼">
+          <button type="button" data-pad="f" aria-label="앞으로 걷기 (누르고 있기)">▲</button>
+          <button type="button" data-pad="l" aria-label="왼쪽으로 돌기 (누르고 있기)">◀</button>
+          <button type="button" data-pad="b" aria-label="뒤로 걷기 (누르고 있기)">▼</button>
+          <button type="button" data-pad="r" aria-label="오른쪽으로 돌기 (누르고 있기)">▶</button>
+        </div>
+
+        <div class="exp6-bottom">
+          <div class="exp6-controls" role="group" aria-label="장면 설정">
+            <button type="button" id="exp6-sound" aria-pressed="false">소리 켜기</button>
+            <button type="button" id="exp6-camera" aria-pressed="false">카메라: 자동 투어</button>
+            <button type="button" id="exp6-pause" aria-pressed="false">장면 멈춤</button>
+            <button type="button" id="exp6-full" aria-pressed="false">전체 화면</button>
+          </div>
+          <p class="exp6-hint" id="exp6-keys">WASD·방향키 이동 · Shift 달리기 · 드래그로 둘러보기 · M 소리 · C 카메라 · P 멈춤</p>
+        </div>
+      </div>
+      <p class="exp6-status" id="exp6-status" role="status" aria-live="polite">준비 중…</p>
+
+      <section class="exp6-notes" aria-labelledby="exp6-notes-title">
+        <h4 id="exp6-notes-title">무엇이 어떻게 만들어졌나</h4>
+        <ul>
+          <li><b>건물 외벽</b> — 창문 4×4칸 타일을 Canvas로 6가지 스타일 그렸습니다. 켜진 창(따뜻한 노랑·차가운 흰색)은 별도의 emissive 맵으로 빛납니다.</li>
+          <li><b>한글 네온 간판</b> — “홍대입구, 클럽, 노래방, PC방, 곱창, 호프, 코인노래방…” 등 40여 종을 하나의 2048px 아틀라스에 <code>fillText</code>로 그려 한 번의 드로우 콜로 그립니다. 일부는 깜빡이고, 일부는 고장 난 듯 끊깁니다.</li>
+          <li><b>젖은 도로</b> — 도로를 다시 렌더링하지 않고, 간판·가로등·헤드라이트마다 카메라 기준 거울상 위치를 셰이더에서 계산해 세로로 길게 번지는 빛줄기를 깝니다. 카메라가 움직이면 반사도 따라 움직입니다. 여기에 웅덩이 거칠기 맵과 코드로 만든 환경 반사, 빗방울 파문을 더했습니다.</li>
+          <li><b>비</b> — 7,500개의 <code>THREE.Points</code>가 GPU에서 떨어지고 되감깁니다. 스프라이트마다 빗줄기를 셰이더로 그립니다.</li>
+          <li><b>사람들</b> — 상자·구체 몸에 다리 스윙을 준 약 90명이 8개의 인스턴스 메시로 그려집니다. 보행자 신호에 맞춰 횡단보도를 건너고, 우산(원뿔+막대)을 쓰고, 카메라와 장애물을 피해 돌아갑니다.</li>
+          <li><b>거리의 생활</b> — 24시 편의점의 밝은 내부, 김이 오르는 포장마차, 줄 선 클럽 입구, 지하철 출구, 맨홀 증기, 신호에 맞춰 서고 가는 자동차와 헤드라이트 빛기둥.</li>
+          <li><b>소리</b> — 필터를 거친 핑크 노이즈로 빗소리, 갈색 노이즈로 먼 도로 소음, 사인파로 물방울·편의점 차임·클럽에서 새어 나오는 킥 드럼을 합성합니다. 소리는 기본이 꺼짐이며 버튼을 눌러야 시작합니다.</li>
+        </ul>
+        <h4>한계와 알려 둘 점</h4>
+        <ul>
+          <li>간판과 가게 이름은 실제 상호가 아닌 일반 명칭입니다. 홍대입구 거리를 그대로 옮긴 것이 아니라 분위기를 재구성한 장면입니다.</li>
+          <li>도로 반사는 평면 거울이 아니라 근사입니다. 건물 외벽과 자동차 옆면에 비치는 반사는 없습니다.</li>
+          <li>그림자는 계산하지 않습니다. 대신 번짐(글로우)과 점광원으로 분위기를 냈습니다.</li>
+          <li>Three.js(MIT)는 CDN 없이 <code>vendor/</code>에 포함했습니다. 이 외의 이미지·모델·오디오·폰트 파일은 없고, 글자는 기기에 설치된 한글 시스템 글꼴로 그려집니다.</li>
+          <li>번쩍이는 번개는 <code>prefers-reduced-motion</code>에서 꺼지고 카메라는 직접 걷기로 시작합니다.</li>
+        </ul>
+      </section>
+    </section>
+
+    <nav class="experiment-pagination" aria-label="다른 실험"><a href="../exp-005/" rel="prev">← EXP-005 <span>리퀴드 글래스 액션 바</span></a></nav>
+  </main>
+  <footer class="site-footer"><a href="#main">맨 위로 ↑</a></footer>
+</body>
+</html>
