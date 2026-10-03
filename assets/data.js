@@ -112,6 +112,25 @@ window.LAB = {
         toDemo(['ordi', 'ORDI', 'Focus Your Time', "굵은 타이포와 겹쳐 쌓은 레이어가 돋보이는 생산성 서비스 사이트. 작동하는 집중 타이머, 모바일 메뉴, 요금제 전환, FAQ 아코디언, 스크롤 리빌까지 실제 사이트처럼 둘러볼 수 있습니다.", '', '@arman._.uiux', IG + 'p/DdySvZ4m8Zh/']),
         toDemo(['scroll-story', 'SCROLL STORYTELLING', 'AirPods Pro 3 · 스크롤 장면 전환', "검은 배경과 대형 타이포로 무선 이어폰 제품 페이지를 스크롤하며 장면을 넘기는 사이트. 원본 영상 순서대로 인트로, 실시간 번역, 기능 칩, 노이즈 캔슬링 네 장면을 옮겼고 장면 이동 내비게이션과 기능 칩 선택이 실제로 동작합니다.", '', '@uxbrainy', IG + 'p/DdORF23iBpe/'])
       ]
+    },
+    {
+      id: 'EXP-005', slug: 'exp-005', title: '리퀴드 글래스 액션 바', category: '인터랙션', unit: '데모',
+      description: "버튼이 유리 알약처럼 움직이는 게 아니라, 연결 → 늘어남 → 가늘어짐 → 분리, 그리고 합쳐짐 → 흡수로 이어지는 하나의 액체 윤곽으로 동작하는 캡슐 액션 바. WebGL 2 암시적 표면과 감쇠 스프링으로 구현했습니다.",
+      sources: [{ platform: 'X', account: '@yunfeifan_x', url: 'https://x.com/yunfeifan_x/status/2104925818195468503' }],
+      provenance: '제작 Claude Sonnet 5.5 · 2026-10-01',
+      demos: [
+        toDemo(['liquid-bar', 'Liquid Actions V2', 'Pay · Request', "Pay / Request를 누르면 액체처럼 늘어나며 분리되고, × 를 누르면 다시 합쳐져 흡수됩니다. 0–900ms 변형 분해 타임라인, 굴절 테스트, 외곽선 보기, 속도 조절로 검증할 수 있습니다.", '', '@yunfeifan_x', 'https://x.com/yunfeifan_x/status/2104925818195468503'])
+      ]
+    },
+    {
+      id: 'EXP-006', slug: 'exp-006', title: '비 오는 밤 홍대입구 3D', category: '3D', unit: '데모',
+      description: "3D 모델, 텍스처 이미지, 사운드 파일 없이 코드만으로 만든 비 오는 밤 홍대입구. 건물·네온 간판·빗줄기·우산을 든 행인·젖은 도로 반사까지 전부 프로시저럴로 생성합니다.",
+      sources: [{ platform: 'DC Inside', account: 'thesingularity #1458333', url: 'https://m.dcinside.com/board/thesingularity/1458333' }],
+      provenance: '제작 Claude Sonnet 5.5 · 2026-10-03',
+      sourceNote: 'DC Inside 특이점이 온다 갤러리의 시부야 스크램블 코드온리 영상에서 영감을 받았습니다.',
+      demos: [
+        toDemo(['hongdae', '홍대입구, 비 오는 밤', 'Hongdae · Rainy Night', "WASD로 거리를 걸어다니며 빗소리(합성음)와 네온에 젖은 거리를 둘러봅니다. 자동 투어 모드도 있습니다.", ''])
+      ]
     }
   ]
 };
