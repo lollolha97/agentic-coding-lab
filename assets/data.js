@@ -131,6 +131,16 @@ window.LAB = {
       demos: [
         toDemo(['hongdae', '홍대입구, 비 오는 밤', 'Hongdae · Rainy Night', "WASD로 거리를 걸어다니며 빗소리(합성음)와 네온에 젖은 거리를 둘러봅니다. 자동 투어 모드도 있습니다.", ''])
       ]
+    },
+    {
+      id: 'EXP-007', slug: 'exp-007', title: 'WareTrack 3D 창고 대시보드', category: '3D', unit: '데모',
+      description: "가상의 창고 5곳을 3D로 보며 트럭 도크 배정, 출하 상태, 지게차 작업, 도크 열고 닫기, 재고 수량을 직접 조작하는 관제 대시보드. 모든 수치는 예시 데이터이고, 차량은 미리 검증한 차선으로만 움직여 서로 겹치지 않습니다.",
+      sources: [],
+      provenance: '제작 Grok Bot · 2026-10-13',
+      sourceNote: 'WareTrack 소개 영상에서 영감만 받은 가상 데모입니다.',
+      demos: [
+        toDemo(['waretrack', 'WareTrack 3D 창고 대시보드', 'WareTrack · 3D Warehouse', "트럭을 빈 도크에 배정하면 게이트에서 후진 접안하고, KPI·탭·3D 칩이 함께 바뀝니다. 일시정지, 1x/2x/4x 속도, 예시 데이터로 초기화를 지원합니다.", ''])
+      ]
     }
   ]
 };
