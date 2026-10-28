@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="./gsap.min.js"></script>
+<style>
+@font-face{font-family:"Pretendard";src:local("Pretendard"),local("Pretendard Regular");}
+:root{--ground:#17110d;--ink:#f6ece2;--accent:#ff7a3d;--accent2:#e8455f}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--ground)}
+#root{position:relative;width:100%;height:100%;font-family:Pretendard,sans-serif;color:var(--ink);
+ background:radial-gradient(1200px 700px at 70% 40%,#3a2216 0%,#17110d 70%)}
+.tag{position:absolute;left:160px;top:150px;font-size:34px;font-weight:600;color:var(--accent);letter-spacing:.08em}
+.title{position:absolute;left:160px;top:230px;font-size:150px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.sub{position:absolute;left:164px;top:420px;font-size:44px;font-weight:400;opacity:.8}
+.bar{position:absolute;left:160px;height:22px;border-radius:11px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.chip{position:absolute;top:760px;padding:24px 40px;border-radius:999px;border:2px solid #ffffff30;font-size:40px;font-weight:600;background:#ffffff0d}
+.orb{position:absolute;right:220px;top:300px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffb38a,var(--accent) 45%,var(--accent2) 100%);filter:blur(1px)}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="6" data-width="1920" data-height="1080">
+  <div class="orb clip" id="orb" data-start="0" data-duration="6" data-track-index="0"></div>
+  <div class="tag clip" id="tag" data-start="0" data-duration="6" data-track-index="1">02 · HYPERFRAMES</div>
+  <h1 class="title clip" id="title" data-start="0" data-duration="6" data-track-index="2">HTML → 영상</h1>
+  <p class="sub clip" id="sub" data-start="0" data-duration="6" data-track-index="3">HTML과 GSAP 타임라인을 프레임 단위로 MP4로 렌더링</p>
+  <div class="bar clip" id="b1" style="top:600px;width:900px" data-start="0" data-duration="6" data-track-index="4"></div>
+  <div class="bar clip" id="b2" style="top:650px;width:640px;opacity:.6" data-start="0" data-duration="6" data-track-index="5"></div>
+  <div class="chip clip" id="c1" style="left:160px" data-start="0" data-duration="6" data-track-index="6">index.html</div>
+  <div class="chip clip" id="c2" style="left:520px" data-start="0" data-duration="6" data-track-index="7">gsap timeline</div>
+  <div class="chip clip" id="c3" style="left:950px" data-start="0" data-duration="6" data-track-index="8">output.mp4</div>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+tl.fromTo("#orb",{scale:.2,opacity:0},{scale:1,opacity:1,duration:1.2,ease:"back.out(1.6)"},0)
+  .to("#orb",{x:-60,y:40,rotation:30,duration:4.8,ease:"sine.inOut"},1.2)
+  .fromTo("#tag",{opacity:0,y:20},{opacity:1,y:0,duration:.5,ease:"power3.out"},.3)
+  .fromTo("#title",{opacity:0,y:60,filter:"blur(12px)"},{opacity:1,y:0,filter:"blur(0px)",duration:.8,ease:"power4.out"},.5)
+  .fromTo("#sub",{opacity:0},{opacity:.8,duration:.6},1.1)
+  .fromTo("#b1",{scaleX:0,transformOrigin:"left center"},{scaleX:1,duration:1,ease:"power3.inOut"},1.4)
+  .fromTo("#b2",{scaleX:0,transformOrigin:"left center"},{scaleX:1,duration:1,ease:"power3.inOut"},1.6)
+  .fromTo(["#c1","#c2","#c3"],{opacity:0,y:40},{opacity:1,y:0,duration:.5,stagger:.35,ease:"back.out(2)"},2.2)
+  .to("#c3",{backgroundColor:"#ff7a3d",color:"#17110d",duration:.4},3.6)
+  .to(["#tag","#title","#sub","#b1","#b2","#c1","#c2","#c3"],{opacity:0,duration:.6,stagger:.04},5.2);
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
+</html>

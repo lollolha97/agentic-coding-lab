@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset=utf-8><title>11 OGL custom shader</title><style>body{margin:0;background:#000}canvas{display:block}#t{position:fixed;top:8px;left:8px;color:#fff;font:16px sans-serif}</style></head><body><div id=t>11 · OGL custom fragment shader</div>
+<script type=module>
+import {Renderer,Program,Mesh,Triangle} from '../vendor/ogl/index.js';
+const r=new Renderer({width:800,height:450});const gl=r.gl;document.body.appendChild(gl.canvas);
+const p=new Program(gl,{vertex:`attribute vec2 position;attribute vec2 uv;varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,0.,1.);}`,
+fragment:`precision highp float;uniform float uTime;varying vec2 vUv;void main(){vec2 p=vUv*2.-1.;float d=length(p);float a=atan(p.y,p.x);
+vec3 c=0.5+0.5*cos(uTime+vec3(0,2,4)+a*3.+d*8.-uTime*2.);c*=smoothstep(1.2,0.2,d);gl_FragColor=vec4(c,1.);}`,uniforms:{uTime:{value:0}}});
+const m=new Mesh(gl,{geometry:new Triangle(gl),program:p});
+requestAnimationFrame(function f(t){p.uniforms.uTime.value=t*0.001;r.render({scene:m});requestAnimationFrame(f)});window.READY=1;
+</script></body></html>

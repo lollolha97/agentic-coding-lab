@@ -1,0 +1,7 @@
+{"fps":30,"size":[1280,720],
+ "video":[{"src":"../20-ffmpeg/clips/11-ogl.mp4","in":0.5,"out":3.5,"label":"OGL shader"},
+          {"src":"../20-ffmpeg/clips/14-gl-transitions.mp4","in":0,"out":4,"label":"GL Transitions"},
+          {"src":"../20-ffmpeg/clips/13-gltf-transform.mp4","in":0,"out":3,"label":"glTF Transform"}],
+ "xfade":0.5,
+ "audio":[{"src":"../17-tonejs/tone-sfx.wav","start":0,"gain":0.5}],
+ "text":[{"t0":0.2,"t1":2.8,"text":"Timeline edit (OpenCut substitute)"}]}

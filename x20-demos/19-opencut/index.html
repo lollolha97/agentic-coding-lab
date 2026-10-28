@@ -1,0 +1,7 @@
+<!doctype html><html><head><meta charset=utf-8><title>19 Timeline (OpenCut substitute)</title><style>body{background:#16161c;color:#eee;font:14px sans-serif;margin:10px}.tr{position:relative;height:34px;background:#222;margin:4px 0}.cl{position:absolute;top:2px;bottom:2px;border-radius:4px;padding:6px;box-sizing:border-box;font-size:12px;overflow:hidden}video{width:560px}</style></head><body>
+<b>19 · 타임라인 편집 (OpenCut 대체: timeline.json → ffmpeg 렌더)</b><br><video src="timeline-edit.mp4" controls></video><div id=tl style="width:760px"></div>
+<script>fetch('timeline.json').then(r=>r.json()).then(T=>{const tl=document.getElementById('tl');const S=80;let o=0;const vt=document.createElement('div');vt.className='tr';
+T.video.forEach((c,i)=>{const d=c.out-c.in;const e=document.createElement('div');e.className='cl';e.style.left=o*S+'px';e.style.width=d*S+'px';e.style.background=['#c55','#59c','#5a5'][i];e.textContent='V1 '+c.label;vt.appendChild(e);o+=d-T.xfade});tl.appendChild(vt);
+const tt=document.createElement('div');tt.className='tr';tt.innerHTML=`<div class=cl style="left:${T.text[0].t0*S}px;width:${(T.text[0].t1-T.text[0].t0)*S}px;background:#a80">T1 ${T.text[0].text}</div>`;tl.appendChild(tt);
+const at=document.createElement('div');at.className='tr';at.innerHTML=`<div class=cl style="left:0;width:${4*S}px;background:#757">A1 tone-sfx.wav</div>`;tl.appendChild(at);
+const v=document.querySelector('video');v.currentTime=4;v.onseeked=()=>window.READY=1;})</script></body></html>

@@ -1,0 +1,13 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>07 Paper.js</title><link rel="icon" href="data:,"><link rel="stylesheet" href="base.css"><style>canvas{width:100vw;height:100vh;display:block}</style></head><body>
+<div class="hud"><div class="n">07 · PAPER.JS</div><h1>Paper.js 벡터 패스</h1><p>세그먼트를 매 프레임 움직이고 smooth()로 곡선을 다시 계산하는 물결</p></div>
+<canvas id="c" resize></canvas>
+<script src="paper-full.min.js"></script>
+<script>
+paper.setup('c'); const {Path,Point,view,Color}=paper; const cols=['#ff7a3d','#e8455f','#ffc15e','#ff9f6b'];
+const waves=cols.map((c,i)=>{const p=new Path({strokeColor:c,strokeWidth:4,strokeCap:'round',opacity:.85});for(let k=0;k<=14;k++)p.add(new Point(view.size.width*k/14,0));return p});
+const blob=new Path.Circle({center:view.center,radius:110,fillColor:{gradient:{stops:['#ffc15e','#e8455f']},origin:view.center.subtract(80),destination:view.center.add(110)}});
+const base=blob.segments.map(s=>s.point.subtract(view.center));blob.insert(0); for(let i=0;i<8;i++)blob.add(view.center);
+view.onFrame=e=>{const W=view.size.width,H=view.size.height;
+ waves.forEach((p,i)=>{p.segments.forEach((s,k)=>{s.point.x=W*k/14;s.point.y=H*.62+i*28+Math.sin(e.time*1.6+k*.7+i)*60*Math.sin(e.time*.5+i)});p.smooth({type:'continuous'})});
+ blob.segments.forEach((s,k)=>{const a=k/blob.segments.length*Math.PI*2;const r=120+28*Math.sin(e.time*2.2+k*1.3);s.point=new Point(W*.72+Math.cos(a)*r,H*.36+Math.sin(a)*r)});blob.smooth()};
+</script></body></html>

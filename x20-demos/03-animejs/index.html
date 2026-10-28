@@ -1,0 +1,14 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>03 Anime.js</title><link rel="icon" href="data:,"><link rel="stylesheet" href="base.css">
+<style>#g{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);display:grid;grid-template-columns:repeat(12,44px);gap:14px}
+.d{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--a),var(--b))}</style></head><body>
+<div class="hud"><div class="n">03 · ANIME.JS</div><h1>Anime.js 타임라인</h1><p>createTimeline과 stagger로 그리드가 파도처럼 움직이는 장면</p></div>
+<div id="g"></div>
+<script src="anime.umd.min.js"></script>
+<script>
+const {createTimeline,stagger}=anime; const g=document.getElementById('g');
+for(let i=0;i<96;i++){const d=document.createElement('div');d.className='d';g.appendChild(d)}
+const tl=createTimeline({loop:true,defaults:{ease:'inOutQuad',duration:700}});
+tl.add('.d',{scale:[1,.35],rotate:90,borderRadius:['12px','50%'],delay:stagger(60,{grid:[12,8],from:'center'})})
+  .add('.d',{translateY:stagger([-30,30],{grid:[12,8],axis:'y'}),background:'#ffc15e',delay:stagger(40,{grid:[12,8],from:'first'})})
+  .add('.d',{scale:1,rotate:0,translateY:0,borderRadius:'12px',background:'linear-gradient(135deg,#ff7a3d,#e8455f)',delay:stagger(50,{grid:[12,8],from:'last'})});
+</script></body></html>
