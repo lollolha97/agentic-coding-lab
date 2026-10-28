@@ -38,12 +38,13 @@ const reports = [];
 const source = await fs.readFile(new URL('../assets/data.js', import.meta.url), 'utf8');
 const data = new Function('window', `${source}; return window.LAB;`)({});
 // Four categories, one page each; demo counts are asserted against both data.js and the rendered DOM.
-const EXPECTED = { 'exp-001': 21, 'exp-002': 8, 'exp-003': 13, 'exp-004': 2 };
-const ORDER = Object.keys(EXPECTED);
-assert.deepEqual(data.experiments.map(item => item.slug), ORDER, 'data.js must list the four categories in order');
-assert.deepEqual(data.categories, ['모션', '카메라', '웹 디자인', '웹사이트']);
+const EXPECTED_CORE = { 'exp-001': 21, 'exp-002': 8, 'exp-003': 13, 'exp-004': 2 };
+const ORDER = Object.keys(EXPECTED_CORE);
+const EXPECTED = { ...EXPECTED_CORE, 'exp-005': 1, 'exp-006': 1, 'exp-007': 1, 'exp-008': 20 };
+assert.deepEqual(data.experiments.map(item => item.slug), Object.keys(EXPECTED), 'data.js must list every experiment in order');
+assert.deepEqual(data.categories, ['모션', '카메라', '웹 디자인', '웹사이트', '모션·영상']);
 data.experiments.forEach(item => assert.equal(item.demos.length, EXPECTED[item.slug], `${item.slug}: demo count in data.js`));
-assert.equal(new Set(data.experiments.map(item => item.id)).size, ORDER.length, 'duplicate EXP ids in data.js');
+assert.equal(new Set(data.experiments.map(item => item.id)).size, data.experiments.length, 'duplicate EXP ids in data.js');
 // EXP-003 is a library of working patterns, so each one is operated like a user would (click, hover, type, scroll, keys) and the resulting state is asserted.
 async function exerciseDemos(page, entry, width) {
   const keys = entry.demos.map(demo => demo.key);
@@ -390,15 +391,15 @@ try {
         assert(Object.values(contrast).every(value => value >= 3), `Meaningful line contrast below 3:1: ${JSON.stringify(contrast)}`);
 
         if (slug === 'catalog') {
-          assert.equal(await page.locator('.experiment-card').count(), 4);
+          assert.equal(await page.locator('.experiment-card').count(), data.experiments.length);
           assert.deepEqual(await page.locator('.experiment-card .experiment-code').allTextContents(), data.experiments.map(item => item.id));
           // The landing groups demos by category: no demo title is listed as its own card, and card text is unique.
           const cardText = await page.locator('.experiment-card').evaluateAll(cards => cards.map(card => ({ title: card.querySelector('h3').textContent, desc: card.querySelector('.card-desc').textContent, meta: card.querySelector('.card-meta').textContent })));
-          assert.equal(new Set(cardText.map(card => card.title)).size, 4, 'duplicate landing titles');
-          assert.equal(new Set(cardText.map(card => card.desc)).size, 4, 'duplicate landing descriptions');
-          assert.equal(await page.locator('#total-count').textContent(), '04');
+          assert.equal(new Set(cardText.map(card => card.title)).size, data.experiments.length, 'duplicate landing titles');
+          assert.equal(new Set(cardText.map(card => card.desc)).size, data.experiments.length, 'duplicate landing descriptions');
+          assert.equal(await page.locator('#total-count').textContent(), String(data.experiments.length).padStart(2, '0'));
           assert.deepEqual(await page.locator('[data-filter]').allTextContents(), ['전체', ...data.categories]);
-          assert.equal(await page.locator('.card-preview svg').count(), 4);
+          assert.equal(await page.locator('.card-preview svg').count(), data.experiments.length);
           await page.locator('.experiment-card').first().focus();
           assert.equal(await page.locator('.card-title h3').first().evaluate(element => getComputedStyle(element).textDecorationLine), 'underline');
           assert.equal(await page.locator('.experiment-card').first().evaluate(element => getComputedStyle(element).outlineStyle), 'solid');
@@ -408,7 +409,7 @@ try {
             assert.equal(await page.locator('.experiment-card .experiment-code').textContent(), data.experiments.find(item => item.category === category).id);
           }
           await page.getByRole('button', { name: /^전체/ }).click();
-          assert.equal(await page.locator('.experiment-card').count(), 4);
+          assert.equal(await page.locator('.experiment-card').count(), data.experiments.length);
           await page.locator('#search').fill('이징');
           assert.equal(await page.locator('.experiment-card').count(), 1);
           await page.locator('#search').fill('accordion');
@@ -419,6 +420,8 @@ try {
           assert.equal(await page.locator('.experiment-card .experiment-code').allTextContents().then(codes => codes.join()), 'EXP-003,EXP-004', 'source account search finds both categories that credit it');
           await page.locator('#search').fill('focus your time');
           assert.equal(await page.locator('.experiment-card .experiment-code').textContent(), 'EXP-004', 'search finds the site by name');
+          await page.locator('#search').fill('라이브러리 20종');
+          assert.equal(await page.locator('.experiment-card .experiment-code').textContent(), 'EXP-008', 'search finds the library gallery');
           await page.locator('#search').fill('no-such-experiment');
           assert.equal(await page.locator('.experiment-card').count(), 0);
           assert(await page.locator('#empty-state').isVisible());
@@ -879,7 +882,7 @@ try {
   assert(page.url().includes('/agentic-coding-lab/experiments/exp-001/'));
   await page.locator('.brand').click();
   await page.locator('.experiment-card').first().waitFor();
-  assert.equal(await page.locator('.experiment-card').count(), 4);
+  assert.equal(await page.locator('.experiment-card').count(), data.experiments.length);
   await page.close();
   const contentReady = !data.copyPending && Boolean(data.intro) && data.experiments.every(item => item.description && item.demos.every(demo => demo.description));
   console.log(JSON.stringify({ passed: reports.length, projectPrefix: 'passed', contentReady, reports, screenshots: output }, null, 2));

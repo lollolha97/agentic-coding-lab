@@ -17,7 +17,7 @@ window.LAB = {
   title: 'Agentic Coding Lab',
   intro: "소셜 미디어에서 발견한 모션, 카메라, 웹 디자인, 웹사이트 아이디어를 코드로 재현합니다.",
   credit: '제작 Claude Sonnet 5.5 · 2026-10-01',
-  categories: ['모션', '카메라', '웹 디자인', '웹사이트'],
+  categories: ['모션', '카메라', '웹 디자인', '웹사이트', '모션·영상'],
   experiments: [
     {
       id: 'EXP-001', slug: 'exp-001', title: '모션 용어', category: '모션', unit: '데모',
@@ -140,6 +140,40 @@ window.LAB = {
       sourceNote: 'WareTrack 소개 영상에서 영감만 받은 가상 데모입니다.',
       demos: [
         toDemo(['waretrack', 'WareTrack 3D 창고 대시보드', 'WareTrack · 3D Warehouse', "트럭을 빈 도크에 배정하면 게이트에서 후진 접안하고, KPI·탭·3D 칩이 함께 바뀝니다. 일시정지, 1x/2x/4x 속도, 예시 데이터로 초기화를 지원합니다.", ''])
+      ]
+    },
+    {
+      // Static gallery moved from x20-demos/: experiments/exp-008/index.html links into NN-name/ folders; shared JS lives in vendor/ (imported as ../vendor/).
+      id: 'EXP-008', slug: 'exp-008', title: '모션·영상 라이브러리 20종 데모', category: '모션·영상', unit: '데모',
+      description: "X(@hzxuang) 목록의 모션·영상 라이브러리 20종을 로컬 HTML·MP4·오디오 데모로 모은 갤러리. Remotion부터 FFmpeg까지, vendor JS는 상대경로로 포함되어 있습니다.",
+      sources: [{ platform: 'X', account: '@hzxuang', url: 'https://x.com/hzxuang' }],
+      provenance: '제작 Claude Sonnet 5.5 · 2026-10-28',
+      sourceNote: '20개 항목은 X 목록의 순서를 따릅니다.',
+      groups: {
+        studio: ['Studio · 01–10', '모션·그래픽·물리 라이브러리와 영상 렌더링 10종.'],
+        later: ['렌더링·오디오·편집 · 11–20', '셰이더·파티클·3D 최적화부터 녹화·음성·편집·인코딩까지 10종.']
+      },
+      demos: [
+        toDemo(["remotion", "Remotion", "Remotion", "React 컴포넌트를 프레임 단위로 렌더링해 MP4로 만드는 영상", "studio"]),
+        toDemo(["hyperframes", "HyperFrames", "HyperFrames", "HTML+GSAP 타임라인을 프레임 단위로 캡처해 MP4로 렌더링", "studio"]),
+        toDemo(["animejs", "Anime.js", "Anime.js", "createTimeline과 stagger(grid)로 96개 타일이 파도처럼 움직이는 타임라인", "studio"]),
+        toDemo(["react-spring", "React Spring", "React Spring", "useTrail·useSpring으로 튕기며 따라오는 스프링 물리 모션", "studio"]),
+        toDemo(["pixijs", "PixiJS", "PixiJS", "WebGL 스프라이트 3,000개를 가산 블렌딩으로 매 프레임 회전", "studio"]),
+        toDemo(["p5js", "p5.js", "p5.js", "Perlin noise 흐름장을 따라 입자 1,400개가 궤적을 그리는 제너러티브 아트", "studio"]),
+        toDemo(["paperjs", "Paper.js", "Paper.js", "세그먼트를 매 프레임 옮기고 smooth()로 베지어를 다시 계산하는 벡터 물결", "studio"]),
+        toDemo(["matterjs", "Matter.js", "Matter.js", "중력·충돌·마찰로 도형 160개가 경사판에 쏟아져 쌓이는 2D 물리", "studio"]),
+        toDemo(["threejs", "Three.js", "Three.js", "조명·그림자·PBR 재질의 토러스 노트와 회전 큐브 링 3D 씬", "studio"]),
+        toDemo(["rapier", "Rapier", "Rapier", "WASM 물리 엔진으로 공·상자 90개의 낙하·경사면 충돌을 계산하고 Three.js로 표시", "studio"]),
+        toDemo(["ogl", "OGL", "OGL", "OGL 최소 WebGL로 만든 커스텀 프래그먼트 셰이더(회전 스파이럴).", "later"]),
+        toDemo(["tsparticles", "tsParticles", "tsParticles", "tsParticles slim: 120개 파티클, 링크선, 마우스 hover 밀어내기.", "later"]),
+        toDemo(["gltf-transform", "glTF Transform", "glTF Transform", "optimize(meshopt+webp)로 캐릭터 GLB 1.30MB → 212KB(-84%), 전후 3D 비교.", "later"]),
+        toDemo(["gl-transitions", "GL Transitions", "GL Transitions", "gl-transitions 셰이더 8종(Cube·Swirl·Ripple 등)을 A→B 장면에 순환 적용.", "later"]),
+        toDemo(["obs-studio", "OBS Studio", "OBS Studio", "헤드리스 박스라 OBS 대신 Xvfb+ffmpeg x11grab으로 브라우저 화면 6초 녹화.", "later"]),
+        toDemo(["chatterbox", "Chatterbox", "Chatterbox", "Resemble Chatterbox로 CPU에서 영어 더빙 3문장(9.6초) 생성.", "later"]),
+        toDemo(["tonejs", "Tone.js", "Tone.js", "PolySynth 아르페지오+킥+노이즈+피치 스윕 SFX, Offline 렌더로 4초 WAV.", "later"]),
+        toDemo(["faster-whisper", "faster-whisper", "faster-whisper", "16번 더빙 음성을 small/int8 CPU로 받아쓰기해 SRT 3줄 생성.", "later"]),
+        toDemo(["opencut", "OpenCut", "OpenCut", "OpenCut 셀프호스팅 대신 timeline.json(트랙/크로스페이드/텍스트)→ffmpeg 렌더.", "later"]),
+        toDemo(["ffmpeg", "FFmpeg", "FFmpeg", "앞 결과물 인코딩·concat·자막 번인·더빙+SFX 믹스로 11초 최종 mp4.", "later"])
       ]
     }
   ]

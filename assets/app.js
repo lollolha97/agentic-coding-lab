@@ -26,7 +26,8 @@
     'exp-004': () => `<rect class="line" x="30" y="14" width="240" height="152"/><path class="line" d="M30 34H270"/><circle class="line" cx="42" cy="24" r="3"/><circle class="line" cx="54" cy="24" r="3"/><circle class="line" cx="66" cy="24" r="3"/>
       <rect class="ink" x="44" y="46" width="108" height="22"/><rect class="line" x="44" y="74" width="84" height="22"/><rect class="gray-fill" x="44" y="102" width="72" height="22"/>
       <rect class="line" x="168" y="96" width="88" height="54"/><rect class="ink" x="178" y="108" width="34" height="8"/><rect class="gray-fill" x="178" y="124" width="60" height="6"/><path class="line" d="M178 138h44"/>
-      <text x="44" y="148" class="svg-label">FOCUS</text>`
+      <text x="44" y="148" class="svg-label">FOCUS</text>`,
+    'exp-008': () => `<rect class="ink" x="40" y="30" width="44" height="26"/><rect class="gray-fill" x="92" y="30" width="44" height="26"/><rect class="line" x="144" y="30" width="44" height="26"/><rect class="line" x="196" y="30" width="44" height="26"/><rect class="gray-fill" x="40" y="64" width="44" height="26"/><rect class="line" x="92" y="64" width="44" height="26"/><rect class="line" x="144" y="64" width="44" height="26"/><rect class="gray-fill" x="196" y="64" width="44" height="26"/><rect class="line" x="40" y="98" width="44" height="26"/><rect class="line" x="92" y="98" width="44" height="26"/><rect class="gray-fill" x="144" y="98" width="44" height="26"/><rect class="line" x="196" y="98" width="44" height="26"/><rect class="line" x="40" y="132" width="44" height="26"/><rect class="gray-fill" x="92" y="132" width="44" height="26"/><rect class="line" x="144" y="132" width="44" height="26"/><rect class="line" x="196" y="132" width="44" height="26"/><path class="line" d="M40 170H248"/><text x="40" y="184" class="svg-label">20 LIBS</text>`
   };
   function preview(experiment) {
     if (previews[experiment.slug]) return svg(previews[experiment.slug]());

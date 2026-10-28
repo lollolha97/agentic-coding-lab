@@ -1,0 +1,12 @@
+.shot-group { margin-top: 40px; }
+.shot-group-title { font-size: 14px; font-weight: 600; letter-spacing: .04em; color: var(--gray-6); padding-bottom: 12px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+.shot-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px 24px; }
+.shot-card { display: flex; flex-direction: column; min-width: 0; }
+.shot-thumb { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--line); background: var(--gray-1, var(--bg)); margin-bottom: 14px; }
+.shot-card .demo-info { flex: 1; display: flex; flex-direction: column; }
+.shot-card .demo-description { color: var(--fg); font-size: 14px; line-height: 1.6; margin: 0 0 12px; flex: 1; }
+.shot-links { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; font-size: 14px; }
+.shot-links a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.shot-links a:hover, .shot-links a:focus-visible { color: var(--gray-6); }
+@media (min-width: 640px) { .shot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .shot-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
