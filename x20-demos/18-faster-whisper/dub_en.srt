@@ -1,0 +1,12 @@
+1
+00:00:00,000 --> 00:00:02,899
+Welcome to the Motion Library Tour, Part 2.
+
+2
+00:00:02,899 --> 00:00:07,299
+Every clip you see was rendered locally on a CPU box with no paid services.
+
+3
+00:00:07,299 --> 00:00:09,700
+Thanks for watching, and see you in the final cut!
+

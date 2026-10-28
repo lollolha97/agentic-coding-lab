@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset=utf-8><title>17 Tone.js</title></head><body style="font:16px sans-serif;background:#123;color:#fff;padding:20px"><h2>17 · Tone.js synth / SFX</h2>
+<button onclick="play()">▶ 실시간 재생 (클릭 필요)</button> <button onclick="render()">⬇ 오프라인 렌더 → WAV</button><pre id=o></pre>
+<script src="../vendor/tone/Tone.js"></script>
+<script>
+function build(){const s=new Tone.PolySynth(Tone.Synth,{oscillator:{type:'sawtooth'},envelope:{attack:.01,release:.4}}).toDestination();s.volume.value=-12;
+['C4','E4','G4','B4','C5','G4','E4','C4'].forEach((n,i)=>s.triggerAttackRelease(n,'8n',i*0.25));
+const z=new Tone.NoiseSynth({envelope:{attack:.001,decay:.3,sustain:0}}).toDestination();z.triggerAttackRelease('8n',2.2);
+const m=new Tone.MembraneSynth().toDestination();[0,.5,1,1.5].forEach(t=>m.triggerAttackRelease('C2','8n',t));
+const f=new Tone.Synth({oscillator:{type:'sine'}}).toDestination();f.triggerAttack('C6',2.6);f.frequency.exponentialRampTo(80,0.8,2.6);f.triggerRelease(3.4);}
+async function play(){await Tone.start();const now=Tone.now();Tone.Transport.cancel();build()}
+function wav(b){const n=b.length,c=b.numberOfChannels,sr=b.sampleRate,d=new DataView(new ArrayBuffer(44+n*c*2));const w=(o,s)=>[...s].forEach((ch,i)=>d.setUint8(o+i,ch.charCodeAt(0)));
+w(0,'RIFF');d.setUint32(4,36+n*c*2,true);w(8,'WAVEfmt ');d.setUint32(16,16,true);d.setUint16(20,1,true);d.setUint16(22,c,true);d.setUint32(24,sr,true);d.setUint32(28,sr*c*2,true);d.setUint16(32,c*2,true);d.setUint16(34,16,true);w(36,'data');d.setUint32(40,n*c*2,true);
+let o=44;for(let i=0;i<n;i++)for(let k=0;k<c;k++){const v=Math.max(-1,Math.min(1,b.getChannelData(k)[i]));d.setInt16(o,v*32767,true);o+=2}return d.buffer}
+async function render(){const b=await Tone.Offline(()=>build(),4,2,44100);const buf=wav(b.get());const u=new Uint8Array(buf);let bin='';for(let i=0;i<u.length;i+=8192)bin+=String.fromCharCode.apply(null,u.subarray(i,i+8192));window.WAVB64=btoa(bin);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([buf],{type:'audio/wav'}));a.download='tone-sfx.wav';a.textContent=' 다운로드';document.body.appendChild(a);document.getElementById('o').textContent='rendered '+b.duration+'s';return window.WAVB64.length}
+window.READY=1;
+</script></body></html>

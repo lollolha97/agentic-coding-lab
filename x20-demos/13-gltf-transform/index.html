@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset=utf-8><title>13 glTF Transform</title><style>body{margin:0;background:#1a1a22;color:#fff;font:15px sans-serif}.w{display:flex}.c{flex:1;text-align:center}canvas{width:400px;height:360px}</style>
+<script type=importmap>{"imports":{"three":"../vendor/three/build/three.module.js","three/addons/":"../vendor/three/jsm/"}}</script></head><body>
+<div style="padding:8px">13 · glTF Transform <code>optimize --compress meshopt --texture-compress webp</code></div><div class=w><div class=c id=a></div><div class=c id=b></div></div>
+<script type=module>
+import * as THREE from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
+let done=0;
+async function view(el,url){const sz=(await fetch(url,{method:'HEAD'})).headers.get('content-length');const r=new THREE.WebGLRenderer({antialias:true});r.setSize(400,360);el.appendChild(r.domElement);
+const cap=document.createElement('div');el.appendChild(cap);const s=new THREE.Scene();s.background=new THREE.Color(0x2a2a35);s.add(new THREE.HemisphereLight(0xffffff,0x444444,2.5));const dl=new THREE.DirectionalLight(0xffffff,2);dl.position.set(2,3,2);s.add(dl);
+const cam=new THREE.PerspectiveCamera(40,400/360,0.01,100);const l=new GLTFLoader();l.setMeshoptDecoder(MeshoptDecoder);const g=await l.loadAsync(url);const o=g.scene;s.add(o);
+const box=new THREE.Box3().setFromObject(o);const c=box.getCenter(new THREE.Vector3());const d=box.getSize(new THREE.Vector3()).length();cam.position.set(c.x,c.y+d*0.1,c.z+d*1.3);cam.lookAt(c);
+let tri=0;o.traverse(m=>{if(m.isMesh)tri+=(m.geometry.index?m.geometry.index.count:m.geometry.attributes.position.count)/3});
+cap.textContent=url+' — '+(sz/1024).toFixed(1)+' KB, '+Math.round(tri)+' tris';
+r.setAnimationLoop(t=>{o.rotation.y=t*0.0006;r.render(s,cam)});if(++done==2)window.READY=1}
+view(document.getElementById('a'),'before.glb');view(document.getElementById('b'),'after.glb');
+</script></body></html>

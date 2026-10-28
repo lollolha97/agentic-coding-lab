@@ -1,0 +1,15 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>08 Matter.js</title><link rel="icon" href="data:,"><link rel="stylesheet" href="base.css"></head><body>
+<div class="hud"><div class="n">08 · MATTER.JS</div><h1>Matter.js 2D 물리</h1><p>중력·충돌·마찰로 도형이 쏟아져 쌓이는 장면 (마우스로 끌기 가능)</p></div>
+<script src="matter.min.js"></script>
+<script>
+const {Engine,Render,Runner,Bodies,Composite,Mouse,MouseConstraint}=Matter; const W=innerWidth,H=innerHeight;
+const engine=Engine.create(); const render=Render.create({element:document.body,engine,options:{width:W,height:H,wireframes:false,background:'transparent'}});
+const wall={isStatic:true,render:{fillStyle:'#3a2619'}};
+Composite.add(engine.world,[Bodies.rectangle(W/2,H+20,W,80,wall),Bodies.rectangle(-20,H/2,40,H,wall),Bodies.rectangle(W+20,H/2,40,H,wall),
+ Bodies.rectangle(W*.35,H*.55,W*.3,16,{isStatic:true,angle:.18,render:{fillStyle:'#5a3a26'}}),Bodies.rectangle(W*.68,H*.7,W*.3,16,{isStatic:true,angle:-.16,render:{fillStyle:'#5a3a26'}})]);
+const cols=['#ff7a3d','#e8455f','#ffc15e']; let n=0;
+const drop=setInterval(()=>{const x=W*.2+Math.random()*W*.6,o={restitution:.5,friction:.05,render:{fillStyle:cols[n%3]}};
+ Composite.add(engine.world,n%3==0?Bodies.circle(x,-30,14+Math.random()*16,o):n%3==1?Bodies.rectangle(x,-30,30,30,o):Bodies.polygon(x,-30,6,20,o));if(++n>160)clearInterval(drop)},70);
+const mouse=Mouse.create(render.canvas);Composite.add(engine.world,MouseConstraint.create(engine,{mouse,constraint:{render:{visible:false}}}));
+Render.run(render);Runner.run(Runner.create(),engine);
+</script></body></html>

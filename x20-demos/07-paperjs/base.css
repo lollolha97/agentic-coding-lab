@@ -1,0 +1,9 @@
+/* 01-10 공통 스타일: 어두운 웜 배경 + Pretendard(로컬 시스템 폰트) */
+@font-face{font-family:"Pretendard";src:local("Pretendard"),local("Pretendard Regular");}
+:root{--bg:#17110d;--bg2:#2a1a12;--ink:#f6ece2;--mute:#b9a89a;--a:#ff7a3d;--b:#e8455f;--c:#ffc15e}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:radial-gradient(1100px 700px at 70% 30%,var(--bg2),var(--bg) 70%);color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;overflow:hidden}
+.hud{position:fixed;left:40px;top:32px;z-index:10;pointer-events:none}
+.hud .n{font-size:14px;font-weight:600;letter-spacing:.12em;color:var(--a)}
+.hud h1{font-size:34px;font-weight:800;letter-spacing:-.03em;margin-top:4px}
+.hud p{font-size:16px;color:var(--mute);margin-top:6px}

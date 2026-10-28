@@ -1,0 +1,12 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>06 p5.js</title><link rel="icon" href="data:,"><link rel="stylesheet" href="base.css"></head><body>
+<div class="hud"><div class="n">06 · P5.JS</div><h1>p5.js 제너러티브 아트</h1><p>Perlin noise 흐름장을 따라 입자가 궤적을 그리는 장면</p></div>
+<script src="p5.min.js"></script>
+<script>
+let ps=[];
+function setup(){createCanvas(windowWidth,windowHeight);background(23,17,13);noiseSeed(7);randomSeed(7);for(let i=0;i<1400;i++)ps.push(createVector(random(width),random(height)))}
+function draw(){noStroke();fill(23,17,13,6);rect(0,0,width,height);
+ for(const p of ps){const a=noise(p.x*.0022,p.y*.0022,frameCount*.003)*TAU*2;p.x+=cos(a)*1.6;p.y+=sin(a)*1.6;
+  const c=lerpColor(color(255,122,61),color(255,193,94),noise(p.x*.004,p.y*.004));stroke(red(c),green(c),blue(c),210);strokeWeight(2);point(p.x,p.y);
+  if(p.x<0||p.x>width||p.y<0||p.y>height){p.x=random(width);p.y=random(height)}}}
+function windowResized(){resizeCanvas(windowWidth,windowHeight);background(23,17,13)}
+</script></body></html>
